@@ -1,1 +1,7 @@
+# IntelliJ things
+.idea/
+*.iml
+
+# Binaries
 target/
+*.class
