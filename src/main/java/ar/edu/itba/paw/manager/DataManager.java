@@ -50,4 +50,8 @@ public class DataManager {
 		return true;
 	}
 	
+	public User getUserBySession(UUID uuid){
+		return session.get(uuid);
+	}
+	
 }

@@ -28,13 +28,10 @@ public class Register extends HttpServlet {
 		String description = req.getParameter("description");
 		if(manager.getUserByUsername(username) != null){
 			req.setAttribute("error", "Ya existe un usuario con ese nombre de usuario ");
-			req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);
 		}else if(password.compareTo(extrapassword) != 0){
 			req.setAttribute("error", "Las contraseñas no coinciden");
-			req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);
 		}else if(!manager.registerUser(username, password, name, surname, description)){
 			req.setAttribute("error", "El sistema no puede procesar su pedido actualmente");
-			req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);
 		}else{
 			
 			//Mandar directo al post de login
@@ -43,5 +40,6 @@ public class Register extends HttpServlet {
 			resp.sendRedirect("home");
 			
 		}
+		req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);
 	}
 }

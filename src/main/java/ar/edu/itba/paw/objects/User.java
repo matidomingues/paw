@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.objects;
 
+import java.util.List;
+
 public class User {
 
 	private Integer id;
@@ -8,6 +10,7 @@ public class User {
 	private String name;
 	private String surname;
 	private String description;
+	private List<Tweet> tweets;
 	
 	public User(Integer id, String username, String password, String name, String surname, String description){
 		this.id = id;
@@ -56,6 +59,10 @@ public class User {
 
 	public String getUsername() {
 		return username;
+	}
+	
+	public List<Tweet> getTweets(){
+		return tweets;
 	}
 	
 }

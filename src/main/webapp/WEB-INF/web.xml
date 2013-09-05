@@ -22,5 +22,13 @@
 		<servlet-name>Register</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserDetails</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.UserDetails</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserDetails</servlet-name>
+		<url-pattern>/user/*</url-pattern>
+	</servlet-mapping>
 	
 </web-app>
