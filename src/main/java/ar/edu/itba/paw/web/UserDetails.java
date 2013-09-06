@@ -7,16 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.manager.DataManager;
 import ar.edu.itba.paw.model.User;
 
 public class UserDetails extends HttpServlet {
 
-	DataManager manager = DataManager.getInstance();
+	UserDAO usermanager = UserDAO.getInstance();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		String[] url = req.getRequestURI().split("/");
-		User user = manager.getUserByUsername(url[2]);
+		User user = usermanager.getUserByUsername(url[2]);
 		if(user != null){
 			req.setAttribute("user", user);
 		}else{

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.model;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 public class User extends PersistableEntity{
@@ -10,9 +12,10 @@ public class User extends PersistableEntity{
 	private String surname;
 	private String description;
     private boolean enabled;
+	private DateTime date;
 	private List<Tweet> tweets;
 	
-	public User(Integer id, String username, String password, String name, String surname, String description, boolean enabled){
+	public User(Integer id, String username, String password, String name, String surname, String description, boolean enabled, DateTime date){
         super(id);
 		this.username = username;
 		this.password = password;
@@ -20,6 +23,7 @@ public class User extends PersistableEntity{
 		this.surname = surname;
 		this.description = description;
         this.enabled = enabled;
+        this.date = date;
 	}
 
 	public String getPassword() {
@@ -50,7 +54,11 @@ public class User extends PersistableEntity{
 		return description;
 	}
 
-	public void setDescription(String description) {
+    public DateTime getDate() {
+        return date;
+    }
+
+    public void setDescription(String description) {
 		this.description = description;
 	}
 

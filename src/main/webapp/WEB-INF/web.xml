@@ -30,5 +30,29 @@
 		<servlet-name>UserDetails</servlet-name>
 		<url-pattern>/user/*</url-pattern>
 	</servlet-mapping>
-	
+	<servlet>
+		<servlet-name>UserEdit</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.UserEdit</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserEdit</servlet-name>
+		<url-pattern>/settings</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>UserSearch</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.UserSearch</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserSearch</servlet-name>
+		<url-pattern>/find</url-pattern>
+	</servlet-mapping>
+		</servlet-mapping>
+		<servlet>
+		<servlet-name>URLShortener</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.URLShortener</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>URLShortener</servlet-name>
+		<url-pattern>/s/*</url-pattern>
+	</servlet-mapping>
 </web-app>
