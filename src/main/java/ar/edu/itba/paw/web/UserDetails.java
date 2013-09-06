@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.manager.DataManager;
-import ar.edu.itba.paw.objects.User;
+import ar.edu.itba.paw.model.User;
 
 public class UserDetails extends HttpServlet {
 
