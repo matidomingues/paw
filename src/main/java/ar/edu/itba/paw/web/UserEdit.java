@@ -43,6 +43,7 @@ public class UserEdit extends HttpServlet{
 			user.setName(req.getParameter("name"));
 			user.setPassword(req.getParameter("password"));
 			user.setDescription(req.getParameter("description"));
+			usermanager.updateUser(user);
 			req.getRequestDispatcher("home").forward(req, resp);
 		}else{
 			req.setAttribute("error", "Unable to fetch user data");

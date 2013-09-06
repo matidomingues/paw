@@ -7,7 +7,7 @@ target/
 *.class
 
 # Mac
-*.DS_Store
+.DS_Store
 
 # Eclipse
 .settings
@@ -15,4 +15,4 @@ target/
 .classpath
 
 # Database Configuration
-configuration/
+DatabaseSettings.java

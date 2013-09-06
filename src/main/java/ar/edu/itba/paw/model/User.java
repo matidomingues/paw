@@ -15,7 +15,7 @@ public class User extends PersistableEntity{
 	private DateTime date;
 	private List<Tweet> tweets;
 	
-	public User(Integer id, String username, String password, String name, String surname, String description, boolean enabled, DateTime date){
+	public User(Integer id, String username, String password, String name, String surname, String description, DateTime date){
         super(id);
 		this.username = username;
 		this.password = password;
