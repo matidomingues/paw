@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
-import ar.edu.itba.paw.objects.User;
+import ar.edu.itba.paw.model.User;
 
 public class DataManager {
 	

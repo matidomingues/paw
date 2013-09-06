@@ -1,26 +1,29 @@
-package ar.edu.itba.paw.objects;
+package ar.edu.itba.paw.model;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.List;
 
-public class User {
+public class User extends PersistableEntity{
 
-	private Integer id;
 	private String username;
 	private String password;
 	private String name;
 	private String surname;
 	private String description;
-	private Date date;
+    private boolean enabled;
+	private DateTime date;
 	private List<Tweet> tweets;
 	
-	public User(Integer id, String username, String password, String name, String surname, String description){
-		this.id = id;
+	public User(Integer id, String username, String password, String name, String surname, String description, boolean enabled, DateTime date){
+        super(id);
 		this.username = username;
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
 		this.description = description;
+        this.enabled = enabled;
+        this.date = date;
 	}
 
 	public String getPassword() {
@@ -51,13 +54,14 @@ public class User {
 		return description;
 	}
 
-	public void setDescription(String description) {
+    public DateTime getDate() {
+        return date;
+    }
+
+    public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public Integer getId() {
-		return id;
-	}
 
 	public String getUsername() {
 		return username;
@@ -66,5 +70,8 @@ public class User {
 	public List<Tweet> getTweets(){
 		return tweets;
 	}
-	
+
+    public boolean isEnabled() {
+        return enabled;
+    }
 }
