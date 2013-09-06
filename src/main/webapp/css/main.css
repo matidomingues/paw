@@ -1,5 +1,5 @@
-input[type="text"],
-input[type="password"] {
+.loginsecuence input[type="text"],
+.loginsecuence input[type="password"] {
     font-size: 16px;
     height: auto;
     width: 265px;

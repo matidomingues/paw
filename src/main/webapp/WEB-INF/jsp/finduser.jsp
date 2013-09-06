@@ -1,8 +1,10 @@
 <%@ include file="header.jsp" %>
+	<div class="well">
 	<form method="post" action="/find">
 		<input name="username" placeholder="Usuario" type="text">
 		<input type="submit" name="Buscar">
 	</form> 
+	</div>
 	<c:choose>
 		<c:when  test="${empty users}">
 			<p> La busqueda no devolvio resultados </p>
