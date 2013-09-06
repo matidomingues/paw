@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import ar.edu.itba.paw.objects.User;
+import org.joda.time.DateTime;
+
+import ar.edu.itba.paw.model.User;
+
 
 public class UserDAO {
 	
@@ -47,7 +50,7 @@ public class UserDAO {
 	
 	public boolean registerUser(String username, String password, String name, String surname, String description){
 		//Si al meterlo en la base de datos no hay problemas ok
-		users.add(new User((int)(Math.random()*1000), username, password, name, surname, description));
+		users.add(new User((int)(Math.random()*1000), username, password, name, surname, description, true, DateTime.now()));
 		return true;
 	}
 	

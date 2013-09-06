@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ar.edu.itba.paw.manager.UserDAO;
 import ar.edu.itba.paw.model.User;
 
 public class UserDetails extends HttpServlet {
