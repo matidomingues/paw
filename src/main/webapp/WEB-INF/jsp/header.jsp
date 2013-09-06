@@ -6,7 +6,13 @@
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="./css/main.css" />
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/css/bootstrap.css" type="text/css" media="all" />  
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<title>Twitter Application</title>
 	</head>
 	<body>
+	<nav class="navbar" role="navigation">
+		<div class="navbar-header">
+		<a class="navbar-brand" href="#">Twatter</a>
+		</div>
+	</nav>
