@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.manager.DataManager;
+import ar.edu.itba.paw.manager.UserDAO;
 import ar.edu.itba.paw.objects.User;
 
 public class UserEdit extends HttpServlet{
 	
-	DataManager manager = DataManager.getInstance();
+	UserDAO usermanager = UserDAO.getInstance();
 	
 	private UUID getSessionFromCookie(Cookie[] cookies){
 		for(Cookie cookie: cookies){
-			if(cookie.getName().compareTo("uuid") == 0){
+			if(cookie.getName().compareTo("TwitterUUID") == 0){
 				return UUID.fromString(cookie.getValue());
 			}
 		}
@@ -26,7 +26,7 @@ public class UserEdit extends HttpServlet{
 	}
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		User user = manager.getUserBySession(getSessionFromCookie(req.getCookies()));
+		User user = usermanager.getUserBySession(getSessionFromCookie(req.getCookies()));
 		if(user != null){
 			req.setAttribute("user", user);
 		}else{
@@ -35,5 +35,19 @@ public class UserEdit extends HttpServlet{
 		req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);
 	}
 	
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		User user = usermanager.getUserBySession(getSessionFromCookie(req.getCookies()));
+		if(user != null){
+			user.setDescription(req.getParameter("description"));
+			user.setName(req.getParameter("name"));
+			user.setPassword(req.getParameter("password"));
+			user.setDescription(req.getParameter("description"));
+			req.getRequestDispatcher("home").forward(req, resp);
+		}else{
+			req.setAttribute("error", "Unable to fetch user data");
+		}
+		req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);
+	}
 	
 }

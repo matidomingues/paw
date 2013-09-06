@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.objects;
 
+import java.util.Date;
 import java.util.List;
 
 public class User {
@@ -10,6 +11,7 @@ public class User {
 	private String name;
 	private String surname;
 	private String description;
+	private Date date;
 	private List<Tweet> tweets;
 	
 	public User(Integer id, String username, String password, String name, String surname, String description){
