@@ -3,9 +3,9 @@ package ar.edu.itba.paw.configuration;
 public class DatabaseSettings {
 
 	public static final String driver = "org.postgresql.Driver";
-	public static final String connectionString = "jdbc:postgresql://192.168.121.23:4321/twitterapp";
-	public static final String username = "mannias";
-	public static final String password = "tricolor";
+	public static final String connectionString = "jdbc:postgresql:///";
+	public static final String username = "";
+	public static final String password = "";
 	
 	public static String getDriver() {
 		return driver;

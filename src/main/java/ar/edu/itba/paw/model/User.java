@@ -13,7 +13,7 @@ public class User extends PersistableEntity{
 	private String description;
     private boolean enabled;
 	private DateTime date;
-	private List<Tweet> tweets;
+	private List<Twatt> tweets;
 	
 	public User(Integer id, String username, String password, String name, String surname, String description, DateTime date){
         super(id);
@@ -67,7 +67,7 @@ public class User extends PersistableEntity{
 		return username;
 	}
 	
-	public List<Tweet> getTweets(){
+	public List<Twatt> getTweets(){
 		return tweets;
 	}
 

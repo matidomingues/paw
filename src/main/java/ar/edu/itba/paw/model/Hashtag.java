@@ -11,12 +11,12 @@ import java.util.List;
  */
 public class Hashtag extends PersistableEntity{
 
-    private Tweet firstTweet;
+    private Twatt firstTweet;
     private String tagName;
     private String description;
-    private List<Tweet> invokers;
+    private List<Twatt> invokers;
 
-    public Hashtag(Integer id, Tweet firstTweet, String tagName, String description, List<Tweet> invokers) {
+    public Hashtag(Integer id, Twatt firstTweet, String tagName, String description, List<Twatt> invokers) {
         super(id);
         this.firstTweet = firstTweet;
         this.tagName = tagName;
@@ -24,7 +24,7 @@ public class Hashtag extends PersistableEntity{
         this.invokers = invokers;
     }
 
-    public Tweet getFirstTweet() {
+    public Twatt getFirstTweet() {
         return this.firstTweet;
     }
 
@@ -36,7 +36,7 @@ public class Hashtag extends PersistableEntity{
         return description;
     }
 
-    public List<Tweet> getInvokers() {
+    public List<Twatt> getInvokers() {
         return invokers;
     }
 }

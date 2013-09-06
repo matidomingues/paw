@@ -55,6 +55,14 @@
 		<url-pattern>/home</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>TwattAdd</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.TwattAdd</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TwattAdd</servlet-name>
+		<url-pattern>/twatt/add</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>URLShortener</servlet-name>
 		<servlet-class>ar.edu.itba.paw.web.URLShortener</servlet-class>
 	</servlet>

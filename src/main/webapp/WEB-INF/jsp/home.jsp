@@ -1,7 +1,7 @@
 <%@ include file="header.jsp" %>
 <h2>Twattealo!</h2>
-<form method="post" action="/addtwatt">
-	<input type="text" name="text" placeholder="Twatt">
+<form method="post" action="/twatt/add">
+	<input type="text" name="message" placeholder="Twatt">
 	<input type="submit" name="Enviar">
 </form>
 

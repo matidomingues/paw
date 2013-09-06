@@ -36,7 +36,7 @@ public class UserDAO {
 			User user = null;
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("SELECT id, password, name, surname, description, create_time FROM twat_user WHERE username = ?");
+					.prepareStatement("SELECT id, password, name, surname, description, created_time FROM twat_user WHERE username = ?");
 			stmt.setString(1, username);
 
 			ResultSet results = stmt.executeQuery();
@@ -95,11 +95,12 @@ public class UserDAO {
 
 	public Set<User> find(String username) {
 		HashSet<User> filteredusers = new HashSet<User>();
-		
+
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("SELECT id, username, password, name, surname, description, create_time FROM twat_user WHERE username LIKE '%"+username+"%'");
+					.prepareStatement("SELECT id, username, password, name, surname, description, created_time FROM twat_user WHERE username LIKE '%"
+							+ username + "%' ORDER BY surname, name");
 			ResultSet results = stmt.executeQuery();
 			while (results.next()) {
 				int id = results.getInt(1);
@@ -109,8 +110,8 @@ public class UserDAO {
 				String surname = results.getString(5);
 				String description = results.getString(6);
 				DateTime date = new DateTime(results.getDate(7).getTime());
-				filteredusers.add(new User(id, rusername, password, name, surname,
-						description, date));
+				filteredusers.add(new User(id, rusername, password, name,
+						surname, description, date));
 			}
 			connection.close();
 		} catch (SQLException e) {
@@ -122,8 +123,8 @@ public class UserDAO {
 	public Set<User> getAll() {
 		return find("");
 	}
-	
-	public void updateUser(User user){
+
+	public void updateUser(User user) {
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
