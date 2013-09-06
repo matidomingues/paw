@@ -15,4 +15,4 @@ target/
 .classpath
 
 # Database Configuration
-src/main/java/ar/edu/itba/paw/manager/DatabaseSettings.java
+configuration/
