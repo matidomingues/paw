@@ -1,0 +1,14 @@
+.loginsecuence input[type="text"],
+.loginsecuence input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    width: 265px;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+}
+
+.container {
+    width: 300px;
+}

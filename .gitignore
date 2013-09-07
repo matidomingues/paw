@@ -5,3 +5,14 @@
 # Binaries
 target/
 *.class
+
+# Mac
+.DS_Store
+
+# Eclipse
+.settings
+.project
+.classpath
+
+# Database Configuration
+DatabaseSettings.java

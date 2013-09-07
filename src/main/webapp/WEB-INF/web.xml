@@ -46,8 +46,23 @@
 		<servlet-name>UserSearch</servlet-name>
 		<url-pattern>/find</url-pattern>
 	</servlet-mapping>
-		</servlet-mapping>
-		<servlet>
+	<servlet>
+		<servlet-name>Home</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.Home</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Home</servlet-name>
+		<url-pattern>/home</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>TwattAdd</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.TwattAdd</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TwattAdd</servlet-name>
+		<url-pattern>/twatt/add</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>URLShortener</servlet-name>
 		<servlet-class>ar.edu.itba.paw.web.URLShortener</servlet-class>
 	</servlet>
@@ -55,4 +70,12 @@
 		<servlet-name>URLShortener</servlet-name>
 		<url-pattern>/s/*</url-pattern>
 	</servlet-mapping>
+	<filter>
+		<filter-name>authenticationFilter</filter-name>
+		<filter-class>ar.edu.itba.paw.filter.AuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>authenticationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

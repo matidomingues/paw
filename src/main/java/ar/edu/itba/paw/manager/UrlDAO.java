@@ -1,9 +1,8 @@
 package ar.edu.itba.paw.manager;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
-import ar.edu.itba.paw.objects.Url;
+import ar.edu.itba.paw.model.Url;
 
 public class UrlDAO {
 
