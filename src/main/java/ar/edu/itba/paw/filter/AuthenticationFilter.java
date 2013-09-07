@@ -20,6 +20,8 @@ public class AuthenticationFilter implements Filter {
 	UserDAO usermanager = UserDAO.getInstance();
 	
 	private UUID getSessionFromCookie(Cookie[] cookies) {
+        if (cookies == null) { return null; }
+
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().compareTo("TwitterUUID") == 0) {
 				return UUID.fromString(cookie.getValue());
