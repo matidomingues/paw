@@ -13,13 +13,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.manager.UserDAO;
 
 public class AuthenticationFilter implements Filter {
 
-	UserDAO usermanager = UserDAO.getInstance();
+	UserHelper usermanager = new UserHelper();
 	
 	private UUID getSessionFromCookie(Cookie[] cookies) {
+		if(cookies == null){
+			return null;
+		}
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().compareTo("TwitterUUID") == 0) {
 				return UUID.fromString(cookie.getValue());

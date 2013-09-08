@@ -13,7 +13,9 @@
 			<table>
 				<c:forEach items="${twatts}" var="twatt">
 					<tr>
-						<td><c:out value="${twatt.message}"/></td>
+						<td>
+						<c:url value="${twatt.message}"/>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>

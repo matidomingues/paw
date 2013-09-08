@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.manager.UserDAO;
 
 public class Login extends HttpServlet {
 
-	UserDAO usermanager = UserDAO.getInstance();
+	UserHelper usermanager = new UserHelper();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
@@ -22,9 +23,9 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		UUID user = usermanager.authenticate(username, password);
-		if(user != null){
-			resp.addCookie(new Cookie("TwitterUUID", user.toString()));
+		UUID uuid = usermanager.authenticate(username, password);
+		if(uuid != null){
+			resp.addCookie(new Cookie("TwitterUUID", uuid.toString()));
 			resp.sendRedirect("home");
 		}else{
 			req.setAttribute("username", username);

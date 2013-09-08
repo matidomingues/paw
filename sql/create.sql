@@ -11,14 +11,14 @@ CREATE TABLE twat_user (
 	surname VARCHAR(50) NOT NULL,
 	description VARCHAR(256),
 	enabled BOOLEAN NOT NULL,
-	create_time timestamp DEFAULT current_timestamp
+	created_time timestamp DEFAULT current_timestamp
 );
 
 CREATE TABLE tweet (
 	id SERIAL PRIMARY KEY NOT NULL,
 	user_id INTEGER NOT NULL,
 	message VARCHAR(141) NOT NULL,
-	timestamp TIMESTAMP DEFAULT current_timestamp,
+	created_time TIMESTAMP DEFAULT current_timestamp,
 	deleted BOOLEAN NOT NULL,
 	CONSTRAINT FK_USR FOREIGN KEY(user_id) REFERENCES twat_user(id)
 );

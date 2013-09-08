@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.manager.UserDAO;
 
 public class Register extends HttpServlet {
 	
-	UserDAO usermanager = UserDAO.getInstance();
+	UserHelper usermanager = new UserHelper();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);
@@ -26,19 +27,12 @@ public class Register extends HttpServlet {
 		String name = req.getParameter("name");
 		String surname = req.getParameter("surname");
 		String description = req.getParameter("description");
-		if(usermanager.getUserByUsername(username) != null){
-			req.setAttribute("error", "Ya existe un usuario con ese nombre de usuario ");
-		}else if(password.compareTo(extrapassword) != 0){
-			req.setAttribute("error", "Las contraseñas no coinciden");
-		}else if(!usermanager.registerUser(username, password, name, surname, description)){
-			req.setAttribute("error", "El sistema no puede procesar su pedido actualmente");
-		}else{
-			
-			//Mandar directo al post de login
-			UUID user = usermanager.authenticate(username, password);
-			resp.addCookie(new Cookie("TwitterUUID", user.toString()));
+		UUID uuid = usermanager.registerUser(username, password, name, surname, description);
+		if(uuid != null){
+			resp.addCookie(new Cookie("TwitterUUID", uuid.toString()));
 			resp.sendRedirect("home");
-			
+		}else{
+			req.setAttribute("error", "Datos incorrectos");
 		}
 		req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);
 	}

@@ -16,6 +16,7 @@ public class URLShortener extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		String[] url = req.getRequestURI().split("/");
 		String redirect = urlmanager.resolve(url[2]);
+		System.out.println(redirect);
 		resp.sendRedirect(redirect);
 	}
 }

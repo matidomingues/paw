@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.manager.HashtagDAO;
 import ar.edu.itba.paw.manager.UserDAO;
 
 public class Home extends HttpServlet{
 	
-	UserDAO usermanager = UserDAO.getInstance();
+	UserHelper usermanager = new UserHelper();
 	HashtagDAO hashtagmanager = HashtagDAO.getInstance();
 	
 	private UUID getSessionFromCookie(Cookie[] cookies){

@@ -18,7 +18,7 @@ public class UserDAO {
 	private static UserDAO instance = null;
 
 	HashSet<User> users = new HashSet<User>();
-	HashMap<UUID, User> session = new HashMap<UUID, User>();
+
 
 	private UserDAO() {
 
@@ -57,17 +57,6 @@ public class UserDAO {
 		}
 	}
 
-	public UUID authenticate(String username, String password) {
-		User user = getUserByUsername(username);
-		if (user != null && user.getPassword().compareTo(password) == 0) {
-			UUID uuid = UUID.randomUUID();
-			session.put(uuid, user);
-			return uuid;
-		}
-		return null;
-
-	}
-
 	public boolean registerUser(String username, String password, String name,
 			String surname, String description) {
 		try {
@@ -88,11 +77,7 @@ public class UserDAO {
 			throw new DatabaseException(e.getMessage(), e);
 		}
 	}
-
-	public User getUserBySession(UUID uuid) {
-		return session.get(uuid);
-	}
-
+	
 	public Set<User> find(String username) {
 		HashSet<User> filteredusers = new HashSet<User>();
 
@@ -124,7 +109,7 @@ public class UserDAO {
 		return find("");
 	}
 
-	public void updateUser(User user) {
+	public boolean updateUser(User user) {
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
@@ -135,9 +120,10 @@ public class UserDAO {
 			stmt.setString(4, user.getDescription());
 			stmt.setBoolean(5, true);
 			stmt.setInt(6, user.getId());
-			stmt.executeUpdate();
+			Integer result = stmt.executeUpdate();
 			connection.commit();
 			connection.close();
+			return result == 1;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
 		}
