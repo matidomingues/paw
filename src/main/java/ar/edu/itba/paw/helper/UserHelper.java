@@ -9,8 +9,8 @@ import ar.edu.itba.paw.model.User;
 
 public class UserHelper {
 
-	UserDAO usermanager = UserDAO.getInstance();
-	HashMap<UUID, User> session = new HashMap<UUID, User>();
+	private UserDAO usermanager = UserDAO.getInstance();
+	private static HashMap<UUID, User> session = new HashMap<UUID, User>();
 	
 	public UUID authenticate(String username, String password) {
 		User user = usermanager.getUserByUsername(username);
@@ -24,6 +24,7 @@ public class UserHelper {
 	}
 	
 	public User getUserBySession(UUID uuid) {
+		System.out.println(session.get(uuid));
 		return session.get(uuid);
 	}
 

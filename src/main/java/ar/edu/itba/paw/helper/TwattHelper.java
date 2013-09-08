@@ -24,7 +24,7 @@ public class TwattHelper {
 	public Set<Twatt> getTwattsByUUID(UUID uuid){
 		User user = usermanager.getUserBySession(uuid);
 		if(user != null){
-			return twattmanager.getTwattsByUser(user);
+			return prepareHrefLink(twattmanager.getTwattsByUser(user));
 		}
 		return new HashSet<Twatt>();
 	}
@@ -32,9 +32,16 @@ public class TwattHelper {
 	public Set<Twatt> getTwattsByUsername(String username){
 		User user = usermanager.getUserByUsername(username);
 		if(user != null){
-			return twattmanager.getTwattsByUser(user);
+			return prepareHrefLink(twattmanager.getTwattsByUser(user));
 		}
 		return new HashSet<Twatt>();
+	}
+	
+	public Set<Twatt> prepareHrefLink(Set<Twatt> twatts){
+		for(Twatt twatt: twatts){
+			twatt.setMessage(MessageHelper.prepareMessage(twatt.getMessage()));
+		}
+		return twatts;
 	}
 	
 }
