@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.objects;
+package ar.edu.itba.paw.model;
 
 public class Url {
 
