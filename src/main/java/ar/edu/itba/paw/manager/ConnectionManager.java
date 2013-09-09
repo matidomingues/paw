@@ -14,26 +14,43 @@ public class ConnectionManager {
 			.getConnectionstring();
 	private static ConnectionManager instance = null;
 
+    private ThreadLocal<Connection> connection;
+
 	private ConnectionManager() {
 		try {
 			Class.forName(DatabaseSettings.getDriver());
+            this.connection = new ThreadLocal<Connection>();
 		} catch (Exception e) {
 			throw new DatabaseException(e.getMessage(), e);
 		}
 	}
 
-	public static Connection getConnection() {
-		if (instance == null) {
-			instance = new ConnectionManager();
-		}
-		try {
-			Class.forName(DatabaseSettings.getDriver());
-			Connection connection = DriverManager.getConnection(
-					connectionString, username, password);
-			connection.setAutoCommit(false);
-			return connection;
-		} catch (Exception e) {
-			throw new DatabaseException(e.getMessage(), e);
-		}
+    public static ConnectionManager getInstance() {
+        if (instance == null) {
+            instance = new ConnectionManager();
+        }
+
+        return instance;
+    }
+
+    public void setConnection() {
+        try {
+            if (this.connection.get() == null) {
+                Class.forName(DatabaseSettings.getDriver());
+                Connection connection = DriverManager.getConnection(
+                        connectionString, username, password);
+                connection.setAutoCommit(false);
+                this.connection.set(connection);
+            }
+        } catch (Exception e) {
+            throw new DatabaseException(e.getMessage(), e);
+        }
+    }
+
+	public Connection getConnection() {
+		if (this.connection.get() == null) {
+            this.setConnection();
+        }
+        return this.connection.get();
 	}
 }
