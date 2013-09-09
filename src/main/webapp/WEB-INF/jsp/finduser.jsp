@@ -5,7 +5,6 @@
 			<div class="panel panel-info">
 				<div class="panel-heading">Usuarios</div>
 				<c:choose>
-					
 					<c:when  test="${empty users}">
 						<div class="panel-body"><p> La busqueda no devolvio resultados </p></div>
 					</c:when>
