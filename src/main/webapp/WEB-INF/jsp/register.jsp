@@ -4,7 +4,7 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">Registrarse</div>
 		<div class="panel-body">
-			<form method="post" action="/settings">
+			<form method="post" action="/register">
 				<div class="row input-padding">
 					<div class="col-md-2">
 						<label class="input-label">Nombre de Usuario</label>
@@ -51,6 +51,22 @@
 					</div>
 					<div class="col-md-10">
 						<input type="text" class="input-long" name="description">
+					</div>
+				</div>
+				<div class="row input-padding">
+					<div class="col-md-2">
+						<label class="input-label">Pregunta Secreta</label>
+					</div>
+					<div class="col-md-10">
+						<input type="text" class="input-long" name="secretquestion">
+					</div>
+				</div>
+				<div class="row input-padding">
+					<div class="col-md-2">
+						<label class="input-label">Respuesta Secreta</label>
+					</div>
+					<div class="col-md-10">
+						<input type="text" class="input-long" name="secretanswer">
 					</div>
 				</div>
 				<input type="submit" class="pull-right btn btn-lg btn-primary"value="Registrar">

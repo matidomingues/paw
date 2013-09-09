@@ -11,7 +11,9 @@ CREATE TABLE twat_user (
 	surname VARCHAR(50) NOT NULL,
 	description VARCHAR(256),
 	enabled BOOLEAN NOT NULL,
-	created_time timestamp DEFAULT current_timestamp
+	created_time timestamp DEFAULT current_timestamp,
+	secret_question VARCHAR(100) NOT NULL,
+	secret_answer VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE tweet (
@@ -34,5 +36,12 @@ CREATE TABLE hashtag (
 CREATE TABLE hashtag_tweet (
 	hashtag_id INTEGER NOT NULL,
 	tweet_id INTEGER NOT NULL,
-	CONSTRAINT PK_HT_T PRIMARY KEY (hashtag_id, tweet_id)
+	CONSTRAINT PK_HT_T PRIMARY KEY (hashtag_id, tweet_id),
+	CONSTRAINT FK_HT_T FOREIGN KEY(hashtag_id) REFERENCES hashtag(id),
+	CONSTRAINT FK_HT_T2 FOREIGN KEY(tweet_id) REFERENCES tweet(id)
+);
+
+CREATE TABLE short_url (
+	base VARCHAR(100) UNIQUE NOT NULL,
+	resol VARCHAR(10) PRIMARY KEY NOT NULL
 );

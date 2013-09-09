@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,7 +38,7 @@ public class UserDAO {
 			User user = null;
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("SELECT id, password, name, surname, description, created_time FROM twat_user WHERE username = ?");
+					.prepareStatement("SELECT id, password, name, surname, description, created_time, secret_question, secret_answer FROM twat_user WHERE username = ?");
 			stmt.setString(1, username);
 
 			ResultSet results = stmt.executeQuery();
@@ -46,9 +48,11 @@ public class UserDAO {
 				String name = results.getString(3);
 				String surname = results.getString(4);
 				String description = results.getString(5);
-				DateTime date = new DateTime(results.getDate(6).getTime());
+				DateTime date = new DateTime(results.getTimestamp(6).getTime());
+				String secretQuestion = results.getString(7);
+				String secretAnswer = results.getString(8);
 				user = new User(id, username, password, name, surname,
-						description, date);
+						description, date, secretQuestion, secretAnswer);
 			}
 			connection.close();
 			return user;
@@ -58,17 +62,19 @@ public class UserDAO {
 	}
 
 	public boolean registerUser(String username, String password, String name,
-			String surname, String description) {
+			String surname, String description, String secretQuestion, String secretAnswer) {
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("INSERT INTO twat_user(username, password, name, surname, description, enabled) values(?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO twat_user(username, password, name, surname, description, enabled, secret_question, secret_answer) values(?, ?, ?, ?, ?, ?, ?, ?)");
 			stmt.setString(1, username);
 			stmt.setString(2, password);
 			stmt.setString(3, name);
 			stmt.setString(4, surname);
 			stmt.setString(5, description);
 			stmt.setBoolean(6, true);
+			stmt.setString(7, secretQuestion);
+			stmt.setString(8, secretAnswer);
 			int result = stmt.executeUpdate();
 			connection.commit();
 			connection.close();
@@ -78,13 +84,13 @@ public class UserDAO {
 		}
 	}
 	
-	public Set<User> find(String username) {
-		HashSet<User> filteredusers = new HashSet<User>();
+	public List<User> find(String username) {
+		LinkedList<User> filteredusers = new LinkedList<User>();
 
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("SELECT id, username, password, name, surname, description, created_time FROM twat_user WHERE username LIKE '%"
+					.prepareStatement("SELECT id, username, password, name, surname, description, created_time, secret_question, secret_answer FROM twat_user WHERE username LIKE '%"
 							+ username + "%' ORDER BY surname, name");
 			ResultSet results = stmt.executeQuery();
 			while (results.next()) {
@@ -94,9 +100,11 @@ public class UserDAO {
 				String name = results.getString(4);
 				String surname = results.getString(5);
 				String description = results.getString(6);
-				DateTime date = new DateTime(results.getDate(7).getTime());
+				DateTime date = new DateTime(results.getTimestamp(7).getTime());
+				String secretQuestion = results.getString(7);
+				String secretAnswer = results.getString(8);
 				filteredusers.add(new User(id, rusername, password, name,
-						surname, description, date));
+						surname, description, date, secretQuestion, secretAnswer));
 			}
 			connection.close();
 		} catch (SQLException e) {
@@ -105,7 +113,7 @@ public class UserDAO {
 		return filteredusers;
 	}
 
-	public Set<User> getAll() {
+	public List<User> getAll() {
 		return find("");
 	}
 

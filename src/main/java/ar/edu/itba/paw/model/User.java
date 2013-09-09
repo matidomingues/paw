@@ -4,26 +4,40 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-public class User extends PersistableEntity{
+public class User extends PersistableEntity {
 
 	private String username;
 	private String password;
 	private String name;
 	private String surname;
 	private String description;
-    private boolean enabled;
+	private boolean enabled;
 	private DateTime date;
 	private List<Twatt> tweets;
-	
-	public User(Integer id, String username, String password, String name, String surname, String description, DateTime date){
-        super(id);
+	private String secretQuestion;
+	private String secretAnswer;
+
+	public User(Integer id, String username, String password, String name,
+			String surname, String description, DateTime date,
+			String secretQuestion, String secretAnswer) {
+		super(id);
 		this.username = username;
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
 		this.description = description;
-        this.enabled = enabled;
-        this.date = date;
+		this.enabled = enabled;
+		this.date = date;
+		this.secretQuestion = secretQuestion;
+		this.secretAnswer = secretAnswer;
+	}
+
+	public String getSecretQuestion() {
+		return secretQuestion;
+	}
+
+	public String getSecretAnswer() {
+		return secretAnswer;
 	}
 
 	public String getPassword() {
@@ -54,24 +68,23 @@ public class User extends PersistableEntity{
 		return description;
 	}
 
-    public DateTime getDate() {
-        return date;
-    }
-
-    public void setDescription(String description) {
-		this.description = description;
+	public DateTime getDate() {
+		return date;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public String getUsername() {
 		return username;
 	}
-	
-	public List<Twatt> getTweets(){
+
+	public List<Twatt> getTweets() {
 		return tweets;
 	}
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+	public boolean isEnabled() {
+		return enabled;
+	}
 }

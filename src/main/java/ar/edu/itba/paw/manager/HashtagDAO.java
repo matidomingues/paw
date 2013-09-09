@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.manager;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import ar.edu.itba.paw.model.Hashtag;
@@ -20,8 +22,8 @@ public class HashtagDAO {
 		return instance;
 	}
 	
-	public Set<Hashtag> getTrendingHashtags(){
-		return new HashSet<Hashtag>();
+	public List<Hashtag> getTrendingHashtags(){
+		return new LinkedList<Hashtag>();
 	}
 }
 

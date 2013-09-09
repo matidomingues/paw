@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -15,19 +17,19 @@ import ar.edu.itba.paw.model.User;
 public class TwattDAO {
 
 	private static TwattDAO instance = null;
-	
-	private TwattDAO(){
-		
+
+	private TwattDAO() {
+
 	}
-	
-	public static TwattDAO getInstance(){
-		if(instance == null){
+
+	public static TwattDAO getInstance() {
+		if (instance == null) {
 			instance = new TwattDAO();
 		}
 		return instance;
 	}
-	
-	public boolean addTwatt(User user, String message){
+
+	public boolean addTwatt(User user, String message) {
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
@@ -42,21 +44,22 @@ public class TwattDAO {
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
 		}
-		
+
 	}
-	
-	public Set<Twatt> getTwattsByUser(User user){
-		Set<Twatt> twatts = new HashSet<Twatt>();
+
+	public List<Twatt> getTwattsByUser(User user) {
+		List<Twatt> twatts = new LinkedList<Twatt>();
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("SELECT id, message, created_time, deleted FROM tweet WHERE user_id=? ORDER BY created_time");
+					.prepareStatement("SELECT id, message, created_time, deleted FROM tweet WHERE user_id=? ORDER BY created_time desc");
 			stmt.setInt(1, user.getId());
 			ResultSet results = stmt.executeQuery();
 			while (results.next()) {
 				int id = results.getInt(1);
 				String message = results.getString(2);
-				DateTime created_time = new DateTime(results.getDate(3).getTime());
+				DateTime created_time = new DateTime(results.getTimestamp(3)
+						.getTime());
 				Boolean deleted = results.getBoolean(4);
 				twatts.add(new Twatt(id, user, message, deleted, created_time));
 			}
