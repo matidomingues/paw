@@ -35,7 +35,6 @@ public class MessageHelper {
 			newurl = shorten(oldurl);
 			message = message.replace(oldurl, "<a href=\""+newurl+"\">"+newurl+"</a>" );
 		}
-		System.out.println(message);
 		return message;
 	}
 }
