@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.manager;
+package ar.edu.itba.paw.model.database.implamentations;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,27 +7,31 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+import ar.edu.itba.paw.manager.ConnectionManager;
+import ar.edu.itba.paw.manager.DatabaseException;
+import ar.edu.itba.paw.model.database.TwattDAO;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 
-public class TwattDAO {
+public class TwattDAOImpl implements TwattDAO {
 
 	private static TwattDAO instance = null;
 	
-	private TwattDAO(){
+	private TwattDAOImpl(){
 		
 	}
 	
 	public static TwattDAO getInstance(){
 		if(instance == null){
-			instance = new TwattDAO();
+			instance = new TwattDAOImpl();
 		}
 		return instance;
 	}
 	
-	public boolean addTwatt(User user, String message){
+	@Override
+    public boolean addTwatt(User user, String message){
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
@@ -45,7 +49,8 @@ public class TwattDAO {
 		
 	}
 	
-	public Set<Twatt> getTwattsByUser(User user){
+	@Override
+    public Set<Twatt> getTwattsByUser(User user){
 		Set<Twatt> twatts = new HashSet<Twatt>();
 		try {
 			Connection connection = ConnectionManager.getConnection();

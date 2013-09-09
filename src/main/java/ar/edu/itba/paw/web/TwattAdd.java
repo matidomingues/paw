@@ -9,14 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.manager.TwattDAO;
-import ar.edu.itba.paw.manager.UserDAO;
+import ar.edu.itba.paw.model.database.TwattDAO;
+import ar.edu.itba.paw.model.database.UserDAO;
+import ar.edu.itba.paw.model.database.implamentations.TwattDAOImpl;
+import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
 import ar.edu.itba.paw.model.User;
 
 public class TwattAdd extends HttpServlet{
 
-	private UserDAO usermanager = UserDAO.getInstance();
-	private TwattDAO twatmanager = TwattDAO.getInstance();
+	private UserDAO usermanager = UserDAOImpl.getInstance();
+	private TwattDAO twatmanager = TwattDAOImpl.getInstance();
 	
 	private UUID getSessionFromCookie(Cookie[] cookies){
 		for(Cookie cookie: cookies){

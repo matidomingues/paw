@@ -1,21 +1,22 @@
-package ar.edu.itba.paw.manager;
+package ar.edu.itba.paw.model.database.implamentations;
 
 import java.util.HashSet;
 
 import ar.edu.itba.paw.model.Url;
+import ar.edu.itba.paw.model.database.UrlDAO;
 
-public class UrlDAO {
+public class UrlDAOImpl implements UrlDAO {
 
 	private static UrlDAO instance = null;
 	private HashSet<Url> urls = new HashSet<Url>();
 	
-	private UrlDAO(){
+	private UrlDAOImpl(){
 		
 	}
 	
 	public static synchronized UrlDAO getInstance(){
 		if(instance == null){
-			instance = new UrlDAO();
+			instance = new UrlDAOImpl();
 		}
 		return instance;
 	}
@@ -29,7 +30,8 @@ public class UrlDAO {
 		return null;
 	}
 	
-	public String resolve(String base){
+	@Override
+    public String resolve(String base){
 		Url url = findBase(base);
 		if(url != null){
 			return url.getResol();

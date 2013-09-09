@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.manager.UserDAO;
+import ar.edu.itba.paw.model.database.UserDAO;
+import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
 
 public class Register extends HttpServlet {
 	
-	UserDAO usermanager = UserDAO.getInstance();
+	UserDAO usermanager = UserDAOImpl.getInstance();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req, resp);

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.filter;
+package ar.edu.itba.paw.web.filter;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -13,11 +13,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.manager.UserDAO;
+import ar.edu.itba.paw.model.database.UserDAO;
+import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
 
 public class AuthenticationFilter implements Filter {
 
-	UserDAO usermanager = UserDAO.getInstance();
+	UserDAO userDAO = UserDAOImpl.getInstance();
 	
 	private UUID getSessionFromCookie(Cookie[] cookies) {
         if (cookies == null) { return null; }
@@ -36,7 +37,7 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 
 		UUID uuid = getSessionFromCookie(req.getCookies());
-		if (usermanager.getUserBySession(uuid) == null
+		if (userDAO.getUserBySession(uuid) == null
 				&& !req.getRequestURL().toString().contains("css/main.css")
 				&& !req.getRequestURL().toString().contains("login")
 				&& !req.getRequestURL().toString().contains("register")) {

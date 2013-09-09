@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.manager;
+package ar.edu.itba.paw.model.database.implamentations;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,29 +9,33 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import ar.edu.itba.paw.manager.ConnectionManager;
+import ar.edu.itba.paw.manager.DatabaseException;
+import ar.edu.itba.paw.model.database.UserDAO;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.model.User;
 
-public class UserDAO {
+public class UserDAOImpl implements UserDAO {
 
 	private static UserDAO instance = null;
 
 	HashSet<User> users = new HashSet<User>();
 	HashMap<UUID, User> session = new HashMap<UUID, User>();
 
-	private UserDAO() {
+	private UserDAOImpl() {
 
 	}
 
 	public static synchronized UserDAO getInstance() {
 		if (instance == null) {
-			instance = new UserDAO();
+			instance = new UserDAOImpl();
 		}
 		return instance;
 	}
 
-	public User getUserByUsername(String username) {
+	@Override
+    public User getUserByUsername(String username) {
 		try {
 			User user = null;
 			Connection connection = ConnectionManager.getConnection();
@@ -57,7 +61,8 @@ public class UserDAO {
 		}
 	}
 
-	public UUID authenticate(String username, String password) {
+	@Override
+    public UUID authenticate(String username, String password) {
 		User user = getUserByUsername(username);
 		if (user != null && user.getPassword().compareTo(password) == 0) {
 			UUID uuid = UUID.randomUUID();
@@ -68,8 +73,9 @@ public class UserDAO {
 
 	}
 
-	public boolean registerUser(String username, String password, String name,
-			String surname, String description) {
+	@Override
+    public boolean registerUser(String username, String password, String name,
+                                String surname, String description) {
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection
@@ -89,11 +95,13 @@ public class UserDAO {
 		}
 	}
 
-	public User getUserBySession(UUID uuid) {
+	@Override
+    public User getUserBySession(UUID uuid) {
 		return session.get(uuid);
 	}
 
-	public Set<User> find(String username) {
+	@Override
+    public Set<User> find(String username) {
 		HashSet<User> filteredusers = new HashSet<User>();
 
 		try {
@@ -120,11 +128,13 @@ public class UserDAO {
 		return filteredusers;
 	}
 
-	public Set<User> getAll() {
+	@Override
+    public Set<User> getAll() {
 		return find("");
 	}
 
-	public void updateUser(User user) {
+	@Override
+    public void updateUser(User user) {
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement stmt = connection

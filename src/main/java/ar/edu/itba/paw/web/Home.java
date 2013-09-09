@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.web;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -10,13 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.manager.HashtagDAO;
-import ar.edu.itba.paw.manager.UserDAO;
+import ar.edu.itba.paw.model.database.HashtagDAO;
+import ar.edu.itba.paw.model.database.UserDAO;
+import ar.edu.itba.paw.model.database.implamentations.HashtagDAOImpl;
+import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
 
 public class Home extends HttpServlet{
 	
-	UserDAO usermanager = UserDAO.getInstance();
-	HashtagDAO hashtagmanager = HashtagDAO.getInstance();
+	UserDAO usermanager = UserDAOImpl.getInstance();
+	HashtagDAO hashtagmanager = HashtagDAOImpl.getInstance();
 	
 	private UUID getSessionFromCookie(Cookie[] cookies){
 		for(Cookie cookie: cookies){
