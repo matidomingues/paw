@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.helper.UserHelper;
-import ar.edu.itba.paw.manager.UserDAO;
 
-public class UserSearch extends HttpServlet{
+public class Logout extends HttpServlet{
 
 	UserHelper usermanager = new UserHelper();
 	
@@ -25,16 +24,8 @@ public class UserSearch extends HttpServlet{
 		return null;
 	}
 	
-	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		req.setAttribute("users", usermanager.getAll());
-		req.setAttribute("user", usermanager.getUserBySession(getSessionFromCookie(req.getCookies())));
-		req.getRequestDispatcher("/WEB-INF/jsp/finduser.jsp").forward(req, resp);
-	}
-	
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("users", usermanager.find(req.getParameter("username")));
-		req.setAttribute("user", usermanager.getUserBySession(getSessionFromCookie(req.getCookies())));
-		req.getRequestDispatcher("/WEB-INF/jsp/finduser.jsp").forward(req, resp);
+		usermanager.logout(getSessionFromCookie(req.getCookies()));
+		resp.sendRedirect("login");
 	}
 }

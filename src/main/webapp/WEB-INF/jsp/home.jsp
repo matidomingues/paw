@@ -1,10 +1,4 @@
 <%@ include file="header.jsp" %>
-<h2>Twattealo!</h2>
-<form method="post" action="/twatt/add">
-	<input type="text" name="message" placeholder="Twatt">
-	<input type="submit" name="Enviar">
-</form>
-
 <c:choose>
 		<c:when  test="${empty hashtags}">
 			<p> No hay Hashtags para mostrar </p>

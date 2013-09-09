@@ -24,7 +24,6 @@ public class UserHelper {
 	}
 	
 	public User getUserBySession(UUID uuid) {
-		System.out.println(session.get(uuid));
 		return session.get(uuid);
 	}
 
@@ -64,5 +63,9 @@ public class UserHelper {
 	
 	public Set<User> find(String username){
 		return usermanager.find(username);
+	}
+	
+	public void logout(UUID uuid){
+		session.remove(uuid);
 	}
 }

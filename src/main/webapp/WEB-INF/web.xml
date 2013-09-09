@@ -70,6 +70,14 @@
 		<servlet-name>URLShortener</servlet-name>
 		<url-pattern>/s/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.Logout</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<filter-name>authenticationFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.filter.AuthenticationFilter</filter-class>

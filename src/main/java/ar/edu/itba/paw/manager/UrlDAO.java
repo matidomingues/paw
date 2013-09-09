@@ -23,8 +23,6 @@ public class UrlDAO {
 	
 	private Url findBase(String base){
 		for(Url url: urls){
-			System.out.println(base);
-			System.out.println(url.getBase());
 			if(url.getBase().compareTo(base) == 0){
 				return url;
 			}
@@ -40,11 +38,16 @@ public class UrlDAO {
 		return null;
 	}
 	
-	public String shorten(String url){
-		String newurl = "/s/";
-		String base = UUID.randomUUID().toString().substring(0, 5);
-		newurl = newurl.concat(base);
-		urls.add(new Url(base, url));
-		return newurl;
+	public Url reverseUrl(String resol){
+		for(Url url: urls){
+			if(url.getResol().compareTo(resol) == 0){
+				return url;
+			}
+		}
+		return null;
+	}
+	
+	public void addRoute(String base, String resol){
+		urls.add(new Url(base, resol));
 	}
 }

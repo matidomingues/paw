@@ -1,6 +1,6 @@
 <%@ include file="header.jsp" %>
 <div class="error"><c:out value="${error}" /></div>
-<div class="container">
+<div class="logincontainer">
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">Registro</h3>
