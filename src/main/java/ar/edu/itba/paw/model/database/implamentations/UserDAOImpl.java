@@ -21,7 +21,6 @@ public class UserDAOImpl implements UserDAO {
 	private static UserDAO instance = null;
 
 	HashSet<User> users = new HashSet<User>();
-	HashMap<UUID, User> session = new HashMap<UUID, User>();
 
 	private UserDAOImpl() {
 
@@ -38,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
     public User getUserByUsername(String username) {
 		try {
 			User user = null;
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("SELECT id, password, name, surname, description, created_time FROM twat_user WHERE username = ?");
 			stmt.setString(1, username);
@@ -61,23 +60,10 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
-	@Override
-    public UUID authenticate(String username, String password) {
-		User user = getUserByUsername(username);
-		if (user != null && user.getPassword().compareTo(password) == 0) {
-			UUID uuid = UUID.randomUUID();
-			session.put(uuid, user);
-			return uuid;
-		}
-		return null;
-
-	}
-
-	@Override
-    public boolean registerUser(String username, String password, String name,
-                                String surname, String description) {
+	public boolean registerUser(String username, String password, String name,
+			String surname, String description) {
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("INSERT INTO twat_user(username, password, name, surname, description, enabled) values(?, ?, ?, ?, ?, ?)");
 			stmt.setString(1, username);
@@ -95,17 +81,11 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
-	@Override
-    public User getUserBySession(UUID uuid) {
-		return session.get(uuid);
-	}
-
-	@Override
-    public Set<User> find(String username) {
+	public Set<User> find(String username) {
 		HashSet<User> filteredusers = new HashSet<User>();
 
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("SELECT id, username, password, name, surname, description, created_time FROM twat_user WHERE username LIKE '%"
 							+ username + "%' ORDER BY surname, name");
@@ -134,9 +114,9 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-    public void updateUser(User user) {
+	public boolean updateUser(User user) {
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("UPDATE twat_user SET (password, name, surname, description, enabled) = (?, ?, ?, ?, ?) where id = ?");
 			stmt.setString(1, user.getPassword());
@@ -145,9 +125,10 @@ public class UserDAOImpl implements UserDAO {
 			stmt.setString(4, user.getDescription());
 			stmt.setBoolean(5, true);
 			stmt.setInt(6, user.getId());
-			stmt.executeUpdate();
+			Integer result = stmt.executeUpdate();
 			connection.commit();
 			connection.close();
+			return result == 1;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
 		}

@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model.database.implamentations;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 import ar.edu.itba.paw.model.Url;
 import ar.edu.itba.paw.model.database.UrlDAO;
@@ -37,5 +38,18 @@ public class UrlDAOImpl implements UrlDAO {
 			return url.getResol();
 		}
 		return null;
+	}
+	
+	public Url reverseUrl(String resol){
+		for(Url url: urls){
+			if(url.getResol().compareTo(resol) == 0){
+				return url;
+			}
+		}
+		return null;
+	}
+	
+	public void addRoute(String base, String resol){
+		urls.add(new Url(base, resol));
 	}
 }

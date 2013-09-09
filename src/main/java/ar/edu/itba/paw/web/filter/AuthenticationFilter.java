@@ -13,16 +13,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.model.database.UserDAO;
-import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
+import ar.edu.itba.paw.helper.UserHelper;
 
 public class AuthenticationFilter implements Filter {
 
-	UserDAO userDAO = UserDAOImpl.getInstance();
-	
-	private UUID getSessionFromCookie(Cookie[] cookies) {
-        if (cookies == null) { return null; }
+	UserHelper usermanager = new UserHelper();
 
+	private UUID getSessionFromCookie(Cookie[] cookies) {
+		if (cookies == null) {
+			return null;
+		}
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().compareTo("TwitterUUID") == 0) {
 				return UUID.fromString(cookie.getValue());
@@ -37,11 +37,16 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 
 		UUID uuid = getSessionFromCookie(req.getCookies());
-		if (userDAO.getUserBySession(uuid) == null
-				&& !req.getRequestURL().toString().contains("css/main.css")
-				&& !req.getRequestURL().toString().contains("login")
-				&& !req.getRequestURL().toString().contains("register")) {
+
+		boolean logued = usermanager.getUserBySession(uuid) != null;
+		boolean css = req.getRequestURL().toString().contains("css/main.css");
+		boolean login = req.getRequestURL().toString().contains("login");
+		boolean register = req.getRequestURL().toString().contains("register");
+
+		if (!logued && !css && !login && !register) {
 			resp.sendRedirect("/login");
+		} else if (logued && !css && (login || register)) {
+			resp.sendRedirect("/home");
 		} else {
 			chain.doFilter(request, response);
 		}

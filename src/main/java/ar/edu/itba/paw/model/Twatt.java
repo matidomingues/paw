@@ -17,7 +17,11 @@ public class Twatt extends PersistableEntity{
         this.timestamp = timestamp;
     }
 
-    public User getCreator() {
+    public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public User getCreator() {
         return creator;
     }
 

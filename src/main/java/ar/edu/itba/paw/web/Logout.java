@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.helper.TwattHelper;
+import ar.edu.itba.paw.helper.UserHelper;
 
-public class TwattAdd extends HttpServlet{
+public class Logout extends HttpServlet{
 
-	private TwattHelper twattmanager = new TwattHelper();
-
+	UserHelper usermanager = new UserHelper();
+	
 	private UUID getSessionFromCookie(Cookie[] cookies){
 		for(Cookie cookie: cookies){
 			if(cookie.getName().compareTo("TwitterUUID") == 0){
@@ -24,11 +24,8 @@ public class TwattAdd extends HttpServlet{
 		return null;
 	}
 	
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		boolean result = twattmanager.addTwatt(getSessionFromCookie(req.getCookies()), req.getParameter("message"));
-		if(!result){
-			req.setAttribute("error", "No es posible Twattear en este momento");
-		}
-		resp.sendRedirect("home");
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		usermanager.logout(getSessionFromCookie(req.getCookies()));
+		resp.sendRedirect("login");
 	}
 }

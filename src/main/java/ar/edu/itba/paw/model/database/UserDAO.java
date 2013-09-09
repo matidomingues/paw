@@ -15,16 +15,12 @@ import java.util.UUID;
 public interface UserDAO {
     User getUserByUsername(String username);
 
-    UUID authenticate(String username, String password);
-
     boolean registerUser(String username, String password, String name,
                          String surname, String description);
-
-    User getUserBySession(UUID uuid);
 
     Set<User> find(String username);
 
     Set<User> getAll();
 
-    void updateUser(User user);
+    boolean updateUser(User user);
 }

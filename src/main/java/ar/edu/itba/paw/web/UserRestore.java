@@ -7,13 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.model.database.UserDAO;
-import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
+import ar.edu.itba.paw.helper.UserHelper;
 
 public class UserRestore extends HttpServlet{
 
-	UserDAO usermanager = UserDAOImpl.getInstance();
-	
+	UserHelper usermanager = new UserHelper();
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		
 	}
