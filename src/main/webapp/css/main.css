@@ -1,18 +1,3 @@
-.loginsecuence input[type="text"],
-.loginsecuence input[type="password"] {
-    font-size: 16px;
-    height: auto;
-    width: 265px;
-    margin-bottom: 15px;
-    padding: 7px 9px;
-    border-radius: 5px;
-    border: 1px solid #e5e5e5;
-}
-
-.logincontainer {
-    width: 300px;
-}
-
 .container{
 }
 
@@ -90,6 +75,10 @@
     border-radius: 3px;
     border: 1.5px solid #e5e5e5;
     padding: 8px 10px 7px;
+}
+
+.input-border{
+    margin-bottom: 10px;
 }
 
 .input-padding{

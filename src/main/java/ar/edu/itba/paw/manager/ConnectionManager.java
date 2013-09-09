@@ -47,9 +47,19 @@ public class ConnectionManager {
     }
 
 	public Connection getConnection() {
-		if (this.connection.get() == null) {
-            this.setConnection();
-        }
-        return this.connection.get();
+//		if (this.connection.get() == null) {
+//            this.setConnection();
+//        }
+//        return this.connection.get();
+		try {
+			Class.forName(DatabaseSettings.getDriver());
+			Connection connection = DriverManager.getConnection(
+					connectionString, username, password);
+			connection.setAutoCommit(false);
+			return connection;
+		} catch (Exception e) {
+			throw new DatabaseException(e.getMessage(), e);
+		}
+		
 	}
 }
