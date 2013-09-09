@@ -7,6 +7,14 @@
 			<form method="post" action="/settings">
 				<div class="row input-padding">
 					<div class="col-md-2">
+						<label class="input-label">Nombre de Usuario</label>
+					</div>
+					<div class="col-md-10">
+						<input type="text" class="input-long" name="username">
+					</div>
+				</div>
+				<div class="row input-padding">
+					<div class="col-md-2">
 						<label class="input-label">Nombre</label>
 					</div>
 					<div class="col-md-10">
