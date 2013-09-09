@@ -1,16 +1,17 @@
 package ar.edu.itba.paw.helper;
 
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.database.UserDAO;
+import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import ar.edu.itba.paw.manager.UserDAO;
-import ar.edu.itba.paw.model.User;
-
 public class UserHelper {
 
-	private UserDAO usermanager = UserDAO.getInstance();
+	private UserDAO usermanager = UserDAOImpl.getInstance();
 	private static HashMap<UUID, User> session = new HashMap<UUID, User>();
 
 	public UUID authenticate(String username, String password) {

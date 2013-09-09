@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.manager.UserDAO;
 
 public class UserEdit extends HttpServlet{
 	
 	UserHelper usermanager = new UserHelper();
-	
+
 	private UUID getSessionFromCookie(Cookie[] cookies){
 		for(Cookie cookie: cookies){
 			if(cookie.getName().compareTo("TwitterUUID") == 0){

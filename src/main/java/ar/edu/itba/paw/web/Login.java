@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.web;
 
+import ar.edu.itba.paw.helper.UserHelper;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -9,13 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.helper.UserHelper;
-import ar.edu.itba.paw.manager.UserDAO;
 
 public class Login extends HttpServlet {
 
 	UserHelper usermanager = new UserHelper();
-	
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
 	}

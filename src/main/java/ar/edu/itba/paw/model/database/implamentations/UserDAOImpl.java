@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.manager;
+package ar.edu.itba.paw.model.database.implamentations;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,32 +11,34 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import ar.edu.itba.paw.manager.ConnectionManager;
+import ar.edu.itba.paw.manager.DatabaseException;
+import ar.edu.itba.paw.model.database.UserDAO;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.model.User;
 
-public class UserDAO {
+public class UserDAOImpl implements UserDAO {
 
 	private static UserDAO instance = null;
 
 	HashSet<User> users = new HashSet<User>();
 
-
-	private UserDAO() {
+	private UserDAOImpl() {
 
 	}
 
 	public static synchronized UserDAO getInstance() {
 		if (instance == null) {
-			instance = new UserDAO();
+			instance = new UserDAOImpl();
 		}
 		return instance;
 	}
 
-	public User getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
 		try {
 			User user = null;
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("SELECT id, password, name, surname, description, created_time, secret_question, secret_answer FROM twat_user WHERE username = ?");
 			stmt.setString(1, username);
@@ -64,7 +66,7 @@ public class UserDAO {
 	public boolean registerUser(String username, String password, String name,
 			String surname, String description, String secretQuestion, String secretAnswer) {
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("INSERT INTO twat_user(username, password, name, surname, description, enabled, secret_question, secret_answer) values(?, ?, ?, ?, ?, ?, ?, ?)");
 			stmt.setString(1, username);
@@ -86,9 +88,8 @@ public class UserDAO {
 	
 	public List<User> find(String username) {
 		LinkedList<User> filteredusers = new LinkedList<User>();
-
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("SELECT id, username, password, name, surname, description, created_time, secret_question, secret_answer FROM twat_user WHERE username LIKE '%"
 							+ username + "%' ORDER BY surname, name");
@@ -119,7 +120,7 @@ public class UserDAO {
 
 	public boolean updateUser(User user) {
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("UPDATE twat_user SET (password, name, surname, description, enabled) = (?, ?, ?, ?, ?) where id = ?");
 			stmt.setString(1, user.getPassword());

@@ -9,15 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.helper.TwattHelper;
 import ar.edu.itba.paw.helper.UserHelper;
-import ar.edu.itba.paw.manager.TwattDAO;
-import ar.edu.itba.paw.manager.UserDAO;
 import ar.edu.itba.paw.model.User;
 
 public class UserDetails extends HttpServlet {
 
 	private UserHelper usermanager = new UserHelper();
 	private TwattHelper twatmanager = new TwattHelper();
-	
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		String[] url = req.getRequestURI().split("/");
 		User user = usermanager.getUserByUsername(url[2]);

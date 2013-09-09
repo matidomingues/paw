@@ -9,17 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.helper.TwattHelper;
-import ar.edu.itba.paw.helper.UserHelper;
-import ar.edu.itba.paw.manager.TwattDAO;
-import ar.edu.itba.paw.manager.UserDAO;
-import ar.edu.itba.paw.model.User;
 
 public class TwattAdd extends HttpServlet{
 
 	private TwattHelper twattmanager = new TwattHelper();
-	
+
 	private UUID getSessionFromCookie(Cookie[] cookies){
 		for(Cookie cookie: cookies){
 			if(cookie.getName().compareTo("TwitterUUID") == 0){

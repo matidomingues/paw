@@ -6,12 +6,13 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ar.edu.itba.paw.manager.UrlDAO;
 import ar.edu.itba.paw.model.Url;
+import ar.edu.itba.paw.model.database.UrlDAO;
+import ar.edu.itba.paw.model.database.implamentations.UrlDAOImpl;
 
 public class MessageHelper {
 
-	public static UrlDAO urlmanager = UrlDAO.getInstance();
+	public static UrlDAO urlmanager = UrlDAOImpl.getInstance();
 
 	private static String shorten(String url) {
 		String newurl = "/s/";

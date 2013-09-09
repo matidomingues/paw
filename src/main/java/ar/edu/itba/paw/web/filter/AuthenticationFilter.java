@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.filter;
+package ar.edu.itba.paw.web.filter;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.helper.UserHelper;
-import ar.edu.itba.paw.manager.UserDAO;
 
 public class AuthenticationFilter implements Filter {
 

@@ -4,14 +4,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import ar.edu.itba.paw.manager.TwattDAO;
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.database.TwattDAO;
+import ar.edu.itba.paw.model.database.implamentations.TwattDAOImpl;
 
 public class TwattHelper {
 
 	private UserHelper usermanager = new UserHelper();
-	private TwattDAO twattmanager = TwattDAO.getInstance();
+	private TwattDAO twattmanager = TwattDAOImpl.getInstance();
 
 	public boolean addTwatt(UUID uuid, String message) {
 		User user = usermanager.getUserBySession(uuid);

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.manager;
+package ar.edu.itba.paw.model.database.implamentations;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,29 +9,32 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import ar.edu.itba.paw.manager.ConnectionManager;
+import ar.edu.itba.paw.manager.DatabaseException;
+import ar.edu.itba.paw.model.database.TwattDAO;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 
-public class TwattDAO {
+public class TwattDAOImpl implements TwattDAO {
 
 	private static TwattDAO instance = null;
-
-	private TwattDAO() {
-
+	
+	private TwattDAOImpl(){
+		
 	}
-
-	public static TwattDAO getInstance() {
-		if (instance == null) {
-			instance = new TwattDAO();
+	
+	public static TwattDAO getInstance(){
+		if(instance == null){
+			instance = new TwattDAOImpl();
 		}
 		return instance;
 	}
-
-	public boolean addTwatt(User user, String message) {
+	
+	public boolean addTwatt(User user, String message){
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("INSERT INTO tweet(user_id, message, deleted) values(?, ?, ?)");
 			stmt.setInt(1, user.getId());
@@ -46,11 +49,11 @@ public class TwattDAO {
 		}
 
 	}
-
+	
 	public List<Twatt> getTwattsByUser(User user) {
 		List<Twatt> twatts = new LinkedList<Twatt>();
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("SELECT id, message, created_time, deleted FROM tweet WHERE user_id=? ORDER BY created_time desc");
 			stmt.setInt(1, user.getId());
