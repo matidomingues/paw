@@ -3,9 +3,9 @@ package ar.edu.itba.paw.configuration;
 public class DatabaseSettings {
 
 	public static final String driver = "org.postgresql.Driver";
-	public static final String connectionString = "jdbc:postgresql:///";
-	public static final String username = "";
-	public static final String password = "";
+	public static final String connectionString = "jdbc:postgresql://localhost:5432/paw1";
+	public static final String username = "paw";
+	public static final String password = "paw";
 	
 	public static String getDriver() {
 		return driver;

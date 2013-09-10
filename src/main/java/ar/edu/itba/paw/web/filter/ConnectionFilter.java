@@ -26,6 +26,12 @@ public class ConnectionFilter implements Filter {
             ConnectionManager.getInstance().getConnection().commit();
         } catch (Exception e) {
             rollback(e);
+        } finally {
+            try {
+            ConnectionManager.getInstance().getConnection().close();
+            } catch (Exception e) {
+                throw new DatabaseException("Problems while closing the connection", e);
+            }
         }
     }
 

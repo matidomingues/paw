@@ -41,8 +41,6 @@ public class TwattDAOImpl implements TwattDAO {
 			stmt.setString(2, message);
 			stmt.setBoolean(3, false);
 			int result = stmt.executeUpdate();
-			connection.commit();
-			connection.close();
 			return result == 1;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
@@ -66,7 +64,6 @@ public class TwattDAOImpl implements TwattDAO {
 				Boolean deleted = results.getBoolean(4);
 				twatts.add(new Twatt(id, user, message, deleted, created_time));
 			}
-			connection.close();
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
 		}
