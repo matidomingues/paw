@@ -56,7 +56,6 @@ public class UserDAOImpl implements UserDAO {
 				user = new User(id, username, password, name, surname,
 						description, date, secretQuestion, secretAnswer);
 			}
-			connection.close();
 			return user;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
@@ -78,8 +77,6 @@ public class UserDAOImpl implements UserDAO {
 			stmt.setString(7, secretQuestion);
 			stmt.setString(8, secretAnswer);
 			int result = stmt.executeUpdate();
-			connection.commit();
-			connection.close();
 			return result == 1;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
@@ -107,7 +104,6 @@ public class UserDAOImpl implements UserDAO {
 				filteredusers.add(new User(id, rusername, password, name,
 						surname, description, date, secretQuestion, secretAnswer));
 			}
-			connection.close();
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
 		}
@@ -130,8 +126,6 @@ public class UserDAOImpl implements UserDAO {
 			stmt.setBoolean(5, true);
 			stmt.setInt(6, user.getId());
 			Integer result = stmt.executeUpdate();
-			connection.commit();
-			connection.close();
 			return result == 1;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);
