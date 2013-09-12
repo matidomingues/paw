@@ -32,10 +32,10 @@ public class ConnectionFilter implements Filter {
     private void rollback(Exception e) {
         try {
             ConnectionManager.getInstance().getConnection().rollback();
-            throw new RuntimeException(e);
         } catch (Exception ex) {
             throw new DatabaseException("Problems while rollbacking", ex);
         }
+        throw new RuntimeException(e);
     }
     public void destroy() {
         //To change body of implemented methods use File | Settings | File Templates.

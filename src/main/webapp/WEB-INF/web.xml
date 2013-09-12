@@ -79,6 +79,14 @@
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 	<filter>
+		<filter-name>connectionFilter</filter-name>
+		<filter-class>ar.edu.itba.paw.web.filter.ConnectionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>connectionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
 		<filter-name>authenticationFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.web.filter.AuthenticationFilter</filter-class>
 	</filter>

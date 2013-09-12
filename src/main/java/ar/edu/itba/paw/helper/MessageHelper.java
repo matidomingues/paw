@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.helper;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
