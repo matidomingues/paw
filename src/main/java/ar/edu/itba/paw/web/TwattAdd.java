@@ -29,6 +29,6 @@ public class TwattAdd extends HttpServlet{
 		if(!result){
 			req.setAttribute("error", "No es posible Twattear en este momento");
 		}
-		resp.sendRedirect("home");
+		resp.sendRedirect("/home");
 	}
 }

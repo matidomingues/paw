@@ -14,7 +14,7 @@
 							<input type="password" class="input-long input-border" name="password" placeholder="password">
 							<input type="submit" class="btn btn-primary" value="Login">
 							<a href="/register" class="btn btn-primary">Register</a>
-							<a data-toggle="modal" href="#restore-modal" class="btn btn-primary">Recupero Contrasena</a>
+							<a href="/restore" class="btn btn-primary">Recupero Contrasena</a>
 						</fieldset>
 					</form>
 				</div>
@@ -22,20 +22,4 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="restore-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
-		      	<div class="modal-content">
-		        	<div class="modal-body">
-		          		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<form method="post" action="/restore">
-							<input type="text" class="twat-box" name="message" placeholder="Twatt" maxlength="140">
-							<div class ="twat-button">
-								<input type="submit" class="btn btn-primary" name="Twatt">
-							</div>
-							<div class="clearfix"></div>
-						</form>
-		        	</div>
-		      	</div>
-		    </div>
-		 </div>
 <%@ include file="footer.jsp" %>

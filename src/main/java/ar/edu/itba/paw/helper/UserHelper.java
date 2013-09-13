@@ -73,4 +73,14 @@ public class UserHelper {
 	public void logout(UUID uuid) {
 		session.remove(uuid);
 	}
+	
+	public boolean userRestore(String username, String secretAnswer, String newPassword){
+		User user = usermanager.getUserByUsername(username);
+		if(user != null && user.getSecretAnswer().compareTo(secretAnswer) == 0){
+			user.setPassword(newPassword);
+			usermanager.updateUser(user);
+			return true;
+		}
+		return false;
+	}
 }

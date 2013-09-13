@@ -42,10 +42,11 @@ public class AuthenticationFilter implements Filter {
 		boolean css = req.getRequestURL().toString().contains("css/main.css");
 		boolean login = req.getRequestURL().toString().contains("login");
 		boolean register = req.getRequestURL().toString().contains("register");
+		boolean restore = req.getRequestURL().toString().contains("restore");
 
-		if (!logued && !css && !login && !register) {
+		if (!logued && !css && !login && !register && !restore) {
 			resp.sendRedirect("/login");
-		} else if (logued && !css && (login || register)) {
+		} else if (logued && !css && (login || register || restore)) {
 			resp.sendRedirect("/home");
 		} else {
 			chain.doFilter(request, response);

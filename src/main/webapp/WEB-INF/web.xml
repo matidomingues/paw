@@ -23,6 +23,22 @@
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>UserRestore</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.UserRestore</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserRestore</servlet-name>
+		<url-pattern>/restore</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserQuestion</servlet-name>
+		<servlet-class>ar.edu.itba.paw.web.UserQuestion</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserQuestion</servlet-name>
+		<url-pattern>/restore/user/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>UserDetails</servlet-name>
 		<servlet-class>ar.edu.itba.paw.web.UserDetails</servlet-class>
 	</servlet>
@@ -82,10 +98,6 @@
 		<filter-name>connectionFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.web.filter.ConnectionFilter</filter-class>
 	</filter>
-	<filter-mapping>
-		<filter-name>connectionFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 	<filter>
 		<filter-name>authenticationFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.web.filter.AuthenticationFilter</filter-class>

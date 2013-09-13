@@ -1,16 +1,24 @@
 package ar.edu.itba.paw.model.database.implamentations;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
+
+import ar.edu.itba.paw.manager.ConnectionManager;
+import ar.edu.itba.paw.manager.DatabaseException;
 import ar.edu.itba.paw.model.Url;
+import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.UrlDAO;
 
 public class UrlDAOImpl implements UrlDAO {
 
 	private static UrlDAO instance = null;
-	private HashSet<Url> urls = new HashSet<Url>();
-	
+
 	private UrlDAOImpl(){
 		
 	}
@@ -23,32 +31,57 @@ public class UrlDAOImpl implements UrlDAO {
 	}
 	
 	private Url findBase(String base){
-		for(Url url: urls){
-			if(url.getBase().compareTo(base) == 0){
-				return url;
+		try {
+			Url url = null;
+			Connection connection = ConnectionManager.getInstance().getConnection();
+			PreparedStatement stmt = connection
+					.prepareStatement("SELECT resol FROM short_url WHERE base = ?");
+			stmt.setString(1, base);
+
+			ResultSet results = stmt.executeQuery();
+			if (results.next()) {
+				String resol = results.getString(1);
+				url = new Url(base, resol);
 			}
+			return url;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage(), e);
 		}
-		return null;
 	}
 	
     public String resolve(String base){
-		Url url = findBase(base);
-		if(url != null){
-			return url.getResol();
-		}
-		return null;
+		return findBase(base).getResol();
 	}
 	
 	public Url reverseUrl(String resol){
-		for(Url url: urls){
-			if(url.getResol().compareTo(resol) == 0){
-				return url;
+		try {
+			Url url = null;
+			Connection connection = ConnectionManager.getInstance().getConnection();
+			PreparedStatement stmt = connection
+					.prepareStatement("SELECT base FROM short_url WHERE resol = ?");
+			stmt.setString(1, resol);
+
+			ResultSet results = stmt.executeQuery();
+			if (results.next()) {
+				String base = results.getString(1);
+				url = new Url(base, resol);
 			}
+			return url;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage(), e);
 		}
-		return null;
 	}
 	
 	public void addRoute(String base, String resol){
-		urls.add(new Url(base, resol));
+		try {
+			Connection connection = ConnectionManager.getInstance().getConnection();
+			PreparedStatement stmt = connection
+					.prepareStatement("INSERT INTO short_url(base, resol) values(?, ?)");
+			stmt.setString(1, base);
+			stmt.setString(2, resol);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage(), e);
+		}
 	}
 }

@@ -12,7 +12,7 @@ public class MessageHelper {
 
 	public static UrlDAO urlmanager = UrlDAOImpl.getInstance();
 
-	private static String shorten(String url) {
+	public String shorten(String url) {
 		String newurl = "/s/";
 		Url reverse = urlmanager.reverseUrl(url);
 		if (reverse != null) {
@@ -27,14 +27,12 @@ public class MessageHelper {
 
 	public static String prepareMessage(String message) {
 		Pattern urlPattern = Pattern
-				.compile("((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)");
+				.compile("/s/[a-z0-9]{5}");
 		Matcher urlMatcher = urlPattern.matcher(message);
-		String newurl;
 		while (urlMatcher.find()) {
-			String oldurl = urlMatcher.group();
-			newurl = shorten(oldurl);
-			message = message.replace(oldurl, "<a href=\"" + newurl + "\">"
-					+ newurl + "</a>");
+			String url = urlMatcher.group();
+			message = message.replace(url, "<a href=\"" + url + "\">"
+					+ url + "</a>");
 		}
 		return message;
 	}
