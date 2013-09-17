@@ -62,20 +62,19 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
-	public boolean registerUser(String username, String password, String name,
-			String surname, String description, String secretQuestion, String secretAnswer) {
+	public boolean registerUser(User user) {
 		try {
 			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("INSERT INTO twat_user(username, password, name, surname, description, enabled, secret_question, secret_answer) values(?, ?, ?, ?, ?, ?, ?, ?)");
-			stmt.setString(1, username);
-			stmt.setString(2, password);
-			stmt.setString(3, name);
-			stmt.setString(4, surname);
-			stmt.setString(5, description);
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
+			stmt.setString(3, user.getName());
+			stmt.setString(4, user.getSurname());
+			stmt.setString(5, user.getDescription());
 			stmt.setBoolean(6, true);
-			stmt.setString(7, secretQuestion);
-			stmt.setString(8, secretAnswer);
+			stmt.setString(7, user.getSecretQuestion());
+			stmt.setString(8, user.getSecretAnswer());
 			int result = stmt.executeUpdate();
 			return result == 1;
 		} catch (SQLException e) {

@@ -38,7 +38,7 @@ public class AuthenticationFilter implements Filter {
 
 		UUID uuid = getSessionFromCookie(req.getCookies());
 
-		boolean logued = usermanager.getUserBySession(uuid) != null;
+		boolean logued = req.getSession().getAttribute("user") != null;
 		boolean css = req.getRequestURL().toString().contains("css/main.css");
 		boolean login = req.getRequestURL().toString().contains("login");
 		boolean register = req.getRequestURL().toString().contains("register");

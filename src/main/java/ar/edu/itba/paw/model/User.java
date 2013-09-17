@@ -31,6 +31,21 @@ public class User extends PersistableEntity {
 		this.secretQuestion = secretQuestion;
 		this.secretAnswer = secretAnswer;
 	}
+	
+	public User(String username, String password, String name,
+			String surname, String description, DateTime date,
+			String secretQuestion, String secretAnswer){
+		super(null);
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.description = description;
+		this.enabled = enabled;
+		this.date = date;
+		this.secretQuestion = secretQuestion;
+		this.secretAnswer = secretAnswer;
+	}
 
 	public String getSecretQuestion() {
 		return secretQuestion;

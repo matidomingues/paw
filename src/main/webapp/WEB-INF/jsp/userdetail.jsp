@@ -1,5 +1,4 @@
 <%@ include file="header.jsp" %>
-	<div class="error"><c:out value="${error}" /></div>
 	<div class="container">
 		<div class="main-content-wrapper">
 			<div class="main-content">
@@ -47,15 +46,15 @@
 				<tbody>
 					<tr>
 						<th>Usuario</th>
-						<td><c:out value="${user.username}"></c:out></td>
+						<td><c:out value="${searchuser.username}"></c:out></td>
 					</tr>
 					<tr>
 						<th>Nombre Completo</th>
-						<td><c:out value="${user.name}"> </c:out> <c:out value="${user.surname}"></c:out></td>
+						<td><c:out value="${searchuser.name}"> </c:out> <c:out value="${searchuser.surname}"></c:out></td>
 					</tr>
 					<tr>
 						<th>Descripcion</th>
-						<td><c:out value="${user.description}"></c:out></td>
+						<td><c:out value="${searchuser.description}"></c:out></td>
 					</tr>
 				</tbody>
 			</table>

@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
+
 import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.model.User;
 
 public class Register extends HttpServlet {
 
@@ -31,11 +34,12 @@ public class Register extends HttpServlet {
 		String description = req.getParameter("description");
 		String secretQuestion = req.getParameter("secretquestion");
 		String secretAnswer = req.getParameter("secretanswer");
-		UUID uuid = usermanager.registerUser(username, password, name, surname,
-				description, secretQuestion, secretAnswer);
-		if (uuid != null) {
-			resp.addCookie(new Cookie("TwitterUUID", uuid.toString()));
-			resp.sendRedirect("home");
+		User user = new User(username, password, name, surname, description,
+				DateTime.now(), secretQuestion, secretAnswer);
+		if(password.compareTo(extrapassword) != 0){
+			req.setAttribute("error", "Las contraseñas no coinciden");
+		}else if(usermanager.registerUser(user)){
+			req.getRequestDispatcher("login").forward(req, resp);
 		} else {
 			req.setAttribute("error", "Datos incorrectos");
 		}

@@ -25,7 +25,7 @@ public class Logout extends HttpServlet{
 	}
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		usermanager.logout(getSessionFromCookie(req.getCookies()));
+		req.getSession().invalidate();
 		resp.sendRedirect("login");
 	}
 }

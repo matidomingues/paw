@@ -18,19 +18,13 @@ public class Home extends HttpServlet{
 	UserHelper usermanager = new UserHelper();
 	HashtagDAO hashtagmanager = HashtagDAOImpl.getInstance();
 
-	private UUID getSessionFromCookie(Cookie[] cookies){
-		for(Cookie cookie: cookies){
-			if(cookie.getName().compareTo("TwitterUUID") == 0){
-				return UUID.fromString(cookie.getValue());
-			}
-		}
-		return null;
-	}
-	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.setAttribute("hashtags", hashtagmanager.getTrendingHashtags());
-		req.setAttribute("user", usermanager.getUserBySession(getSessionFromCookie(req.getCookies())));
 		req.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(req, resp);
+	}
+	
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
 	}
 
 }

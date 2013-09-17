@@ -1,5 +1,4 @@
 <%@ include file="header.jsp" %>
-<div class="error"><c:out value="${error}" ></c:out></div>
 <div class="container">
 	<div class="panel panel-info">
 		<div class="panel-heading">Recupero Contrasena de <c:out value="${restoreuser.username}"></c:out></div>

@@ -16,39 +16,29 @@ public class UserEdit extends HttpServlet{
 	
 	UserHelper usermanager = new UserHelper();
 
-	private UUID getSessionFromCookie(Cookie[] cookies){
-		for(Cookie cookie: cookies){
-			if(cookie.getName().compareTo("TwitterUUID") == 0){
-				return UUID.fromString(cookie.getValue());
-			}
-		}
-		return null;
-	}
-	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		User user = usermanager.getUserBySession(getSessionFromCookie(req.getCookies()));
-		if(user != null){
-			req.setAttribute("user", user);
-		}else{
-			req.setAttribute("error", "Unable to fetch user data");
-		}
 		req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		UUID uuid = getSessionFromCookie(req.getCookies());
-		String description = req.getParameter("description");
-		String name = req.getParameter("name");
-		String surname = req.getParameter("surname");
+		User user = (User)req.getSession().getAttribute("user");
 		String password = req.getParameter("password");
+		String password2 = req.getParameter("password2");
 		
-		boolean result = usermanager.updateUserByUUID(uuid, name, surname, password, description);
-		
-		if(result){
-			req.getRequestDispatcher("home").forward(req, resp);
+		if(password.compareTo(password2) != 0){
+			req.setAttribute("error", "Las contraseñas no coinciden");
 		}else{
-			req.setAttribute("error", "Error al actualizar");
-		}
+			user.setDescription(req.getParameter("description"));
+			user.setName(req.getParameter("name"));
+			user.setSurname(req.getParameter("surname"));
+			boolean result = usermanager.updateUser(user);
+			if(result){
+				req.setAttribute("success", "Actualizado con exito!");
+				req.getRequestDispatcher("/user/"+user.getUsername()).forward(req, resp);
+			}else{
+				req.setAttribute("error", "Error al actualizar");
+			}
+		}		
 		req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);
 	}
 	

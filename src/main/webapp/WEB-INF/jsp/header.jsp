@@ -14,3 +14,19 @@
 </head>
 <body>
 	<%@ include file="navbar.jsp" %>
+<c:choose>
+	<c:when  test="${!empty error}">
+		<div class="alert alert-danger alert-dismissable">
+		  	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  			<p><c:out value="${error}"></c:out></p>
+		</div>
+	</c:when>
+</c:choose>
+<c:choose>
+	<c:when  test="${!empty success}">
+		<div class="alert alert-success alert-dismissable">
+		  	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  			<p><c:out value="${success}"></c:out></p>
+		</div>
+	</c:when>
+</c:choose>

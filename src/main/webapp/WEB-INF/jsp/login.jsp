@@ -1,5 +1,4 @@
 <%@ include file="header.jsp" %>
-<div class="error"><c:out value="${error}"></c:out></div>
 <div class="container">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">

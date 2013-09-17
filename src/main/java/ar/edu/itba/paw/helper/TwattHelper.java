@@ -30,33 +30,22 @@ public class TwattHelper {
 		return message;
 	}
 
-	public boolean addTwatt(UUID uuid, String message) {
-		User user = usermanager.getUserBySession(uuid);
-		if (user != null) {
-			message = shortenUrls(message);
-			return twattmanager.addTwatt(user, message);
-		}
-		return false;
+	public boolean addTwatt(User user, String message) {
+		message = shortenUrls(message);
+		return twattmanager.addTwatt(user, message);
 	}
 
-	public List<Twatt> getTwattsByUUID(UUID uuid) {
-		User user = usermanager.getUserBySession(uuid);
-		if (user != null) {
-			return prepareHrefLink(twattmanager.getTwattsByUser(user));
-		}
-		return new LinkedList<Twatt>();
+	public List<Twatt> getTwatts(User user) {
+		return twattmanager.getTwattsByUser(user);
 	}
 
 	public List<Twatt> getTwattsByUsername(String username) {
 		User user = usermanager.getUserByUsername(username);
 		if (user != null) {
-			return prepareHrefLink(twattmanager.getTwattsByUser(user));
+			twattmanager.getTwattsByUser(user);
 		}
 		return new LinkedList<Twatt>();
 	}
 
-	public List<Twatt> prepareHrefLink(List<Twatt> twatts) {
-		return twatts;
-	}
 
 }

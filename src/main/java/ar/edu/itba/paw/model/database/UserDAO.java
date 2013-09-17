@@ -13,9 +13,7 @@ import java.util.UUID;
 public interface UserDAO {
 	User getUserByUsername(String username);
 
-	boolean registerUser(String username, String password,
-			String name, String surname, String description,
-			String secretQuestion, String secretAnswer);
+	boolean registerUser(User user);
 
 	List<User> find(String username);
 

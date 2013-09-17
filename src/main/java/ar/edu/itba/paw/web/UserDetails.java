@@ -23,15 +23,22 @@ public class UserDetails extends HttpServlet {
 		String[] url = req.getRequestURI().split("/");
 		User user = usermanager.getUserByUsername(url[2]);
 		if(user != null){
-			req.setAttribute("user", user);
+			req.setAttribute("searchuser", user);
 			List<Twatt> twatts = twatmanager.getTwattsByUsername(url[2]);
 			for(Twatt twatt: twatts){
 				twatt.setMessage(MessageHelper.prepareMessage(twatt.getMessage()));
 			}
 			req.setAttribute("twatts", twatts);
+			req.getRequestDispatcher("/WEB-INF/jsp/userdetail.jsp").forward(req, resp);
 		}else{
 			req.setAttribute("error", "No existe ningun usuario con ese nombre");
+			req.getRequestDispatcher("/find").forward(req, resp);
+			
 		}
-		req.getRequestDispatcher("/WEB-INF/jsp/userdetail.jsp").forward(req, resp);
+		
+		
+	}
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		doGet(req, resp);
 	}
 }
