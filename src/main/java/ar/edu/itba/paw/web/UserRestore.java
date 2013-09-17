@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tools.ant.taskdefs.SendEmail;
 
 import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
 
 public class UserRestore extends HttpServlet {
 
-	UserHelper usermanager = new UserHelper();
+	UserHelper usermanager = new UserHelperImpl();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

@@ -13,15 +13,16 @@ public class Hashtag extends PersistableEntity{
 
     private Twatt firstTweet;
     private String tagName;
-    private String description;
-    private List<Twatt> invokers;
 
-    public Hashtag(Integer id, Twatt firstTweet, String tagName, String description, List<Twatt> invokers) {
+    public Hashtag(Twatt firstTweet, String tagName) {
+        this(-1, firstTweet, tagName);
+    }
+
+    public Hashtag(Integer id, Twatt firstTweet, String tagName) {
         super(id);
         this.firstTweet = firstTweet;
         this.tagName = tagName;
-        this.description = description;
-        this.invokers = invokers;
+
     }
 
     public Twatt getFirstTweet() {
@@ -32,11 +33,23 @@ public class Hashtag extends PersistableEntity{
         return tagName;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Hashtag)) return false;
+
+        Hashtag hashtag = (Hashtag) o;
+
+        if (!firstTweet.equals(hashtag.firstTweet)) return false;
+        if (!tagName.equals(hashtag.tagName)) return false;
+
+        return true;
     }
 
-    public List<Twatt> getInvokers() {
-        return invokers;
+    @Override
+    public int hashCode() {
+        int result = firstTweet.hashCode();
+        result = 31 * result + tagName.hashCode();
+        return result;
     }
 }

@@ -12,11 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
 
 public class Register extends HttpServlet {
 
-	UserHelper usermanager = new UserHelper();
+	UserHelper usermanager = new UserHelperImpl();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -34,11 +35,10 @@ public class Register extends HttpServlet {
 		String description = req.getParameter("description");
 		String secretQuestion = req.getParameter("secretquestion");
 		String secretAnswer = req.getParameter("secretanswer");
-		User user = new User(username, password, name, surname, description,
-				DateTime.now(), secretQuestion, secretAnswer);
 		if(password.compareTo(extrapassword) != 0){
 			req.setAttribute("error", "Las contraseñas no coinciden");
-		}else if(usermanager.registerUser(user)){
+		}else if(usermanager.registerUser(new User(username, password, name, surname, description,
+				DateTime.now(), secretQuestion, secretAnswer))){
 			req.getRequestDispatcher("login").forward(req, resp);
 		} else {
 			req.setAttribute("error", "Datos incorrectos");

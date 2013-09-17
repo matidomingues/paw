@@ -14,10 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 
 public class AuthenticationFilter implements Filter {
 
-	UserHelper usermanager = new UserHelper();
+	UserHelper usermanager = new UserHelperImpl();
 
 	private UUID getSessionFromCookie(Cookie[] cookies) {
 		if (cookies == null) {

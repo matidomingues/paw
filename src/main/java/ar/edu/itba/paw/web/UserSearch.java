@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 
 public class UserSearch extends HttpServlet{
 
-	UserHelper usermanager = new UserHelper();
+	UserHelper usermanager = new UserHelperImpl();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.setAttribute("users", usermanager.getAll());

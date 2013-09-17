@@ -11,11 +11,14 @@ import java.util.UUID;
  * change this template use File | Settings | File Templates.
  */
 public interface UserDAO {
+
 	User getUserByUsername(String username);
 
 	boolean registerUser(User user);
 
 	List<User> find(String username);
+
+    User find(int id);
 
 	List<User> getAll();
 

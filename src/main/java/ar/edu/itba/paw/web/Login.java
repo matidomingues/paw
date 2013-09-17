@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.web;
 
 import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Login extends HttpServlet {
 
-	UserHelper usermanager = new UserHelper();
+	UserHelper usermanager = new UserHelperImpl();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);

@@ -109,7 +109,33 @@ public class UserDAOImpl implements UserDAO {
 		return filteredusers;
 	}
 
-	public List<User> getAll() {
+    public User find(int id) {
+        try {
+            User user = null;
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement stmt = connection
+                    .prepareStatement("SELECT username, password, name, surname, description, created_time, secret_question, secret_answer FROM twat_user WHERE id = ?");
+            stmt.setInt(1, id);
+
+            ResultSet results = stmt.executeQuery();
+            if (results.next()) {
+                String username = results.getString(1);
+                String password = results.getString(2);
+                String name = results.getString(3);
+                String surname = results.getString(4);
+                String description = results.getString(5);
+                DateTime date = new DateTime(results.getTimestamp(6).getTime());
+                String secretQuestion = results.getString(7);
+                String secretAnswer = results.getString(8);
+                user = new User(id, username, password, name, surname,
+                        description, date, secretQuestion, secretAnswer);
+            }
+            return user;
+        } catch (SQLException e) {
+            throw new DatabaseException(e.getMessage(), e);
+        }    }
+
+    public List<User> getAll() {
 		return find("");
 	}
 

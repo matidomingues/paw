@@ -30,7 +30,6 @@ CREATE TABLE hashtag (
 	id SERIAL PRIMARY KEY NOT NULL,
 	first_tweet INTEGER NOT NULL,
 	tag_name VARCHAR(140) NOT NULL,
-	description VARCHAR(256) NOT NULL,
 	CONSTRAINT FK_TWEET FOREIGN KEY(first_tweet) REFERENCES tweet(id)
 );
 
