@@ -12,15 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import ar.edu.itba.paw.helper.TwattHelper;
 import ar.edu.itba.paw.model.User;
 
-public class TwattAdd extends HttpServlet{
+public class TwattAdd extends HttpServlet {
 
 	private TwattHelper twattmanager = new TwattHelper();
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		boolean result = twattmanager.addTwatt((User)req.getSession().getAttribute("user"), req.getParameter("message"));
-		if(!result){
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		boolean result = twattmanager.addTwatt((User) req.getSession()
+				.getAttribute("user"), req.getParameter("message"));
+		if (!result) {
 			req.setAttribute("error", "No es posible Twattear en este momento");
+		} else {
+			req.setAttribute("success", "Se Twatteo correctamente");
 		}
-		resp.sendRedirect("/home");
+		req.getRequestDispatcher("/home").forward(req, resp);
 	}
 }
