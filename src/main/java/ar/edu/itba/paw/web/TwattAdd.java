@@ -1,19 +1,25 @@
 package ar.edu.itba.paw.web;
 
-import java.io.IOException;
-import java.util.UUID;
+import ar.edu.itba.paw.helper.TwattHelper;
+import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.model.Twatt;
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.utils.exceptions.InvalidUserException;import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
+import com.google.common.base.Strings;
+import org.joda.time.DateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import ar.edu.itba.paw.helper.TwattHelper;
+import java.io.IOException;
+import java.util.UUID;
 
 public class TwattAdd extends HttpServlet{
 
 	private TwattHelper twattmanager = new TwattHelper();
+    private UserHelper userHelper = new UserHelper();
 
 	private UUID getSessionFromCookie(Cookie[] cookies){
 		for(Cookie cookie: cookies){
@@ -25,10 +31,23 @@ public class TwattAdd extends HttpServlet{
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		boolean result = twattmanager.addTwatt(getSessionFromCookie(req.getCookies()), req.getParameter("message"));
-		if(!result){
-			req.setAttribute("error", "No es posible Twattear en este momento");
-		}
+
+        String message = req.getParameter("message");
+        UUID userUUID = getSessionFromCookie(req.getCookies());
+
+        if (Strings.isNullOrEmpty(message)) {
+            throw new MessageEmptyException();
+        }
+
+        User user = null;
+
+        if (userUUID == null || (user = this.userHelper.getUserBySession(userUUID)) == null) {
+            throw new InvalidUserException();
+        }
+
+
+        twattmanager.addTwatt(new Twatt(user, message, false, DateTime.now()));
+
 		resp.sendRedirect("home");
 	}
 }

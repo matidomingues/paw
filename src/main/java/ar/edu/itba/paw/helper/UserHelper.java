@@ -3,6 +3,7 @@ package ar.edu.itba.paw.helper;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.UserDAO;
 import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
+import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,4 +74,15 @@ public class UserHelper {
 	public void logout(UUID uuid) {
 		session.remove(uuid);
 	}
+
+    public boolean isValidUser(User user) {
+        return !Strings.isNullOrEmpty(user.getUsername()) &&
+                !Strings.isNullOrEmpty(user.getPassword()) &&
+                !Strings.isNullOrEmpty(user.getName()) &&
+                !Strings.isNullOrEmpty(user.getDescription()) &&
+                !Strings.isNullOrEmpty(user.getSurname()) &&
+                !Strings.isNullOrEmpty(user.getSecretQuestion()) &&
+                !Strings.isNullOrEmpty(user.getSecretAnswer()) &&
+                user.getDate() != null;
+    }
 }

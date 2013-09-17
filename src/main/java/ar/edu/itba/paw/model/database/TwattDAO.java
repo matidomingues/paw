@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.model.database;
 
+import ar.edu.itba.paw.model.Hashtag;
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 
@@ -14,7 +15,14 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public interface TwattDAO {
-    boolean addTwatt(User user, String message);
 
-    List<Twatt> getTwattsByUser(User user);
+    boolean create(Twatt twatt);
+
+    void update(Twatt twatt);
+
+    Twatt find(int id);
+
+    List<Twatt> findByHashtag(Hashtag hashtag);
+
+    List<Twatt> findByUser(User user);
 }

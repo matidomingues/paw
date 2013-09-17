@@ -22,17 +22,7 @@
 								</thead>
 								<tbody>
 								<c:forEach items="${twatts}" var="twatt">
-									<tr>
-										<td>
-											<c:out value="${twatt.creator.username}"></c:out>
-										</td>
-										<td>
-											<c:url value="${twatt.message}"></c:url>
-										</td>
-										<td>
-											<c:out value="${twatt.timestamp}"></c:out>
-										</td>
-									</tr>
+                                    <%@include file="twatt.jsp" %>
 								</c:forEach>
 								</tbody>
 							</table>

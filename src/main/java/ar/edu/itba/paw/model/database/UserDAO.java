@@ -11,6 +11,7 @@ import java.util.UUID;
  * change this template use File | Settings | File Templates.
  */
 public interface UserDAO {
+
 	User getUserByUsername(String username);
 
 	boolean registerUser(String username, String password,
@@ -18,6 +19,8 @@ public interface UserDAO {
 			String secretQuestion, String secretAnswer);
 
 	List<User> find(String username);
+
+    User find(int id);
 
 	List<User> getAll();
 
