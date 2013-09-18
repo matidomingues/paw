@@ -13,7 +13,18 @@ import java.util.UUID;
 
 public class UserHelperImpl implements UserHelper {
 
-	private UserDAO usermanager = UserDAOImpl.getInstance();
+    private static UserHelper instance;
+    private UserDAO usermanager = UserDAOImpl.getInstance();
+
+    public static UserHelper getInstance() {
+        if (instance == null) {
+            instance = new UserHelperImpl();
+        }
+        return instance;
+    }
+    private UserHelperImpl() {
+        this.usermanager = UserDAOImpl.getInstance();
+    }
 
 	public User authenticate(String username, String password) {
 		User user = usermanager.getUserByUsername(username);

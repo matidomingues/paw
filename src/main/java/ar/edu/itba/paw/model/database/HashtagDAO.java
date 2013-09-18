@@ -15,7 +15,6 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public interface HashtagDAO {
-    Set<Hashtag> getTrendingHashtags();
 
     void create(Hashtag hashtag);
 
@@ -31,4 +30,5 @@ public interface HashtagDAO {
 
     List<Hashtag> findTrendingHashtagsAfter(DateTime dateTime);
 
+    int getMentionsAfter(Hashtag hashtag, DateTime filterDate);
 }

@@ -85,4 +85,15 @@ public class TwattHelperImpl implements TwattHelper {
     public List<Twatt> getTwattsByHashtag(Hashtag hashtag) {
         return this.twattDAO.find(hashtag);
     }
+
+    @Override
+    public Twatt getTwatt(int twatt_id) {
+        return this.twattDAO.find(twatt_id);
+    }
+
+    @Override
+    public void delete(Twatt twatt) {
+        twatt.setDeleted();
+        this.twattDAO.update(twatt);
+    }
 }

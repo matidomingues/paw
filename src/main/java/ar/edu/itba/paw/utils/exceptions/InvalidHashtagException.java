@@ -7,5 +7,5 @@ package ar.edu.itba.paw.utils.exceptions;
  * Time: 19:46
  * To change this template use File | Settings | File Templates.
  */
-public class InvalidHashtagException {
+public class InvalidHashtagException extends RuntimeException {
 }

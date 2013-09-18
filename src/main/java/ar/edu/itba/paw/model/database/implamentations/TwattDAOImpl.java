@@ -115,7 +115,7 @@ public class TwattDAOImpl implements TwattDAO {
             PreparedStatement statement = connection
                     .prepareStatement("SELECT t.id, t.user_id, t.message, t.created_time, t.deleted " +
                             "FROM tweet t " +
-                            "LEFT JOIN hashtag_tweet ht " +
+                            "LEFT JOIN hashtag_tweet ht ON ht.tweet_id = t.id " +
                             "WHERE ht.hashtag_id = ?");
             statement.setInt(1, hashtag.getId());
             ResultSet results = statement.executeQuery();

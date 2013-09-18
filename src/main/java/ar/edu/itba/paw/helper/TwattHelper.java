@@ -15,4 +15,7 @@ public interface TwattHelper {
 
 	public List<Twatt> getTwattsByHashtag(Hashtag hashtag);
 
+    Twatt getTwatt(int twatt_id);
+
+    void delete(Twatt twatt);
 }

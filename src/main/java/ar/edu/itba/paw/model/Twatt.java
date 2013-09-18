@@ -43,6 +43,10 @@ public class Twatt extends PersistableEntity{
         return deleted;
     }
 
+    public void setDeleted() {
+        this.deleted = true;
+    }
+
     /* Necesario para los jsp */
     public boolean getDeleted() {
         return deleted;

@@ -19,10 +19,10 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${hashtags}" var="hashtag">
+								<c:forEach items="${hashtags}" var="hashtagBundle">
 									<tr>
-										<td><a href="/hastag/<c:out value='${hashtag.tagName}'/>"><c:out value="${hashtag.tagName}"></c:out></a></td>
-										<td><c:out value="${fn:length(hashtag.invokers)}"></c:out></td>
+										<td><a href="/hashtag/<c:out value='${hashtagBundle.hashtag.tagName}'/>">#<c:out value="${hashtagBundle.hashtag.tagName}"></c:out></a></td>
+										<td><c:out value="${hashtagBundle.mentions}"></c:out></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -35,12 +35,12 @@
 	<div class="sidebar panel panel-info">
 		<div class="panel-heading">Busqueda</div>
 			<div class="formsidebar">
-				<form method="post" action="/home">
-					<input type="radio" name="dayfilter" value="day"> Dia<br>
-					<input type="radio" name="dayfilter" value="week"> Mes<br>
-					<input type="radio" name="dayfilter" value="month"> Ano<br>
+				<form method="get" action="/home">
+					<input type="radio" name="dayfilter" value="1"> Dia<br>
+					<input type="radio" name="dayfilter" value="7"> Semana<br>
+					<input type="radio" name="dayfilter" value="30"> Mes<br>
 					<div class ="twat-button">
-						<input type="submit" class="btn btn-large" name="Buscar">
+						<input type="submit" class="btn btn-large" value="Buscar">
 					</div>
 					<div class="clearfix"></div>
 				</form>

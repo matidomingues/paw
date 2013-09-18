@@ -49,9 +49,9 @@ public class HashtagHelperImpl implements HashtagHelper{
             if ((hashtag = this.getHashtag(hashtagName)) == null) {
                 hashtag = new Hashtag(twatt, hashtagName);
                 this.create(hashtag);
-            } else {
-                this.relate(hashtag, twatt);
+                hashtag = this.getHashtag(hashtag.getTagName());
             }
+            this.relate(hashtag, twatt);
         }
     }
 
@@ -69,6 +69,11 @@ public class HashtagHelperImpl implements HashtagHelper{
 
     public void relate(Hashtag hashtag, Twatt twatt) {
         this.hashtagDAO.relate(hashtag, twatt);
+    }
+
+    @Override
+    public int getMentions(Hashtag hashtag, DateTime filterDate) {
+        return this.hashtagDAO.getMentionsAfter(hashtag, filterDate);
     }
 
     public boolean isValidHashtag(Hashtag hashtag) {

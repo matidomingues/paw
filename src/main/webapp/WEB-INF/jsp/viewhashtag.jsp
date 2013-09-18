@@ -1,14 +1,14 @@
 <%@ include file="header.jsp" %>
-<div class="error"><c:out value="${error}" /></div>
 <div class="container">
     <div class="main-content-wrapper">
         <div class="main-content">
-            <div class="panel panel-info">
-                <div class="panel-heading">Primer Twatt</div>
+            <c:if test="${not empty hashtag}">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Primer Twatt</div>
 
                     <c:choose>
-                       <c:when test="${not empty hashtag and not hashtag.firstTweet.deleted}">
-                        <table class="table table-striped">
+                        <c:when test="${not empty hashtag and not hashtag.firstTweet.deleted}">
+                            <table class="table table-striped">
                                 <thead>
                                 <tr>
                                     <th>User</th>
@@ -16,11 +16,11 @@
                                     <th>Fecha</th>
                                 </tr>
                                 </thead>
-                            <tbody>
-                            <c:set var="twatt" value="${hashtag.firstTweet}"/>
+                                <tbody>
+                                <c:set var="twatt" value="${hashtag.firstTweet}"/>
                                 <%@include file="twatt.jsp" %>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
                         </c:when>
                         <c:otherwise>
                             <div class="panel-body">
@@ -53,19 +53,20 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
-            </div>
+            </c:if>
         </div>
     </div>
-    <div class="sidebar panel panel-info">
-        <div class="panel-heading">Informacion del Usuario</div>
-        <table class="table">
-            <tbody>
-            <tr>
-                <th>Hashtag</th>
-                <td><c:out value="${hashtag.tagName}"></c:out></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+</div>
+<div class="sidebar panel panel-info">
+    <div class="panel-heading">Informacion del Usuario</div>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Hashtag</th>
+            <td><c:out value="${hashtag.tagName}"></c:out></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </div>
 <%@ include file="footer.jsp" %>

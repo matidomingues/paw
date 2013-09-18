@@ -39,7 +39,7 @@
 						<form method="post" action="/twatt/add">
 							<input type="text" class="twat-box" name="message" placeholder="Twatt" maxlength="140">
 							<div class ="twat-button">
-								<input type="submit" class="btn btn-primary" name="Twatt">
+								<input type="submit" class="btn btn-primary" value="Twatt!">
 							</div>
 							<div class="clearfix"></div>
 						</form>

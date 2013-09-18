@@ -13,7 +13,6 @@ public class User extends PersistableEntity {
 	private String description;
 	private boolean enabled;
 	private DateTime date;
-	private List<Twatt> tweets;
 	private String secretQuestion;
 	private String secretAnswer;
 
@@ -31,8 +30,42 @@ public class User extends PersistableEntity {
 		this.secretQuestion = secretQuestion;
 		this.secretAnswer = secretAnswer;
 	}
-	
-	public User(String username, String password, String name,
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (enabled != user.enabled) return false;
+        if (!date.equals(user.date)) return false;
+        if (!description.equals(user.description)) return false;
+        if (!name.equals(user.name)) return false;
+        if (!password.equals(user.password)) return false;
+        if (!secretAnswer.equals(user.secretAnswer)) return false;
+        if (!secretQuestion.equals(user.secretQuestion)) return false;
+        if (!surname.equals(user.surname)) return false;
+        if (!username.equals(user.username)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + surname.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + (enabled ? 1 : 0);
+        result = 31 * result + date.hashCode();
+        result = 31 * result + secretQuestion.hashCode();
+        result = 31 * result + secretAnswer.hashCode();
+        return result;
+    }
+
+    public User(String username, String password, String name,
 			String surname, String description, DateTime date,
 			String secretQuestion, String secretAnswer){
 		super(null);
@@ -40,6 +73,7 @@ public class User extends PersistableEntity {
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
+
 		this.description = description;
 		this.enabled = enabled;
 		this.date = date;
@@ -93,10 +127,6 @@ public class User extends PersistableEntity {
 
 	public String getUsername() {
 		return username;
-	}
-
-	public List<Twatt> getTweets() {
-		return tweets;
 	}
 
 	public boolean isEnabled() {

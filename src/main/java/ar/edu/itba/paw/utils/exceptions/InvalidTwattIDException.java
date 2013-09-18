@@ -7,5 +7,5 @@ package ar.edu.itba.paw.utils.exceptions;
  * Time: 18:40
  * To change this template use File | Settings | File Templates.
  */
-public class InvalidTwattIDException {
+public class InvalidTwattIDException extends RuntimeException {
 }

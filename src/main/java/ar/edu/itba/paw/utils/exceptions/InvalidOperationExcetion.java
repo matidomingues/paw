@@ -7,5 +7,5 @@ package ar.edu.itba.paw.utils.exceptions;
  * Time: 18:59
  * To change this template use File | Settings | File Templates.
  */
-public class InvalidOperationExcetion {
+public class InvalidOperationExcetion extends RuntimeException {
 }
