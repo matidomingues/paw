@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class Home extends HttpServlet{
 	
-	UserHelper usermanager = new UserHelperImpl();
+	UserHelper usermanager = UserHelperImpl.getInstance();
 	HashtagHelper hashtagmanager = HashtagHelperImpl.getInstance();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{

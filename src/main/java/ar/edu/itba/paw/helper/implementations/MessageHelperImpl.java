@@ -11,10 +11,24 @@ import ar.edu.itba.paw.model.database.implamentations.UrlDAOImpl;
 
 public class MessageHelperImpl implements MessageHelper {
 
-    public static UrlDAO urlmanager = UrlDAOImpl.getInstance();
-    private static Pattern urlPattern = Pattern
-            .compile("/s/[a-z0-9]{5}");
-    private static Pattern hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
+    private static MessageHelperImpl instance;
+    public UrlDAO urlmanager;
+    private Pattern urlPattern;
+    private Pattern hashtagPattern;
+
+    private MessageHelperImpl() {
+        urlmanager = UrlDAOImpl.getInstance();
+        urlPattern = Pattern
+                .compile("/s/[a-z0-9]{5}");
+        hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
+    }
+
+    public static MessageHelper getInstance() {
+        if (instance == null) {
+            instance = new MessageHelperImpl();
+        }
+        return instance;
+    }
 
 	public String shorten(String url) {
 		String newurl = "/s/";
@@ -29,7 +43,7 @@ public class MessageHelperImpl implements MessageHelper {
 		return newurl;
 	}
 
-	public static String prepareMessage(String message) {
+	public String prepareMessage(String message) {
 		Matcher urlMatcher = urlPattern.matcher(message);
 		while (urlMatcher.find()) {
 			String url = urlMatcher.group();

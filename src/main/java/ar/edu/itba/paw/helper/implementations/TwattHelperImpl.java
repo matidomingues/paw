@@ -19,18 +19,26 @@ import com.google.common.base.Strings;
 
 public class TwattHelperImpl implements TwattHelper {
 
+    private static TwattHelper instance;
 	private MessageHelper messagehelper;
 	private UserHelper usermanager;
 	private TwattDAO twattDAO;
 	private HashtagHelper hashtagHelper;
 	private Pattern hashtagPattern;
-	
-	public TwattHelperImpl() {
+
+    public static TwattHelper getInstance() {
+        if (instance == null) {
+            instance = new TwattHelperImpl();
+        }
+        return instance;
+    }
+
+	private TwattHelperImpl() {
 	    this.hashtagHelper = HashtagHelperImpl.getInstance();
-	    this.usermanager = new UserHelperImpl();
+	    this.usermanager = UserHelperImpl.getInstance();
 	    this.twattDAO = TwattDAOImpl.getInstance();
 	    this.hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
-	    this.messagehelper = new MessageHelperImpl();
+	    this.messagehelper = MessageHelperImpl.getInstance();
 	}
 
 	private String shortenUrls(String message) {

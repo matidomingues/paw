@@ -13,7 +13,7 @@ import ar.edu.itba.paw.model.User;
 
 public class UserQuestion extends HttpServlet {
 
-	UserHelper usermanager = new UserHelperImpl();
+	UserHelper usermanager = UserHelperImpl.getInstance();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

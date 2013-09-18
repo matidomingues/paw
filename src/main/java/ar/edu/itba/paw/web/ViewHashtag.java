@@ -27,7 +27,7 @@ import java.util.UUID;
 public class ViewHashtag extends HttpServlet {
 
     private HashtagHelper hashtagHelper = HashtagHelperImpl.getInstance();
-    private TwattHelper twattHelper = new TwattHelperImpl();
+    private TwattHelper twattHelper = TwattHelperImpl.getInstance();
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

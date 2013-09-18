@@ -15,6 +15,8 @@ import java.io.IOException;
  */
 public class TwattDelete extends HttpServlet {
 
+    private TwattHelper twattHelper = TwattHelperImpl.getInstance();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }

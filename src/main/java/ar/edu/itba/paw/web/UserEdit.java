@@ -15,7 +15,7 @@ import ar.edu.itba.paw.model.User;
 
 public class UserEdit extends HttpServlet{
 	
-	UserHelper usermanager = new UserHelperImpl();
+	UserHelper usermanager = UserHelperImpl.getInstance();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);

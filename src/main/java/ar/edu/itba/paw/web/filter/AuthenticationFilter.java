@@ -18,7 +18,7 @@ import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 
 public class AuthenticationFilter implements Filter {
 
-	UserHelper usermanager = new UserHelperImpl();
+	UserHelper usermanager = UserHelperImpl.getInstance();
 
 	private UUID getSessionFromCookie(Cookie[] cookies) {
 		if (cookies == null) {

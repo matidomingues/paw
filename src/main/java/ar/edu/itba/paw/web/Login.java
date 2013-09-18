@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Login extends HttpServlet {
 
-	UserHelper usermanager = new UserHelperImpl();
+	UserHelper usermanager = UserHelperImpl.getInstance();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);

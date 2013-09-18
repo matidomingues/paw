@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class TwattAdd extends HttpServlet {
 
-	private TwattHelper twattmanager = new TwattHelperImpl();
+	private TwattHelper twattmanager = TwattHelperImpl.getInstance();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

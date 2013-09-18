@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.helper.TwattHelper;
 import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.MessageHelperImpl;
@@ -18,8 +19,9 @@ import ar.edu.itba.paw.model.User;
 
 public class UserDetails extends HttpServlet {
 
-	private UserHelper usermanager = new UserHelperImpl();
-	private TwattHelper twatmanager = new TwattHelperImpl();
+	private UserHelper usermanager = UserHelperImpl.getInstance();
+	private TwattHelper twatmanager = TwattHelperImpl.getInstance();
+    private MessageHelper messageHelper = MessageHelperImpl.getInstance();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		String[] url = req.getRequestURI().split("/");
@@ -28,7 +30,7 @@ public class UserDetails extends HttpServlet {
 			req.setAttribute("searchuser", user);
 			List<Twatt> twatts = twatmanager.getTwattsByUsername(url[2]);
 			for(Twatt twatt: twatts){
-				twatt.setMessage(MessageHelperImpl.prepareMessage(twatt.getMessage()));
+				twatt.setMessage(messageHelper.prepareMessage(twatt.getMessage()));
 			}
 			req.setAttribute("twatts", twatts);
 			req.getRequestDispatcher("/WEB-INF/jsp/userdetail.jsp").forward(req, resp);
