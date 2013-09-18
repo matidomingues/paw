@@ -47,10 +47,10 @@ public class TwattHelperImpl implements TwattHelper {
 	}
 
 	public void addTwatt(Twatt twatt) {
-		if (this.isValidTwatt(twatt) && !twatt.isDeleted() && twatt.getTimestamp().isBeforeNow() ) {
+		if (this.isValidTwatt(twatt) && !twatt.isDeleted() ) {
 			twatt.setMessage(shortenUrls(twatt.getMessage()));
 			this.twattDAO.create(twatt);
-            this.hashtagHelper.resolveHashtags(twatt);
+            this.hashtagHelper.resolveHashtags(this.twattDAO.find(twatt));
 		} else {
             throw new InvalidTwattException();
         }
@@ -59,7 +59,7 @@ public class TwattHelperImpl implements TwattHelper {
 	public List<Twatt> getTwattsByUsername(String username) {
 		User user = usermanager.getUserByUsername(username);
 		if (user != null) {
-			return twattDAO.findByUser(user);
+			return twattDAO.find(user);
 
 		}
 		return new LinkedList<Twatt>();
@@ -70,11 +70,11 @@ public class TwattHelperImpl implements TwattHelper {
         return twatt != null &&
                 twatt.getCreator() != null &&
                 usermanager.isValidUser(twatt.getCreator()) &&
-                Strings.isNullOrEmpty(twatt.getMessage()) &&
+                !Strings.isNullOrEmpty(twatt.getMessage()) &&
                 twatt.getTimestamp() != null;
     }
 
     public List<Twatt> getTwattsByHashtag(Hashtag hashtag) {
-        return this.twattDAO.findByHashtag(hashtag);
+        return this.twattDAO.find(hashtag);
     }
 }

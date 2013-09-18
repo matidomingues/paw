@@ -64,7 +64,7 @@ public class TwattDAOImpl implements TwattDAO {
         }
     }
 
-	public List<Twatt> findByUser(User user) {
+	public List<Twatt> find(User user) {
 		try {
 			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
@@ -91,7 +91,25 @@ public class TwattDAOImpl implements TwattDAO {
         }
     }
 
-    public List<Twatt> findByHashtag(Hashtag hashtag) {
+    public Twatt find(Twatt twatt) {
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection
+                    .prepareStatement("SELECT id, user_id, message, created_time, deleted FROM tweet WHERE message = ? AND created_time = ? AND user_id = ?");
+            statement.setString(1, twatt.getMessage());
+            statement.setTimestamp(2, new Timestamp(twatt.getTimestamp().getMillis()));
+            statement.setInt(3, twatt.getCreator().getId());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return generateTwatt(resultSet);
+            }
+            return null;
+        } catch (SQLException sqle) {
+            throw new DatabaseException(sqle.getMessage(), sqle);
+        }
+    }
+
+    public List<Twatt> find(Hashtag hashtag) {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection

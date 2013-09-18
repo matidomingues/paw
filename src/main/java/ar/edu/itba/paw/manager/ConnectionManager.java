@@ -2,6 +2,7 @@ package ar.edu.itba.paw.manager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import ar.edu.itba.paw.configuration.DatabaseSettings;
 
@@ -32,13 +33,14 @@ public class ConnectionManager {
         return instance;
     }
 
-    public void setConnection() {
+    private void setConnection() {
         try {
-            if (this.connection.get() == null) {
+            if (this.connection.get() == null || this.connection.get().isClosed()) {
                 Class.forName(DatabaseSettings.getDriver());
                 Connection connection = DriverManager.getConnection(
                         connectionString, username, password);
                 connection.setAutoCommit(false);
+                System.out.println("Setting: " + connection.toString());
                 this.connection.set(connection);
             }
         } catch (Exception e) {
@@ -46,8 +48,8 @@ public class ConnectionManager {
         }
     }
 
-	public Connection getConnection() {
-		if (this.connection.get() == null) {
+	public Connection getConnection() throws SQLException {
+		if (this.connection.get() == null || this.connection.get().isClosed()) {
             this.setConnection();
         }
         return this.connection.get();

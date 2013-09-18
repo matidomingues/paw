@@ -22,7 +22,9 @@ public interface TwattDAO {
 
     Twatt find(int id);
 
-    List<Twatt> findByHashtag(Hashtag hashtag);
+    Twatt find(Twatt twatt);
 
-    List<Twatt> findByUser(User user);
+    List<Twatt> find(Hashtag hashtag);
+
+    List<Twatt> find(User user);
 }

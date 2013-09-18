@@ -21,8 +21,8 @@ public class ConnectionFilter implements Filter {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
-            ConnectionManager.getInstance().setConnection();
             filterChain.doFilter(servletRequest, servletResponse);
+            System.out.println("Commiting: "+ConnectionManager.getInstance().getConnection().toString());
             ConnectionManager.getInstance().getConnection().commit();
         } catch (Exception e) {
             rollback(e);

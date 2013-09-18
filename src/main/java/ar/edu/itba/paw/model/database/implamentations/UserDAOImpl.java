@@ -1,9 +1,6 @@
 package ar.edu.itba.paw.model.database.implamentations;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -66,16 +63,18 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("INSERT INTO twat_user(username, password, name, surname, description, enabled, secret_question, secret_answer) values(?, ?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO twat_user(username, password, name, surname, created_time, description, enabled, secret_question, secret_answer) values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			stmt.setString(1, user.getUsername());
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getName());
 			stmt.setString(4, user.getSurname());
-			stmt.setString(5, user.getDescription());
-			stmt.setBoolean(6, true);
-			stmt.setString(7, user.getSecretQuestion());
-			stmt.setString(8, user.getSecretAnswer());
+            stmt.setTimestamp(5, new Timestamp(user.getDate().getMillis()));
+			stmt.setString(6, user.getDescription());
+			stmt.setBoolean(7, true);
+			stmt.setString(8, user.getSecretQuestion());
+			stmt.setString(9, user.getSecretAnswer());
 			int result = stmt.executeUpdate();
+            System.out.println("UserDao:"+connection.toString());
 			return result == 1;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);

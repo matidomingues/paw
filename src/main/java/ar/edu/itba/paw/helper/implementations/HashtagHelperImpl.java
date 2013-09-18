@@ -44,7 +44,7 @@ public class HashtagHelperImpl implements HashtagHelper{
     public void resolveHashtags(Twatt twatt) {
         Matcher hashtagMatcher = this.hashtagPattern.matcher(twatt.getMessage());
         while(hashtagMatcher.find()) {
-            String hashtagName = hashtagMatcher.group();
+            String hashtagName = hashtagMatcher.group().trim().split("#")[1];
             Hashtag hashtag = null;
             if ((hashtag = this.getHashtag(hashtagName)) == null) {
                 hashtag = new Hashtag(twatt, hashtagName);
@@ -64,7 +64,7 @@ public class HashtagHelperImpl implements HashtagHelper{
     }
 
     public List<Hashtag> getTrendingsHashtagsAfter(DateTime dateTime) {
-        return this.getTrendingsHashtagsAfter(dateTime);
+        return this.hashtagDAO.findTrendingHashtagsAfter(dateTime);
     }
 
     public void relate(Hashtag hashtag, Twatt twatt) {

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tools.ant.taskdefs.SendEmail;
 
 import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.UserHelperImpl;

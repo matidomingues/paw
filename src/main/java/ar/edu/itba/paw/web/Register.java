@@ -43,7 +43,7 @@ public class Register extends HttpServlet {
 		} else {
 			req.setAttribute("error", "Datos incorrectos");
 		}
-		req.getRequestDispatcher("/WEB-INF/jsp/register.jsp")
-				.forward(req, resp);
+		//req.getRequestDispatcher("/WEB-INF/jsp/register.jsp")
+		//		.forward(req, resp);
 	}
 }

@@ -58,10 +58,12 @@ public class HashtagDAOImpl implements HashtagDAO {
                     .prepareStatement("SELECT id, first_tweet, tag_name FROM hashtag WHERE tag_name = ?");
             statement.setString(1, tagName);
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            Twatt twatt = this.twattDAO.find(resultSet.getInt("first_tweet"));
-            int hashtagId = resultSet.getInt("id");
-            return new Hashtag(hashtagId, twatt, tagName);
+            if(resultSet.next()) {
+                Twatt twatt = this.twattDAO.find(resultSet.getInt("first_tweet"));
+                int hashtagId = resultSet.getInt("id");
+                return new Hashtag(hashtagId, twatt, tagName);
+            }
+            return null;
         } catch (SQLException sqle) {
             throw new DatabaseException(sqle.getMessage(), sqle);
         }
@@ -75,10 +77,12 @@ public class HashtagDAOImpl implements HashtagDAO {
                     .prepareStatement("SELECT id, first_tweet, tag_name FROM hashtag WHERE id = ?");
             statement.setInt(1, hashtagId);
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            Twatt twatt = this.twattDAO.find(resultSet.getInt("first_tweet"));
-            String tagName = resultSet.getString("tag_name");
-            return new Hashtag(hashtagId, twatt, tagName);
+            if (resultSet.next()) {
+                Twatt twatt = this.twattDAO.find(resultSet.getInt("first_tweet"));
+                String tagName = resultSet.getString("tag_name");
+                return new Hashtag(hashtagId, twatt, tagName);
+            }
+            return null;
         } catch (SQLException sqle) {
             throw new DatabaseException(sqle.getMessage(), sqle);
         }

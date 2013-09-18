@@ -50,6 +50,14 @@
 		<servlet-name>UserEdit</servlet-name>
 		<servlet-class>ar.edu.itba.paw.web.UserEdit</servlet-class>
 	</servlet>
+    <servlet>
+        <servlet-name>TwattDelete</servlet-name>
+        <servlet-class>ar.edu.itba.paw.web.TwattDelete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewHashtag</servlet-name>
+        <servlet-class>ar.edu.itba.paw.web.ViewHashtag</servlet-class>
+    </servlet>
 	<servlet-mapping>
 		<servlet-name>UserEdit</servlet-name>
 		<url-pattern>/settings</url-pattern>
@@ -94,6 +102,14 @@
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TwattDelete</servlet-name>
+        <url-pattern>/twattDelete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewHashtag</servlet-name>
+        <url-pattern>/hashtag/*</url-pattern>
+    </servlet-mapping>
 	<filter>
 		<filter-name>connectionFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.web.filter.ConnectionFilter</filter-class>
@@ -102,6 +118,10 @@
 		<filter-name>authenticationFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.web.filter.AuthenticationFilter</filter-class>
 	</filter>
+    <filter-mapping>
+        <filter-name>connectionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 	<filter-mapping>
 		<filter-name>authenticationFilter</filter-name>
 		<url-pattern>/*</url-pattern>

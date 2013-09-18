@@ -27,7 +27,7 @@
                                 <p> El Twatt original ha sido borrado! </p>
                             </div>
                         </c:otherwise>
-                    </c:if>
+                    </c:choose>
                 </div>
                 <div class="panel-heading">Twatts</div>
                 <c:choose>

@@ -11,7 +11,10 @@ import ar.edu.itba.paw.model.database.implamentations.UrlDAOImpl;
 
 public class MessageHelperImpl implements MessageHelper {
 
-	public static UrlDAO urlmanager = UrlDAOImpl.getInstance();
+    public static UrlDAO urlmanager = UrlDAOImpl.getInstance();
+    private static Pattern urlPattern = Pattern
+            .compile("/s/[a-z0-9]{5}");
+    private static Pattern hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
 
 	public String shorten(String url) {
 		String newurl = "/s/";
@@ -27,14 +30,17 @@ public class MessageHelperImpl implements MessageHelper {
 	}
 
 	public static String prepareMessage(String message) {
-		Pattern urlPattern = Pattern
-				.compile("/s/[a-z0-9]{5}");
 		Matcher urlMatcher = urlPattern.matcher(message);
 		while (urlMatcher.find()) {
 			String url = urlMatcher.group();
 			message = message.replace(url, "<a href=\"" + url + "\">"
 					+ url + "</a>");
 		}
+        Matcher hashtagMatcher = hashtagPattern.matcher(message);
+        while (hashtagMatcher.find()) {
+            String hashtag = hashtagMatcher.group();
+            message = message.replace(hashtag, "<a href=\"/hashtag/"+hashtag.trim().split("#")[1]+"\">"+hashtag+"</a>");
+        }
 		return message;
 	}
 }
