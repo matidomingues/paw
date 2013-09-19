@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.web;
 
 import ar.edu.itba.paw.helper.TwattHelper;
+import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.TwattHelperImpl;
+import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
@@ -17,6 +19,7 @@ import java.io.IOException;
 public class TwattAdd extends HttpServlet {
 
 	private TwattHelper twattmanager = TwattHelperImpl.getInstance();
+    private UserHelper userHelper = UserHelperImpl.getInstance();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -25,7 +28,8 @@ public class TwattAdd extends HttpServlet {
             throw new MessageEmptyException();
         }
 
-        User user = (User) req.getSession().getAttribute("user");
+        int user_id = (Integer) req.getSession().getAttribute("user");
+        User user = this.userHelper.find(user_id);
         twattmanager.addTwatt(new Twatt(user, message, false, DateTime.now()));
         boolean result = true;
         if (!result) {

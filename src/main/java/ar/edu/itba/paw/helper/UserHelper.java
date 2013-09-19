@@ -23,4 +23,5 @@ public interface UserHelper {
 
 	public boolean isValidUser(User user);
 
+    public User find(int id);
 }

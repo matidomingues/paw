@@ -8,6 +8,7 @@ import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.model.Url;
 import ar.edu.itba.paw.model.database.UrlDAO;
 import ar.edu.itba.paw.model.database.implamentations.UrlDAOImpl;
+import com.google.common.base.Strings;
 
 public class MessageHelperImpl implements MessageHelper {
 
@@ -31,6 +32,9 @@ public class MessageHelperImpl implements MessageHelper {
     }
 
 	public String shorten(String url) {
+        if (Strings.isNullOrEmpty(url)) {
+            throw new IllegalArgumentException("Invalid URL");
+        }
 		String newurl = "/s/";
 		Url reverse = urlmanager.reverseUrl(url);
 		if (reverse != null) {
@@ -44,6 +48,9 @@ public class MessageHelperImpl implements MessageHelper {
 	}
 
 	public String prepareMessage(String message) {
+        if (Strings.isNullOrEmpty(message)) {
+            throw new IllegalArgumentException("Invalid Message received");
+        }
 		Matcher urlMatcher = urlPattern.matcher(message);
 		while (urlMatcher.find()) {
 			String url = urlMatcher.group();

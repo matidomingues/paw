@@ -27,6 +27,9 @@ public class UserHelperImpl implements UserHelper {
     }
 
 	public User authenticate(String username, String password) {
+        if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
+            throw new IllegalArgumentException("Invalid Username or Password");
+        }
 		User user = usermanager.getUserByUsername(username);
 		if (user != null && user.getPassword().compareTo(password) == 0) {
 			return user;
@@ -36,14 +39,23 @@ public class UserHelperImpl implements UserHelper {
 	}
 
 	public boolean registerUser(User user) {
+        if (!this.isValidUser(user)) {
+            throw new IllegalArgumentException("Invalid user");
+        }
 		return usermanager.registerUser(user);
 	}
 
 	public User getUserByUsername(String username) {
+        if (Strings.isNullOrEmpty(username)) {
+            throw new IllegalArgumentException("Invalid username");
+        }
 		return usermanager.getUserByUsername(username);
 	}
 
 	public boolean updateUser(User user){
+        if (!this.isValidUser(user)) {
+            throw new IllegalArgumentException("Invalid user");
+        }
 		return usermanager.updateUser(user);
 	}
 
@@ -52,10 +64,16 @@ public class UserHelperImpl implements UserHelper {
 	}
 
 	public List<User> find(String username) {
+        if (Strings.isNullOrEmpty(username)) {
+            throw new IllegalArgumentException("Invalid username");
+        }
 		return usermanager.find(username);
 	}
 	
 	public boolean userRestore(String username, String secretAnswer, String newPassword){
+        if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(secretAnswer) || Strings.isNullOrEmpty(newPassword)) {
+            throw new IllegalArgumentException("Invalid username, secrec answer or password detected");
+        }
 		User user = usermanager.getUserByUsername(username);
 		if(user != null && user.getSecretAnswer().compareTo(secretAnswer) == 0){
 			user.setPassword(newPassword);
@@ -74,5 +92,13 @@ public class UserHelperImpl implements UserHelper {
                 !Strings.isNullOrEmpty(user.getSecretQuestion()) &&
                 !Strings.isNullOrEmpty(user.getSecretAnswer()) &&
                 user.getDate() != null;
+    }
+
+    @Override
+    public User find(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Unexpected id");
+        }
+        return this.usermanager.find(id);
     }
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
+import org.apache.commons.fileupload.FileItem;
 
 public class UserEdit extends HttpServlet{
 	
@@ -32,6 +33,8 @@ public class UserEdit extends HttpServlet{
 			user.setDescription(req.getParameter("description"));
 			user.setName(req.getParameter("name"));
 			user.setSurname(req.getParameter("surname"));
+            FileItem fileItem = (FileItem)req.getAttribute("photo");
+            user.setPhoto((fileItem == null)? new byte[0]: fileItem.get());
 			boolean result = usermanager.updateUser(user);
 			if(result){
 				req.setAttribute("success", "Actualizado con exito!");

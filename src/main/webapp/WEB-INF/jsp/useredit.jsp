@@ -3,7 +3,7 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">Twatts</div>
 			<div class="panel-body">
-				<form method="post" action="/settings">
+				<form method="post" action="/settings" enctype="multipart/form-data">
 					<div class="row input-padding">
 						<div class="col-md-2">
 							<label class="input-label">Nombre</label>
@@ -44,6 +44,14 @@
 							<input type="text" class="input-long" name="description" value="<c:out value="${user.description}"/>">
 						</div>
 					</div>
+                    <div class="row input-padding">
+                        <div class="col-md-2">
+                            <label class="input-label">Foto</label>
+                        </div>
+                        <div class="col-md-10">
+                            <input type="file" name="photo"/>
+                        </div>
+                    </div>
 					<input type="submit" class="pull-right btn btn-lg btn-primary"value="Guardar">
 					<div class="clearfix"></div>
 				</form>

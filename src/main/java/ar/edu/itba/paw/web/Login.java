@@ -27,7 +27,7 @@ public class Login extends HttpServlet {
 		String password = req.getParameter("password");
 		User user = usermanager.authenticate(username, password);
 		if(user != null){
-			req.getSession().setAttribute("user", user);
+			req.getSession().setAttribute("user", user.getId());
 			req.setAttribute("success", "Bienvenido "+ username + " a Twatter!");
 			req.getRequestDispatcher("home").forward(req, resp);
 		}else{

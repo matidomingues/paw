@@ -14,7 +14,8 @@ CREATE TABLE twat_user (
 	enabled BOOLEAN NOT NULL,
 	created_time timestamp DEFAULT current_timestamp,
 	secret_question VARCHAR(100) NOT NULL,
-	secret_answer VARCHAR(100) NOT NULL
+	secret_answer VARCHAR(100) NOT NULL,
+  photo BYTEA
 );
 
 CREATE TABLE tweet (
@@ -45,3 +46,4 @@ CREATE TABLE short_url (
 	base VARCHAR(10) PRIMARY KEY NOT NULL,
 	resol VARCHAR(100) NOT NULL
 );
+

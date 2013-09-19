@@ -22,4 +22,5 @@ public interface HashtagHelper {
     List<Hashtag> getTrendingsHashtagsAfter(DateTime dateTime);
     void relate(Hashtag hashtag, Twatt twatt);
     int getMentions(Hashtag hashtag, DateTime filterDate);
+    boolean isValid(Hashtag hashtag);
 }

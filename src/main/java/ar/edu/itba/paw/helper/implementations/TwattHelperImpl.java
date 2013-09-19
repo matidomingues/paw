@@ -42,6 +42,9 @@ public class TwattHelperImpl implements TwattHelper {
 	}
 
 	private String shortenUrls(String message) {
+        if (Strings.isNullOrEmpty(message)) {
+            throw new IllegalArgumentException("Invalid message received");
+        }
 		Pattern urlPattern = Pattern
 				.compile("((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)");
 		Matcher urlMatcher = urlPattern.matcher(message);
@@ -60,11 +63,14 @@ public class TwattHelperImpl implements TwattHelper {
 			this.twattDAO.create(twatt);
             this.hashtagHelper.resolveHashtags(this.twattDAO.find(twatt));
 		} else {
-            throw new InvalidTwattException();
+            throw new IllegalArgumentException("Invalid twatt");
         }
 	}
 
 	public List<Twatt> getTwattsByUsername(String username) {
+        if (Strings.isNullOrEmpty(username)) {
+            throw new IllegalArgumentException("Invalid username");
+        }
 		User user = usermanager.getUserByUsername(username);
 		if (user != null) {
 			return twattDAO.find(user);
@@ -83,11 +89,17 @@ public class TwattHelperImpl implements TwattHelper {
     }
 
     public List<Twatt> getTwattsByHashtag(Hashtag hashtag) {
+        if (!this.hashtagHelper.isValid(hashtag)) {
+            throw new IllegalArgumentException("Invalid hashtag");
+        }
         return this.twattDAO.find(hashtag);
     }
 
     @Override
     public Twatt getTwatt(int twatt_id) {
+        if (twatt_id <= 0) {
+            throw  new IllegalArgumentException("Invalid id");
+        }
         return this.twattDAO.find(twatt_id);
     }
 

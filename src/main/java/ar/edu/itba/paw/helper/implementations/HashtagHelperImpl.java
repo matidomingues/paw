@@ -38,6 +38,9 @@ public class HashtagHelperImpl implements HashtagHelper{
     }
 
     public void create(Hashtag hashtag) {
+        if (!this.isValid(hashtag)) {
+            throw new IllegalArgumentException("Invalid Hashtag");
+        }
         this.hashtagDAO.create(hashtag);
     }
 
@@ -56,27 +59,43 @@ public class HashtagHelperImpl implements HashtagHelper{
     }
 
     public Hashtag getHashtag(String hashtag) {
+        if (Strings.isNullOrEmpty(hashtag)) {
+            throw new IllegalArgumentException("Invalid hashtag");
+        }
         return this.hashtagDAO.find(hashtag);
     }
 
     public List<Hashtag> getHashtags(Twatt twatt) {
+        if (twatt == null) {
+            throw new IllegalArgumentException("Invalid twatt");
+        }
         return this.hashtagDAO.findForTwatt(twatt);
     }
 
     public List<Hashtag> getTrendingsHashtagsAfter(DateTime dateTime) {
+        if (dateTime == null || dateTime.isAfterNow()) {
+            throw new IllegalArgumentException("Invalid Date");
+        }
         return this.hashtagDAO.findTrendingHashtagsAfter(dateTime);
     }
 
     public void relate(Hashtag hashtag, Twatt twatt) {
+        if (!this.isValid(hashtag) || twatt == null) {
+            throw new IllegalArgumentException("Invalid Hashtag or Twatt received");
+        }
         this.hashtagDAO.relate(hashtag, twatt);
     }
 
     @Override
     public int getMentions(Hashtag hashtag, DateTime filterDate) {
+        if (!this.isValid(hashtag) || filterDate == null || filterDate.isAfterNow()) {
+            throw new IllegalArgumentException("Invalid Hashtag or filter date");
+        }
         return this.hashtagDAO.getMentionsAfter(hashtag, filterDate);
     }
 
-    public boolean isValidHashtag(Hashtag hashtag) {
+    @Override
+    public boolean isValid(Hashtag hashtag) {
         return !Strings.isNullOrEmpty(hashtag.getTagName()) &&
                 hashtag.getFirstTweet() != null;
 

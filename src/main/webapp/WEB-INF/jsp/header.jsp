@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/main.css" />
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<title>Twitter Application</title>
+	<title>Twatter! - Where the words are blah and the hashtags don't matter</title>
 </head>
 <body>
 	<%@ include file="navbar.jsp" %>
