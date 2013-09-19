@@ -4,15 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.UUID;
-
-import org.joda.time.DateTime;
-
 import ar.edu.itba.paw.manager.ConnectionManager;
 import ar.edu.itba.paw.manager.DatabaseException;
 import ar.edu.itba.paw.model.Url;
-import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.UrlDAO;
 
 public class UrlDAOImpl implements UrlDAO {

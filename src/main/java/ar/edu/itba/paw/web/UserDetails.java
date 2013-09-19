@@ -17,6 +17,7 @@ import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 
+@SuppressWarnings("serial")
 public class UserDetails extends HttpServlet {
 
 	private UserHelper usermanager = UserHelperImpl.getInstance();
@@ -25,12 +26,12 @@ public class UserDetails extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		String[] url = req.getRequestURI().split("/");
-		User user = usermanager.getUserByUsername(url[2]);
+		User user = usermanager.getUserByUsername(url[url.length-1]);
 		if(user != null){
 			req.setAttribute("searchuser", user);
-			List<Twatt> twatts = twatmanager.getTwattsByUsername(url[2]);
+			List<Twatt> twatts = twatmanager.getTwattsByUsername(url[url.length-1]);
 			for(Twatt twatt: twatts){
-				twatt.setMessage(messageHelper.prepareMessage(twatt.getMessage()));
+				twatt.setMessage(messageHelper.prepareMessage(req.getContextPath(), twatt.getMessage()));
 			}
 			req.setAttribute("twatts", twatts);
 			req.getRequestDispatcher("/WEB-INF/jsp/userdetail.jsp").forward(req, resp);

@@ -21,7 +21,7 @@
 							<tbody>
 								<c:forEach items="${users}" var="user">
 									<tr>
-										<td><a href="/user/<c:out value='${user.username}'/>"><c:out value="${user.username}"></c:out></a></td>
+										<td><a href="${pageContext.request.contextPath}/user/<c:out value='${user.username}'/>"><c:out value="${user.username}"></c:out></a></td>
 										<td><c:out value="${user.name}"></c:out> <c:out value="${user.surname}"></c:out></td>
 										<td><c:out value="${user.date}"></c:out></td>
 									</tr>
@@ -36,7 +36,7 @@
 	<div class="sidebar panel panel-info">
 		<div class="panel-heading">Busqueda</div>
 			<div class="formsidebar">
-				<form method="post" action="/find">
+				<form method="post" action="${pageContext.request.contextPath}/find">
 					<div class="filter-form">
 						<label class="sidebar-label">Usuario</label>
 						<input type="text" name="username">

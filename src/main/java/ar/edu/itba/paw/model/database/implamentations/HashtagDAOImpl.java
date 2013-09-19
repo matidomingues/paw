@@ -133,7 +133,6 @@ public class HashtagDAOImpl implements HashtagDAO {
         }
     }
 
-    @Override
     public int getMentionsAfter(Hashtag hashtag, DateTime filterDate) {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();

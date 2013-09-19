@@ -21,7 +21,7 @@
 							<tbody>
 								<c:forEach items="${hashtags}" var="hashtagBundle">
 									<tr>
-										<td><a href="/hashtag/<c:out value='${hashtagBundle.hashtag.tagName}'/>">#<c:out value="${hashtagBundle.hashtag.tagName}"></c:out></a></td>
+										<td><a href="${pageContext.request.contextPath}/hashtag/<c:out value='${hashtagBundle.hashtag.tagName}'/>">#<c:out value="${hashtagBundle.hashtag.tagName}"></c:out></a></td>
 										<td><c:out value="${hashtagBundle.mentions}"></c:out></td>
 									</tr>
 								</c:forEach>
@@ -35,7 +35,7 @@
 	<div class="sidebar panel panel-info">
 		<div class="panel-heading">Busqueda</div>
 			<div class="formsidebar">
-				<form method="get" action="/home">
+				<form method="get" action="${pageContext.request.contextPath}/home">
 					<input type="radio" name="dayfilter" value="1"> Dia<br>
 					<input type="radio" name="dayfilter" value="7"> Semana<br>
 					<input type="radio" name="dayfilter" value="30"> Mes<br>

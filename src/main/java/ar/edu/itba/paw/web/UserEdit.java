@@ -1,18 +1,15 @@
 package ar.edu.itba.paw.web;
 
 import java.io.IOException;
-import java.util.UUID;
-
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
 
+@SuppressWarnings("serial")
 public class UserEdit extends HttpServlet{
 	
 	UserHelper usermanager = UserHelperImpl.getInstance();
@@ -28,7 +25,9 @@ public class UserEdit extends HttpServlet{
 		
 		if(password.compareTo(password2) != 0){
 			req.setAttribute("error", "Las contraseñas no coinciden");
+			req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);
 		}else{
+			user.setPassword(password);
 			user.setDescription(req.getParameter("description"));
 			user.setName(req.getParameter("name"));
 			user.setSurname(req.getParameter("surname"));
@@ -38,9 +37,10 @@ public class UserEdit extends HttpServlet{
 				req.getRequestDispatcher("/user/"+user.getUsername()).forward(req, resp);
 			}else{
 				req.setAttribute("error", "Error al actualizar");
+				req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);
 			}
 		}		
-		req.getRequestDispatcher("/WEB-INF/jsp/useredit.jsp").forward(req, resp);
+		
 	}
 	
 }

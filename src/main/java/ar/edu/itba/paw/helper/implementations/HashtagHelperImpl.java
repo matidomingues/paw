@@ -71,7 +71,6 @@ public class HashtagHelperImpl implements HashtagHelper{
         this.hashtagDAO.relate(hashtag, twatt);
     }
 
-    @Override
     public int getMentions(Hashtag hashtag, DateTime filterDate) {
         return this.hashtagDAO.getMentionsAfter(hashtag, filterDate);
     }

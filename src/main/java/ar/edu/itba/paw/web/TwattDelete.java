@@ -20,6 +20,7 @@ import java.io.IOException;
  * Time: 21:38
  * To change this template use File | Settings | File Templates.
  */
+@SuppressWarnings("serial")
 public class TwattDelete extends HttpServlet {
 
     private TwattHelper twattHelper = TwattHelperImpl.getInstance();

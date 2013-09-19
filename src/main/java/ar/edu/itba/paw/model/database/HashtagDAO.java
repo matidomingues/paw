@@ -5,7 +5,6 @@ import ar.edu.itba.paw.model.Twatt;
 import org.joda.time.DateTime;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.

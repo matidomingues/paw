@@ -5,15 +5,12 @@ import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
 
 import java.io.IOException;
-import java.util.UUID;
-
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+@SuppressWarnings("serial")
 public class Login extends HttpServlet {
 
 	UserHelper usermanager = UserHelperImpl.getInstance();
