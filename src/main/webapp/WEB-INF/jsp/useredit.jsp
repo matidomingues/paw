@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-md-4">
                             <div>
-                                <img src="/image?id=<c:out value='${user_id}'/>"/>
+                                <img src="${pageContext.request.contextPath}/image?id=<c:out value='${user_id}'/>"/>
                             </div>
                         </div>
                     </div>

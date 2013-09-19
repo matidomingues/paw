@@ -3,7 +3,7 @@
     <tr>
         <td>
             <div>
-            <img src="/image?id=<c:out value='${twatt.creator.id}'/>">
+            <img src="${pageContext.request.contextPath}/image?id=<c:out value='${twatt.creator.id}'/>">
             </div>
         </td>
         <td>
