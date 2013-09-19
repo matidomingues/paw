@@ -1,5 +1,9 @@
 package ar.edu.itba.paw.model.database.implamentations;
 
+import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
+
 import ar.edu.itba.paw.manager.ConnectionManager;
 import ar.edu.itba.paw.manager.DatabaseException;
 import ar.edu.itba.paw.model.Hashtag;
@@ -8,10 +12,6 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.TwattDAO;
 import ar.edu.itba.paw.model.database.UserDAO;
 import org.joda.time.DateTime;
-
-import java.sql.*;
-import java.util.LinkedList;
-import java.util.List;
 
 public class TwattDAOImpl implements TwattDAO {
 

@@ -3,7 +3,7 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">Recupero Contrasena de <c:out value="${restoreuser.username}"></c:out></div>
 		<div class="panel-body">
-			<form method="post" action="/restore/user/<c:out value='${restoreuser.username}'/>">
+			<form method="post" action="${pageContext.request.contextPath}/restore/user/<c:out value='${restoreuser.username}'/>">
 				<div class="row input-padding">
 					<div class="col-md-2">
 						<label class="input-label">Nombre de Usuario</label>
@@ -25,7 +25,7 @@
 						<label class="input-label">Respuesta Secreta</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="secretanswer">
+						<input type="text" class="input-long" name="secretanswer" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -33,7 +33,7 @@
 						<label class="input-label">Nueva Contraseña</label>
 					</div>
 					<div class="col-md-10">
-						<input type="password" class="input-long" name="password">
+						<input type="password" class="input-long" name="password" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -41,7 +41,7 @@
 						<label class="input-label">Confirmacion Contraseña</label>
 					</div>
 					<div class="col-md-10">
-						<input type="password" class="input-long" name="confirmpassword">
+						<input type="password" class="input-long" name="confirmpassword" required>
 					</div>
 				</div>
 				<input type="submit" class="pull-right btn btn-lg btn-primary"value="Restablecer">

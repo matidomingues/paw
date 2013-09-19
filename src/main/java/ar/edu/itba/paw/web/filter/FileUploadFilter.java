@@ -11,13 +11,6 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: facundo
- * Date: 18/09/13
- * Time: 20:42
- * To change this template use File | Settings | File Templates.
- */
 public class FileUploadFilter implements Filter {
 
     private int maxFileSize;

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@SuppressWarnings("serial")
 public class TwattAdd extends HttpServlet {
 
 	private TwattHelper twattmanager = TwattHelperImpl.getInstance();

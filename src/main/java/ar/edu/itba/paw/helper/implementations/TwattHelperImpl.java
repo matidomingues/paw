@@ -23,7 +23,6 @@ public class TwattHelperImpl implements TwattHelper {
 	private UserHelper usermanager;
 	private TwattDAO twattDAO;
 	private HashtagHelper hashtagHelper;
-	private Pattern hashtagPattern;
 
     public static TwattHelper getInstance() {
         if (instance == null) {
@@ -36,7 +35,6 @@ public class TwattHelperImpl implements TwattHelper {
 	    this.hashtagHelper = HashtagHelperImpl.getInstance();
 	    this.usermanager = UserHelperImpl.getInstance();
 	    this.twattDAO = TwattDAOImpl.getInstance();
-	    this.hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
 	    this.messagehelper = MessageHelperImpl.getInstance();
 	}
 
@@ -94,7 +92,6 @@ public class TwattHelperImpl implements TwattHelper {
         return this.twattDAO.find(hashtag);
     }
 
-    @Override
     public Twatt getTwatt(int twatt_id) {
         if (twatt_id <= 0) {
             throw  new IllegalArgumentException("Invalid id");
@@ -102,7 +99,6 @@ public class TwattHelperImpl implements TwattHelper {
         return this.twattDAO.find(twatt_id);
     }
 
-    @Override
     public void delete(Twatt twatt) {
         twatt.setDeleted();
         this.twattDAO.update(twatt);

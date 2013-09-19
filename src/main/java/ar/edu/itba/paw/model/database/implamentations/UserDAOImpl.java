@@ -1,14 +1,14 @@
 package ar.edu.itba.paw.model.database.implamentations;
 
+import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
+
 import ar.edu.itba.paw.manager.ConnectionManager;
 import ar.edu.itba.paw.manager.DatabaseException;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.UserDAO;
 import org.joda.time.DateTime;
-
-import java.sql.*;
-import java.util.LinkedList;
-import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -56,7 +56,6 @@ public class UserDAOImpl implements UserDAO {
 			stmt.setBoolean(7, true);
 			stmt.setString(8, user.getSecretQuestion());
 			stmt.setString(9, user.getSecretAnswer());
-//            stmt.setString(10, Base64.encodeBytes(user.getPhoto()));
             stmt.setBytes(10, user.getPhoto());
 			int result = stmt.executeUpdate();
             System.out.println("UserDao:"+connection.toString());
@@ -115,9 +114,6 @@ public class UserDAOImpl implements UserDAO {
 			stmt.setString(3, user.getSurname());
 			stmt.setString(4, user.getDescription());
 			stmt.setBoolean(5, true);
-//            stmt.setString(6, Base64.encodeBytes(user.getPhoto()));
-//            int len = (user.getPhoto() == null)? 0 : user.getPhoto().length;
-//            stmt.setBinaryStream(6, new ByteArrayInputStream(user.getPhoto()), len);
             stmt.setBytes(6, user.getPhoto());
 			stmt.setInt(7, user.getId());
 			Integer result = stmt.executeUpdate();

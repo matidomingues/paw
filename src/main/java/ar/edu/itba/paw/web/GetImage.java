@@ -19,13 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Created with IntelliJ IDEA.
- * User: facundo
- * Date: 18/09/13
- * Time: 22:04
- * To change this template use File | Settings | File Templates.
- */
 public class GetImage extends HttpServlet {
 
     private UserHelper userHelper = UserHelperImpl.getInstance();

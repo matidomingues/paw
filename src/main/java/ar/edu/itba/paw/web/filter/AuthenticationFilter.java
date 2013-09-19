@@ -3,8 +3,13 @@ package ar.edu.itba.paw.web.filter;
 import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 
-import javax.servlet.*;
-import javax.servlet.http.Cookie;
+import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -14,24 +19,10 @@ public class AuthenticationFilter implements Filter {
 
 	UserHelper usermanager = UserHelperImpl.getInstance();
 
-	private UUID getSessionFromCookie(Cookie[] cookies) {
-		if (cookies == null) {
-			return null;
-		}
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().compareTo("TwitterUUID") == 0) {
-				return UUID.fromString(cookie.getValue());
-			}
-		}
-		return null;
-	}
-
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-
-		UUID uuid = getSessionFromCookie(req.getCookies());
 
 		boolean logued = req.getSession().getAttribute("user_id") != null;
 		boolean css = req.getRequestURL().toString().contains("css/main.css");
@@ -40,9 +31,9 @@ public class AuthenticationFilter implements Filter {
 		boolean restore = req.getRequestURL().toString().contains("restore");
 
 		if (!logued && !css && !login && !register && !restore) {
-			resp.sendRedirect("/login");
+			resp.sendRedirect(req.getContextPath() +"/login");
 		} else if (logued && !css && (login || register || restore)) {
-			resp.sendRedirect("/home");
+			resp.sendRedirect(req.getContextPath() +"/home");
 		} else {
 			chain.doFilter(request, response);
 		}

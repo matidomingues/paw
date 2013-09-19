@@ -3,13 +3,13 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">Registrarse</div>
 		<div class="panel-body">
-			<form method="post" action="/register" enctype="multipart/form-data">
+			<form method="post" action="${pageContext.request.contextPath}/register" enctype="multipart/form-data">
 				<div class="row input-padding">
 					<div class="col-md-2">
 						<label class="input-label">Nombre de Usuario</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="username">
+						<input type="text" class="input-long" name="username" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -17,7 +17,7 @@
 						<label class="input-label">Nombre</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="name">
+						<input type="text" class="input-long" name="name" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -25,7 +25,7 @@
 						<label class="input-label">Apellido</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="surname">
+						<input type="text" class="input-long" name="surname" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -33,7 +33,7 @@
 						<label class="input-label">Contrasena</label>
 					</div>
 					<div class="col-md-10">
-						<input type="password" class="input-long" name="password">
+						<input type="password" class="input-long" name="password" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -41,7 +41,7 @@
 						<label class="input-label">Contrasena 2</label>
 					</div>
 					<div class="col-md-10">
-						<input type="password" class="input-long" name="extrapassword">
+						<input type="password" class="input-long" name="extrapassword" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -49,7 +49,7 @@
 						<label class="input-label">Descripcion</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="description">
+						<input type="text" class="input-long" name="description" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -57,7 +57,7 @@
 						<label class="input-label">Pregunta Secreta</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="secretquestion">
+						<input type="text" class="input-long" name="secretquestion" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -65,7 +65,7 @@
 						<label class="input-label">Respuesta Secreta</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="secretanswer">
+						<input type="text" class="input-long" name="secretanswer" required>
 					</div>
 				</div>
                 <div class="row input-padding">

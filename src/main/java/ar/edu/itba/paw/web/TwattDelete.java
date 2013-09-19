@@ -16,13 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created with IntelliJ IDEA.
- * User: facundo
- * Date: 17/09/13
- * Time: 21:38
- * To change this template use File | Settings | File Templates.
- */
+@SuppressWarnings("serial")
 public class TwattDelete extends HttpServlet {
 
     private TwattHelper twattHelper = TwattHelperImpl.getInstance();

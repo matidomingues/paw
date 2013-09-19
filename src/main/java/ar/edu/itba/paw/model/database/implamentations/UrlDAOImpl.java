@@ -1,14 +1,13 @@
 package ar.edu.itba.paw.model.database.implamentations;
 
-import ar.edu.itba.paw.manager.ConnectionManager;
-import ar.edu.itba.paw.manager.DatabaseException;
-import ar.edu.itba.paw.model.Url;
-import ar.edu.itba.paw.model.database.UrlDAO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import ar.edu.itba.paw.manager.ConnectionManager;
+import ar.edu.itba.paw.manager.DatabaseException;
+import ar.edu.itba.paw.model.Url;
+import ar.edu.itba.paw.model.database.UrlDAO;
 
 public class UrlDAOImpl implements UrlDAO {
 

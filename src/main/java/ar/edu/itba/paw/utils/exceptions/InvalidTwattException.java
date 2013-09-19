@@ -7,5 +7,6 @@ package ar.edu.itba.paw.utils.exceptions;
  * Time: 21:40
  * To change this template use File | Settings | File Templates.
  */
+@SuppressWarnings("serial")
 public class InvalidTwattException extends RuntimeException {
 }

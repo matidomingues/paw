@@ -47,14 +47,14 @@ public class MessageHelperImpl implements MessageHelper {
 		return newurl;
 	}
 
-	public String prepareMessage(String message) {
-        if (Strings.isNullOrEmpty(message)) {
+    public String prepareMessage(String context, String message) {
+        if (Strings.isNullOrEmpty(message) || context == null) {
             throw new IllegalArgumentException("Invalid Message received");
         }
-		Matcher urlMatcher = urlPattern.matcher(message);
+        Matcher urlMatcher = urlPattern.matcher(message);
 		while (urlMatcher.find()) {
 			String url = urlMatcher.group();
-			message = message.replace(url, "<a href=\"" + url + "\">"
+			message = message.replace(url, "<a target=\"_blank\" href="+ context +"/" + url + ">"
 					+ url + "</a>");
 		}
         Matcher hashtagMatcher = hashtagPattern.matcher(message);

@@ -6,7 +6,6 @@ import ar.edu.itba.paw.helper.implementations.HashtagHelperImpl;
 import ar.edu.itba.paw.helper.implementations.TwattHelperImpl;
 import ar.edu.itba.paw.model.Hashtag;
 import ar.edu.itba.paw.model.Twatt;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +20,7 @@ import java.util.List;
  * Time: 00:50
  * To change this template use File | Settings | File Templates.
  */
+@SuppressWarnings("serial")
 public class ViewHashtag extends HttpServlet {
 
     private HashtagHelper hashtagHelper = HashtagHelperImpl.getInstance();
@@ -29,7 +29,7 @@ public class ViewHashtag extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String[] url = req.getRequestURI().split("/");
-        Hashtag hashtag = this.hashtagHelper.getHashtag(url[2]);
+        Hashtag hashtag = this.hashtagHelper.getHashtag(url[url.length-1]);
 
         if (hashtag == null) {
             req.setAttribute("error", "No existe ese hashtag");

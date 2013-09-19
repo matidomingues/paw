@@ -7,13 +7,13 @@
 					<h3 class="panel-title">Login</h3>
 				</div>
 				<div class="panel-body">
-					<form method="post" action="/login">
+					<form method="post" action="${pageContext.request.contextPath}/login">
 						<fieldset class="loginsecuence">
-							<input type="text" class="input-long input-border"name="username" placeholder="Usuario">
-							<input type="password" class="input-long input-border" name="password" placeholder="password">
+							<input type="text" class="input-long input-border"name="username" placeholder="Usuario" required>
+							<input type="password" class="input-long input-border" name="password" placeholder="password" required>
 							<input type="submit" class="btn btn-primary" value="Login">
-							<a href="/register" class="btn btn-primary">Register</a>
-							<a href="/restore" class="btn btn-primary">Recupero Contrasena</a>
+							<a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Register</a>
+							<a href="${pageContext.request.contextPath}/restore" class="btn btn-primary">Recupero Contrasena</a>
 						</fieldset>
 					</form>
 				</div>

@@ -86,7 +86,6 @@ public class HashtagHelperImpl implements HashtagHelper{
         this.hashtagDAO.relate(hashtag, twatt);
     }
 
-    @Override
     public int getMentions(Hashtag hashtag, DateTime filterDate) {
         if (!this.isValid(hashtag) || filterDate == null || filterDate.isAfterNow()) {
             throw new IllegalArgumentException("Invalid Hashtag or filter date");

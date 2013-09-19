@@ -6,12 +6,13 @@ import ar.edu.itba.paw.model.User;
 import org.apache.commons.fileupload.FileItem;
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
+@SuppressWarnings("serial")
 public class Register extends HttpServlet {
 
 	UserHelper usermanager = UserHelperImpl.getInstance();
@@ -36,13 +37,15 @@ public class Register extends HttpServlet {
         byte[] photo = (fileItem == null)? new byte[0]:fileItem.get();
 		if(password.compareTo(extrapassword) != 0){
 			req.setAttribute("error", "Las contraseñas no coinciden");
-		}else if(usermanager.registerUser(new User(username, password, name, surname, description,
+            req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req,
+                    resp);
+        }else if(usermanager.registerUser(new User(username, password, name, surname, description,
 				DateTime.now(), secretQuestion, secretAnswer, photo))){
 			req.getRequestDispatcher("login").forward(req, resp);
 		} else {
 			req.setAttribute("error", "Datos incorrectos");
+			req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req,
+					resp);
 		}
-		//req.getRequestDispatcher("/WEB-INF/jsp/register.jsp")
-		//		.forward(req, resp);
 	}
 }
