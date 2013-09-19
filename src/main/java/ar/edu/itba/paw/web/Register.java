@@ -1,19 +1,16 @@
 package ar.edu.itba.paw.web;
 
-import java.io.IOException;
-import java.util.UUID;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.joda.time.DateTime;
-
 import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
+import org.apache.commons.fileupload.FileItem;
+import org.joda.time.DateTime;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class Register extends HttpServlet {
 
@@ -35,10 +32,12 @@ public class Register extends HttpServlet {
 		String description = req.getParameter("description");
 		String secretQuestion = req.getParameter("secretquestion");
 		String secretAnswer = req.getParameter("secretanswer");
+        FileItem fileItem = (FileItem)req.getAttribute("photo");
+        byte[] photo = (fileItem == null)? new byte[0]:fileItem.get();
 		if(password.compareTo(extrapassword) != 0){
 			req.setAttribute("error", "Las contraseñas no coinciden");
 		}else if(usermanager.registerUser(new User(username, password, name, surname, description,
-				DateTime.now(), secretQuestion, secretAnswer))){
+				DateTime.now(), secretQuestion, secretAnswer, photo))){
 			req.getRequestDispatcher("login").forward(req, resp);
 		} else {
 			req.setAttribute("error", "Datos incorrectos");

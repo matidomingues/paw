@@ -6,16 +6,13 @@ import ar.edu.itba.paw.helper.implementations.HashtagHelperImpl;
 import ar.edu.itba.paw.helper.implementations.TwattHelperImpl;
 import ar.edu.itba.paw.model.Hashtag;
 import ar.edu.itba.paw.model.Twatt;
-import ar.edu.itba.paw.model.User;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.

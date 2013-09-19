@@ -14,6 +14,7 @@
 							<table class="table table-striped">
 								<thead>
 									<tr>
+                                        <th>Foto</th>
 										<th>User</th>
 										<th>Tweet</th>
 										<th>Fecha</th>

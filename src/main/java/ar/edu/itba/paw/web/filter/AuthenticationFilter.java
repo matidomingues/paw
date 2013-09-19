@@ -1,20 +1,14 @@
 package ar.edu.itba.paw.web.filter;
 
-import java.io.IOException;
-import java.util.UUID;
+import ar.edu.itba.paw.helper.UserHelper;
+import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import ar.edu.itba.paw.helper.UserHelper;
-import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
+import java.io.IOException;
+import java.util.UUID;
 
 public class AuthenticationFilter implements Filter {
 
@@ -39,7 +33,7 @@ public class AuthenticationFilter implements Filter {
 
 		UUID uuid = getSessionFromCookie(req.getCookies());
 
-		boolean logued = req.getSession().getAttribute("user") != null;
+		boolean logued = req.getSession().getAttribute("user_id") != null;
 		boolean css = req.getRequestURL().toString().contains("css/main.css");
 		boolean login = req.getRequestURL().toString().contains("login");
 		boolean register = req.getRequestURL().toString().contains("register");

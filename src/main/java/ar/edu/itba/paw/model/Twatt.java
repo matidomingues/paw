@@ -2,9 +2,6 @@ package ar.edu.itba.paw.model;
 
 import org.joda.time.DateTime;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Twatt extends PersistableEntity{
 
     private User creator;

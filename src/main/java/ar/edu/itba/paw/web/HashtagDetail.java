@@ -2,7 +2,6 @@ package ar.edu.itba.paw.web;
 
 import ar.edu.itba.paw.helper.HashtagHelper;
 import ar.edu.itba.paw.helper.implementations.HashtagHelperImpl;
-import ar.edu.itba.paw.helper.implementations.TwattHelperImpl;
 import ar.edu.itba.paw.model.Hashtag;
 
 import javax.servlet.ServletException;

@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.manager;
 
+import ar.edu.itba.paw.configuration.DatabaseSettings;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import ar.edu.itba.paw.configuration.DatabaseSettings;
 
 public class ConnectionManager {
 

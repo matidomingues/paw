@@ -4,14 +4,11 @@ import ar.edu.itba.paw.helper.UserHelper;
 import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.User;
 
-import java.io.IOException;
-import java.util.UUID;
-
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 public class Login extends HttpServlet {
@@ -27,7 +24,8 @@ public class Login extends HttpServlet {
 		String password = req.getParameter("password");
 		User user = usermanager.authenticate(username, password);
 		if(user != null){
-			req.getSession().setAttribute("user", user.getId());
+			req.getSession().setAttribute("user_id", user.getId());
+            req.getSession().setAttribute("user_username", user.getUsername());
 			req.setAttribute("success", "Bienvenido "+ username + " a Twatter!");
 			req.getRequestDispatcher("home").forward(req, resp);
 		}else{

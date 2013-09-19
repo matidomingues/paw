@@ -5,7 +5,6 @@ import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.helper;
 
-import java.util.List;
-
 import ar.edu.itba.paw.model.User;
+
+import java.util.List;
 
 public interface UserHelper {
 

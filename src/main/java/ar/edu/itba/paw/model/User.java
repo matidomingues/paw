@@ -2,9 +2,6 @@ package ar.edu.itba.paw.model;
 
 import org.joda.time.DateTime;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
-
 public class User extends PersistableEntity {
 
 	private String username;

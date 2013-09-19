@@ -1,14 +1,14 @@
 package ar.edu.itba.paw.helper.implementations;
 
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.model.Url;
 import ar.edu.itba.paw.model.database.UrlDAO;
 import ar.edu.itba.paw.model.database.implamentations.UrlDAOImpl;
 import com.google.common.base.Strings;
+
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MessageHelperImpl implements MessageHelper {
 

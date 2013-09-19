@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.model;
 
-import java.util.List;
-
 /**
  * Created with IntelliJ IDEA.
  * User: facundo

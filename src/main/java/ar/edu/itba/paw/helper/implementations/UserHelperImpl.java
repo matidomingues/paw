@@ -6,10 +6,7 @@ import ar.edu.itba.paw.model.database.UserDAO;
 import ar.edu.itba.paw.model.database.implamentations.UserDAOImpl;
 import com.google.common.base.Strings;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 public class UserHelperImpl implements UserHelper {
 

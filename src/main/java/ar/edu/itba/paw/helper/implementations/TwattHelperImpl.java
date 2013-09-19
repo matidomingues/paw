@@ -1,10 +1,5 @@
 package ar.edu.itba.paw.helper.implementations;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import ar.edu.itba.paw.helper.HashtagHelper;
 import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.helper.TwattHelper;
@@ -14,8 +9,12 @@ import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.TwattDAO;
 import ar.edu.itba.paw.model.database.implamentations.TwattDAOImpl;
-import ar.edu.itba.paw.utils.exceptions.InvalidTwattException;
 import com.google.common.base.Strings;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TwattHelperImpl implements TwattHelper {
 

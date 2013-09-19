@@ -4,7 +4,7 @@
 	</div>
 	<div class="collapse navbar-collapse navbar-ex1-collapse">	
 		<c:choose>
-			<c:when  test="${empty user}">
+			<c:when  test="${empty user_id}">
 				<ul class="nav navbar-nav navbar-right">
 					<li> <a href="/login"> Login </a> </li>
 					<li> <a href="/register"> Register </a> </li>
@@ -15,7 +15,7 @@
 					<li><a data-toggle="modal" href="#twatt-modal">Twatt!</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li> <a href="/user/<c:out value='${user.username}'/>">Perfil</a></li>
+					<li> <a href="/user/<c:out value='${user_username}'/>">Perfil</a></li>
 					<li> <a href="/find"> Busqueda</a></li>
 					<li class="dropdown">
 	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Cuenta <b class="caret"></b></a>
@@ -30,7 +30,7 @@
 	</div>
 </nav>
 <c:choose>
-	<c:when  test="${!empty user}">
+	<c:when  test="${!empty user_id}">
 		<div class="modal fade" id="twatt-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		      	<div class="modal-content">

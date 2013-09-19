@@ -28,7 +28,7 @@ public class TwattAdd extends HttpServlet {
             throw new MessageEmptyException();
         }
 
-        int user_id = (Integer) req.getSession().getAttribute("user");
+        int user_id = (Integer) req.getSession().getAttribute("user_id");
         User user = this.userHelper.find(user_id);
         twattmanager.addTwatt(new Twatt(user, message, false, DateTime.now()));
         boolean result = true;

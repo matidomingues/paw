@@ -4,7 +4,6 @@ import ar.edu.itba.paw.manager.ConnectionManager;
 import ar.edu.itba.paw.manager.DatabaseException;
 
 import javax.servlet.*;
-import java.awt.color.CMMException;
 import java.io.IOException;
 
 /**
@@ -22,7 +21,7 @@ public class ConnectionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
             filterChain.doFilter(servletRequest, servletResponse);
-            System.out.println("Commiting: "+ConnectionManager.getInstance().getConnection().toString());
+            System.out.println("Commiting: " + ConnectionManager.getInstance().getConnection().toString());
             ConnectionManager.getInstance().getConnection().commit();
         } catch (Exception e) {
             rollback(e);

@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.helper;
 
-import java.util.List;
-
 import ar.edu.itba.paw.model.Hashtag;
 import ar.edu.itba.paw.model.Twatt;
+
+import java.util.List;
 
 public interface TwattHelper {
 

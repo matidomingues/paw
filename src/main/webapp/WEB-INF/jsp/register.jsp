@@ -3,7 +3,7 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">Registrarse</div>
 		<div class="panel-body">
-			<form method="post" action="/register">
+			<form method="post" action="/register" enctype="multipart/form-data">
 				<div class="row input-padding">
 					<div class="col-md-2">
 						<label class="input-label">Nombre de Usuario</label>
@@ -68,6 +68,14 @@
 						<input type="text" class="input-long" name="secretanswer">
 					</div>
 				</div>
+                <div class="row input-padding">
+                    <div class="col-md-2">
+                        <label class="input-label">Foto</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="file" name="photo"/>
+                    </div>
+                </div>
 				<input type="submit" class="pull-right btn btn-lg btn-primary"value="Registrar">
 				<div class="clearfix"></div>
 			</form>

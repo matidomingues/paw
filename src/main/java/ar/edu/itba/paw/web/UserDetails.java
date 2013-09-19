@@ -1,13 +1,5 @@
 package ar.edu.itba.paw.web;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.helper.TwattHelper;
 import ar.edu.itba.paw.helper.UserHelper;
@@ -16,6 +8,13 @@ import ar.edu.itba.paw.helper.implementations.TwattHelperImpl;
 import ar.edu.itba.paw.helper.implementations.UserHelperImpl;
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 public class UserDetails extends HttpServlet {
 
