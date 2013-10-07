@@ -40,7 +40,6 @@ public class ConnectionManager {
                 Connection connection = DriverManager.getConnection(
                         connectionString, username, password);
                 connection.setAutoCommit(false);
-                System.out.println("Setting: " + connection.toString());
                 this.connection.set(connection);
             }
         } catch (Exception e) {

@@ -93,7 +93,6 @@ public class HashtagHelperImpl implements HashtagHelper{
         return this.hashtagDAO.getMentionsAfter(hashtag, filterDate);
     }
 
-    @Override
     public boolean isValid(Hashtag hashtag) {
         return !Strings.isNullOrEmpty(hashtag.getTagName()) &&
                 hashtag.getFirstTweet() != null;

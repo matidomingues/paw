@@ -4,8 +4,11 @@ import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.model.Url;
 import ar.edu.itba.paw.model.database.UrlDAO;
 import ar.edu.itba.paw.model.database.implamentations.UrlDAOImpl;
+
 import com.google.common.base.Strings;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,14 +51,18 @@ public class MessageHelperImpl implements MessageHelper {
 	}
 
     public String prepareMessage(String context, String message) {
-        if (Strings.isNullOrEmpty(message) || context == null) {
+        Set<String> alreadyReplaced = new HashSet<String>();
+    	if (Strings.isNullOrEmpty(message) || context == null) {
             throw new IllegalArgumentException("Invalid Message received");
         }
         Matcher urlMatcher = urlPattern.matcher(message);
 		while (urlMatcher.find()) {
 			String url = urlMatcher.group();
-			message = message.replace(url, "<a target=\"_blank\" href="+ context +"/" + url + ">"
-					+ url + "</a>");
+			if(!alreadyReplaced.contains(url)){
+				message = message.replace(url, "<a target=\"_blank\" href="+ context +"/" + url + ">"
+						+ url + "</a>");
+				alreadyReplaced.add(url);
+			}
 		}
         Matcher hashtagMatcher = hashtagPattern.matcher(message);
         while (hashtagMatcher.find()) {

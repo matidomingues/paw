@@ -38,7 +38,7 @@ public class UserQuestion extends HttpServlet {
 		if(password.compareTo(confirmPassword) != 0){
 			req.setAttribute("error", "Las Contraseñas no Coinciden");
 			doGet(req, resp);
-		}else if(usermanager.userRestore(url[3], secretAnswer, password)){
+		}else if(usermanager.userRestore(url[url.length-1], secretAnswer, password)){
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}else{
 			req.setAttribute("error", "Respuesta Incorrecta");

@@ -38,6 +38,6 @@ public class TwattAdd extends HttpServlet {
 		} else {
 			req.setAttribute("success", "Se Twatteo correctamente");
 		}
-		req.getRequestDispatcher("/home").forward(req, resp);
+		req.getRequestDispatcher("/user/"+user.getUsername()).forward(req, resp);
 	}
 }

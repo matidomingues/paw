@@ -37,13 +37,25 @@ public class Register extends HttpServlet {
         byte[] photo = (fileItem == null)? new byte[0]:fileItem.get();
 		if(password.compareTo(extrapassword) != 0){
 			req.setAttribute("error", "Las contraseñas no coinciden");
-            req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req,
+			req.setAttribute("username", username);
+			req.setAttribute("name", name);
+			req.setAttribute("surname", surname);
+			req.setAttribute("description", description);
+			req.setAttribute("secretQuestion", secretQuestion);
+			req.setAttribute("secretAnswer", secretAnswer);
+			req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req,
                     resp);
         }else if(usermanager.registerUser(new User(username, password, name, surname, description,
 				DateTime.now(), secretQuestion, secretAnswer, photo))){
 			req.getRequestDispatcher("login").forward(req, resp);
 		} else {
-			req.setAttribute("error", "Datos incorrectos");
+			req.setAttribute("error", "El usuario ya existe");
+			req.setAttribute("username", username);
+			req.setAttribute("name", name);
+			req.setAttribute("surname", surname);
+			req.setAttribute("description", description);
+			req.setAttribute("secretQuestion", secretQuestion);
+			req.setAttribute("secretAnswer", secretAnswer);
 			req.getRequestDispatcher("/WEB-INF/jsp/register.jsp").forward(req,
 					resp);
 		}

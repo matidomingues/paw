@@ -9,7 +9,7 @@
 				<div class="panel-body">
 					<form method="post" action="${pageContext.request.contextPath}/login">
 						<fieldset class="loginsecuence">
-							<input type="text" class="input-long input-border"name="username" placeholder="Usuario" required>
+							<input type="text" class="input-long input-border"name="username" placeholder="Usuario" value="<c:out value="${username}"/>" required>
 							<input type="password" class="input-long input-border" name="password" placeholder="password" required>
 							<input type="submit" class="btn btn-primary" value="Login">
 							<a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Register</a>

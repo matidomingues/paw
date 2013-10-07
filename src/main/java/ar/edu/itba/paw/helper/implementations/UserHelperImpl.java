@@ -39,8 +39,12 @@ public class UserHelperImpl implements UserHelper {
         if (!this.isValidUser(user)) {
             throw new IllegalArgumentException("Invalid user");
         }
-		return usermanager.registerUser(user);
-	}
+        if(getUserByUsername(user.getUsername()) == null){
+        	return usermanager.registerUser(user);
+        }
+        return false;
+    }
+        
 
 	public User getUserByUsername(String username) {
         if (Strings.isNullOrEmpty(username)) {
@@ -91,7 +95,6 @@ public class UserHelperImpl implements UserHelper {
                 user.getDate() != null;
     }
 
-    @Override
     public User find(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("Unexpected id");
