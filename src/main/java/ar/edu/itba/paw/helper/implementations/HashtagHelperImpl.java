@@ -12,13 +12,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created with IntelliJ IDEA.
- * User: facundo
- * Date: 14/09/13
- * Time: 10:10
- * To change this template use File | Settings | File Templates.
- */
 public class HashtagHelperImpl implements HashtagHelper{
 
     private static HashtagHelperImpl instance;

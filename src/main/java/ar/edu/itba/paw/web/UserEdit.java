@@ -41,7 +41,9 @@ public class UserEdit extends HttpServlet{
 			user.setName(req.getParameter("name"));
 			user.setSurname(req.getParameter("surname"));
             FileItem fileItem = (FileItem)req.getAttribute("photo");
-            user.setPhoto((fileItem == null) ? new byte[0] : fileItem.get());
+            if (fileItem != null) {
+                user.setPhoto(fileItem.get());
+            }
 			boolean result = usermanager.updateUser(user);
 			if(result){
 				req.setAttribute("success", "Actualizado con exito!");
