@@ -9,7 +9,7 @@
 						<label class="input-label">Nombre de Usuario</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="username" required>
+						<input type="text" class="input-long" name="username" value="<c:out value="${username}"/>" required >
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -17,7 +17,7 @@
 						<label class="input-label">Nombre</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="name" required>
+						<input type="text" class="input-long" name="name" value="<c:out value="${name}"/>" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -25,7 +25,7 @@
 						<label class="input-label">Apellido</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="surname" required>
+						<input type="text" class="input-long" name="surname" value="<c:out value="${surname}"/>" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -49,7 +49,7 @@
 						<label class="input-label">Descripcion</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="description" required>
+						<input type="text" class="input-long" name="description" value="<c:out value="${description}"/>" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -57,7 +57,7 @@
 						<label class="input-label">Pregunta Secreta</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="secretquestion" required>
+						<input type="text" class="input-long" name="secretquestion" value="<c:out value="${secretQuestion}"/>" required>
 					</div>
 				</div>
 				<div class="row input-padding">
@@ -65,7 +65,7 @@
 						<label class="input-label">Respuesta Secreta</label>
 					</div>
 					<div class="col-md-10">
-						<input type="text" class="input-long" name="secretanswer" required>
+						<input type="text" class="input-long" name="secretanswer" value="<c:out value="${secretAnswer}"/>" required>
 					</div>
 				</div>
                 <div class="row input-padding">

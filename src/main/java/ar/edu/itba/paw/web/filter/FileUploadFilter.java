@@ -14,12 +14,10 @@ import java.util.*;
 public class FileUploadFilter implements Filter {
 
     private int maxFileSize;
-    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.maxFileSize = 5*1024*1024;
     }
 
-    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (servletRequest instanceof HttpServletRequest) {
             // Cast back to HttpServletRequest.
@@ -128,7 +126,6 @@ public class FileUploadFilter implements Filter {
         }
     }
 
-    @Override
     public void destroy() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
