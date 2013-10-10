@@ -65,10 +65,12 @@ public class MessageHelperImpl implements MessageHelper {
 			}
 		}
         Matcher hashtagMatcher = hashtagPattern.matcher(message);
+        StringBuffer sb = new StringBuffer();
         while (hashtagMatcher.find()) {
             String hashtag = hashtagMatcher.group();
-            message = message.replace(hashtag, "<a href=\"/hashtag/"+hashtag.trim().split("#")[1]+"\">"+hashtag+"</a>");
+            hashtagMatcher.appendReplacement(sb, "<a href=\"/hashtag/" + hashtag.trim().split("#")[1] + "\">" + hashtag + "</a>");
         }
-		return message;
+        hashtagMatcher.appendTail(sb);
+		return sb.toString();
 	}
 }
