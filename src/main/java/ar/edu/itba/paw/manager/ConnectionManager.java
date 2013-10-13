@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.manager;
 
-import ar.edu.itba.paw.configuration.DatabaseSettings;
+import ar.edu.itba.paw.utils.ConfigManager;
+import org.apache.commons.configuration.ConfigurationException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,21 +9,25 @@ import java.sql.SQLException;
 
 public class ConnectionManager {
 
-	private static final String username = DatabaseSettings.getUsername();
-	private static final String password = DatabaseSettings.getPassword();
-	private static final String connectionString = DatabaseSettings
-			.getConnectionstring();
 	private static ConnectionManager instance = null;
 
     private ThreadLocal<Connection> connection;
+    private String connectionString;
+    private String username;
+    private String password;
 
 	private ConnectionManager() {
-		try {
-			Class.forName(DatabaseSettings.getDriver());
+        try {
+            Class.forName(ConfigManager.getInstance().getDatabaseDriver());
             this.connection = new ThreadLocal<Connection>();
-		} catch (Exception e) {
-			throw new DatabaseException(e.getMessage(), e);
-		}
+            this.connectionString = ConfigManager.getInstance().getConnectionString();
+            this.username = ConfigManager.getInstance().getDatabaseUsername();
+            this.password = ConfigManager.getInstance().getDatabasePassword();
+        } catch (ClassNotFoundException e) {
+            throw new DatabaseException("Unnable to initialize connection.", e);
+        } catch (ConfigurationException e) {
+            throw new DatabaseException("Unnable to initialize connection.", e);
+        }
 	}
 
     public static ConnectionManager getInstance() {
@@ -36,7 +41,7 @@ public class ConnectionManager {
     private void setConnection() {
         try {
             if (this.connection.get() == null || this.connection.get().isClosed()) {
-                Class.forName(DatabaseSettings.getDriver());
+                Class.forName(ConfigManager.getInstance().getDatabaseDriver());
                 Connection connection = DriverManager.getConnection(
                         connectionString, username, password);
                 connection.setAutoCommit(false);
