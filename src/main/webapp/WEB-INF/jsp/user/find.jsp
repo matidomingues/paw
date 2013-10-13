@@ -21,7 +21,7 @@
 							<tbody>
 								<c:forEach items="${users}" var="user">
 									<tr>
-										<td><a href="${pageContext.request.contextPath}/bin/user/<c:out value='${user.username}'/>"><c:out value="${user.username}"></c:out></a></td>
+										<td><a href="${pageContext.request.contextPath}/bin/profile/<c:out value='${user.username}'/>"><c:out value="${user.username}"></c:out></a></td>
 										<td><c:out value="${user.name}"></c:out> <c:out value="${user.surname}"></c:out></td>
 										<td><c:out value="${user.date}"></c:out></td>
 									</tr>

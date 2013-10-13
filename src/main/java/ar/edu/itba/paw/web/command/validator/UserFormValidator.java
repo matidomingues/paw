@@ -16,7 +16,6 @@ public class UserFormValidator implements Validator{
 
 	public void validate(Object arg0, Errors arg1) {
 		UserForm form = (UserForm)arg0;
-		System.out.println(form.getUsername());
 		if(!form.getPassword().equals(form.getExtrapassword())){
 			arg1.reject("password","notequal");
 		}

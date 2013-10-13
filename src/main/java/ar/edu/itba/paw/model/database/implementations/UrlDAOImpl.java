@@ -13,9 +13,9 @@ import ar.edu.itba.paw.model.Url;
 import ar.edu.itba.paw.model.database.UrlDAO;
 
 @Repository
-public class UrlDAOImpl implements UrlDAO {
+public class UrlDAOImpl implements UrlDAO{
 
-	private Url findBase(String base){
+	public Url findbyBase(String base){
 		try {
 			Url url = null;
 			Connection connection = ConnectionManager.getInstance().getConnection();
@@ -33,12 +33,8 @@ public class UrlDAOImpl implements UrlDAO {
 			throw new DatabaseException(e.getMessage(), e);
 		}
 	}
-	
-    public String resolve(String base){
-		return findBase(base).getResol();
-	}
-	
-	public Url reverseUrl(String resol){
+
+	public Url findByResol(String resol){
 		try {
 			Url url = null;
 			Connection connection = ConnectionManager.getInstance().getConnection();
@@ -57,13 +53,13 @@ public class UrlDAOImpl implements UrlDAO {
 		}
 	}
 	
-	public void addRoute(String base, String resol){
+	public void add(Url url){
 		try {
 			Connection connection = ConnectionManager.getInstance().getConnection();
 			PreparedStatement stmt = connection
 					.prepareStatement("INSERT INTO short_url(base, resol) values(?, ?)");
-			stmt.setString(1, base);
-			stmt.setString(2, resol);
+			stmt.setString(1, url.getBase());
+			stmt.setString(2, url.getResol());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage(), e);

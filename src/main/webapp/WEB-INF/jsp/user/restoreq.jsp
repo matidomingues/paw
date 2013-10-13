@@ -1,9 +1,9 @@
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 <div class="container">
 	<div class="panel panel-info">
 		<div class="panel-heading">Recupero Contrasena de <c:out value="${restoreuser.username}"></c:out></div>
 		<div class="panel-body">
-			<form method="post" action="${pageContext.request.contextPath}/restore/user/<c:out value='${restoreuser.username}'/>">
+			<form method="post" action="../restore/<c:out value='${restoreuser.username}'/>">
 				<div class="row input-padding">
 					<div class="col-md-2">
 						<label class="input-label">Nombre de Usuario</label>
@@ -52,4 +52,4 @@
 	</div>
 </div>
 
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>

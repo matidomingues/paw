@@ -17,7 +17,7 @@
         </td>
         <td>
             <c:if test="${not empty user_id and user_id == twatt.creator.id}">
-                <form method="POST" action="${pageContext.request.contextPath}/twattDelete">
+                <form method="POST" action="/bin/twatt/delete">
                     <input type="hidden" name="twattId" value="<c:out value='${twatt.id}'/>"/>
                     <input type="submit" class="pull-right btn btn-primary" value="Eliminar"/>
                 </form>

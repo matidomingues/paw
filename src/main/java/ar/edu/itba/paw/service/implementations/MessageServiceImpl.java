@@ -19,31 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-	public UrlDAO urlmanager;
 	private Pattern urlPattern;
 	private Pattern hashtagPattern;
 
-	@Autowired
-	public MessageServiceImpl(UrlDAO urlDAO) {
-		urlmanager = urlDAO;
+	public MessageServiceImpl() {
 		urlPattern = Pattern.compile("/s/[a-z0-9]{5}");
 		hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
-	}
-
-	public String shorten(String url) {
-		if (Strings.isNullOrEmpty(url)) {
-			throw new IllegalArgumentException("Invalid URL");
-		}
-		String newurl = "/s/";
-		Url reverse = urlmanager.reverseUrl(url);
-		if (reverse != null) {
-			newurl = newurl.concat(reverse.getBase());
-		} else {
-			String base = UUID.randomUUID().toString().substring(0, 5);
-			newurl = newurl.concat(base);
-			urlmanager.addRoute(base, url);
-		}
-		return newurl;
 	}
 
 	public String prepareMessage(String context, String message) {

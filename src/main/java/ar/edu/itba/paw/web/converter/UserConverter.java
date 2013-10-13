@@ -14,12 +14,10 @@ public class UserConverter implements Converter<String, User>{
 	
 	@Autowired
 	public UserConverter(UserService service) {
-		System.out.println("si");
 		this.service = service;
 	}
 	
 	public User convert(final String source) {
-		System.out.println("por aca");
 		return service.getUserByUsername(source);
 	}
 

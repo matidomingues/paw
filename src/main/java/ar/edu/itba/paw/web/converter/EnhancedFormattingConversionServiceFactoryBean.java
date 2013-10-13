@@ -14,14 +14,12 @@ public class EnhancedFormattingConversionServiceFactoryBean extends
 	@Autowired
 	public EnhancedFormattingConversionServiceFactoryBean(
 			final Converter<?, ?>[] converters) {
-		System.out.println("entro");
 		this.converters = converters;
 	}
 
 	@Override
 	protected void installFormatters(final FormatterRegistry registry) {
 		super.installFormatters(registry);
-		System.out.println("paso");
 		for (final Converter<?, ?> c : this.converters) {
 			System.out.println(c);
 			registry.addConverter(c);

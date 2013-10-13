@@ -8,6 +8,7 @@ import ar.edu.itba.paw.model.database.implementations.TwattDAOImpl;
 import ar.edu.itba.paw.service.HashtagService;
 import ar.edu.itba.paw.service.MessageService;
 import ar.edu.itba.paw.service.TwattService;
+import ar.edu.itba.paw.service.UrlService;
 import ar.edu.itba.paw.service.UserService;
 
 import com.google.common.base.Strings;
@@ -23,16 +24,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class TwattServiceImpl implements TwattService {
 
-	private MessageService messagehelper;
+	private UrlService urlService;
 	private UserService usermanager;
 	private TwattDAO twattDAO;
 	private HashtagService hashtagHelper;
 
 	@Autowired
-	public TwattServiceImpl(TwattDAO twattDAO, HashtagService hastagService, UserService userService, MessageService messageService) {
+	public TwattServiceImpl(TwattDAO twattDAO, HashtagService hastagService, UserService userService, UrlService urlService) {
 	    this.usermanager = userService;
 	    this.twattDAO = twattDAO;
-	    this.messagehelper = messageService;
+	    this.urlService = urlService;
 	    this.hashtagHelper = hastagService;
 	}
 
@@ -46,7 +47,7 @@ public class TwattServiceImpl implements TwattService {
 		String newurl;
 		while (urlMatcher.find()) {
 			String oldurl = urlMatcher.group();
-			newurl = messagehelper.shorten(oldurl);
+			newurl = urlService.shorten(oldurl);
 			message = message.replace(oldurl, newurl);
 		}
 		return message;

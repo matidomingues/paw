@@ -26,7 +26,6 @@
 	<bean id="conversionService"
 		class="ar.edu.itba.paw.web.converter.EnhancedFormattingConversionServiceFactoryBean" />
 
-
 	<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"

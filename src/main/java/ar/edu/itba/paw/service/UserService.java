@@ -19,7 +19,7 @@ public interface UserService {
 
 	public List<User> find(String username);
 
-	public boolean userRestore(String username, String secretAnswer,
+	public void userRestore(String username, String secretAnswer,
 			String newPassword);
 
 	public boolean isValidUser(User user);

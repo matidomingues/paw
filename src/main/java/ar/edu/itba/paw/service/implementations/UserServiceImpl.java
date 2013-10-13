@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 		return usermanager.find(username);
 	}
 	
-	public boolean userRestore(String username, String secretAnswer, String newPassword){
+	public void userRestore(String username, String secretAnswer, String newPassword){
         if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(secretAnswer) || Strings.isNullOrEmpty(newPassword)) {
             throw new IllegalArgumentException("Invalid username, secrec answer or password detected");
         }
@@ -79,9 +79,10 @@ public class UserServiceImpl implements UserService {
 		if(user != null && user.getSecretAnswer().compareTo(secretAnswer) == 0){
 			user.setPassword(newPassword);
 			usermanager.updateUser(user);
-			return true;
+			return;
+		}else{
+			throw new IllegalArgumentException("Incorrect Answers");
 		}
-		return false;
 	}
 
     public boolean isValidUser(User user) {
