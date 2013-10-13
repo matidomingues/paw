@@ -31,7 +31,31 @@ public class User extends PersistableEntity {
         this.photo = photo;
 	}
 
-    public User(String username, String password, String name,
+	public boolean checkPassword(String password){
+		return password.equals(this.password);
+	}
+	
+    public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public void setDate(DateTime date) {
+		this.date = date;
+	}
+
+	public void setSecretQuestion(String secretQuestion) {
+		this.secretQuestion = secretQuestion;
+	}
+
+	public void setSecretAnswer(String secretAnswer) {
+		this.secretAnswer = secretAnswer;
+	}
+
+	public User(String username, String password, String name,
                 String surname, String description, DateTime date,
                 String secretQuestion, String secretAnswer) {
         this(username, password, name, surname, description, date, secretQuestion, secretAnswer, new byte[0]);
