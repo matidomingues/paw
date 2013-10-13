@@ -19,22 +19,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-    public UrlDAO urlmanager;
-    private Pattern urlPattern;
-    private Pattern hashtagPattern;
+	public UrlDAO urlmanager;
+	private Pattern urlPattern;
+	private Pattern hashtagPattern;
 
-    @Autowired
-    public MessageServiceImpl(UrlDAO urlDAO) {
-        urlmanager = urlDAO;
-        urlPattern = Pattern
-                .compile("/s/[a-z0-9]{5}");
-        hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
-    }
+	@Autowired
+	public MessageServiceImpl(UrlDAO urlDAO) {
+		urlmanager = urlDAO;
+		urlPattern = Pattern.compile("/s/[a-z0-9]{5}");
+		hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
+	}
 
 	public String shorten(String url) {
-        if (Strings.isNullOrEmpty(url)) {
-            throw new IllegalArgumentException("Invalid URL");
-        }
+		if (Strings.isNullOrEmpty(url)) {
+			throw new IllegalArgumentException("Invalid URL");
+		}
 		String newurl = "/s/";
 		Url reverse = urlmanager.reverseUrl(url);
 		if (reverse != null) {
@@ -47,25 +46,28 @@ public class MessageServiceImpl implements MessageService {
 		return newurl;
 	}
 
-    public String prepareMessage(String context, String message) {
-        Set<String> alreadyReplaced = new HashSet<String>();
-    	if (Strings.isNullOrEmpty(message) || context == null) {
-            throw new IllegalArgumentException("Invalid Message received");
-        }
-        Matcher urlMatcher = urlPattern.matcher(message);
+	public String prepareMessage(String context, String message) {
+		Set<String> alreadyReplaced = new HashSet<String>();
+		if (Strings.isNullOrEmpty(message) || context == null) {
+			throw new IllegalArgumentException("Invalid Message received");
+		}
+		Matcher urlMatcher = urlPattern.matcher(message);
 		while (urlMatcher.find()) {
 			String url = urlMatcher.group();
-			if(!alreadyReplaced.contains(url)){
-				message = message.replace(url, "<a target=\"_blank\" href="+ context +"/" + url + ">"
-						+ url + "</a>");
+			if (!alreadyReplaced.contains(url)) {
+				message = message.replace(url, "<a target=\"_blank\" href="
+						+ context + "/" + url + ">" + url + "</a>");
 				alreadyReplaced.add(url);
 			}
 		}
-        Matcher hashtagMatcher = hashtagPattern.matcher(message);
-        while (hashtagMatcher.find()) {
-            String hashtag = hashtagMatcher.group();
-            message = message.replace(hashtag, "<a href=\"/hashtag/"+hashtag.trim().split("#")[1]+"\">"+hashtag+"</a>");
-        }
-		return message;
+		Matcher hashtagMatcher = hashtagPattern.matcher(message);
+		StringBuffer sb = new StringBuffer();
+		while (hashtagMatcher.find()) {
+			String hashtag = hashtagMatcher.group();
+			hashtagMatcher.appendReplacement(sb, "<a href=\"/hashtag/"
+					+ hashtag.trim().split("#")[1] + "\">" + hashtag + "</a>");
+		}
+		hashtagMatcher.appendTail(sb);
+		return sb.toString();
 	}
 }
