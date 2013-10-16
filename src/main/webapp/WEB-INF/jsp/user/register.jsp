@@ -4,7 +4,7 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">Registrarse</div>
 		<div class="panel-body">
-			<form:form action="register" method="post" commandName="userForm">
+			<form:form action="register" method="post" commandName="userForm" enctype="multipart/form-data">
 			<div class="error"><form:errors path="*" /></div>
 	
 				<div class="row input-padding">

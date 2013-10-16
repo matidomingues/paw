@@ -22,15 +22,12 @@ import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
 @Controller
 public class TwattController {
 
+    @Autowired
 	private UserService usermanager;
+
+    @Autowired
 	private TwattService twattmanager;
-	
-	@Autowired
-	public TwattController(UserService userService, TwattService twattService){
-			this.usermanager = userService;
-			this.twattmanager = twattService;
-	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView add(@RequestParam("message") String message, HttpSession seq){
 		

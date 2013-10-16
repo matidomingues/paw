@@ -19,12 +19,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TwattDAOImpl implements TwattDAO {
 
-    private UserDAO  userDAO;
-
     @Autowired
-	public TwattDAOImpl(UserDAO userDAO){
-        this.userDAO = userDAO;
-	}
+    private UserDAO userDAO;
 
 	public boolean create(Twatt twatt){
 		try {

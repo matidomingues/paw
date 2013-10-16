@@ -4,7 +4,7 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">Twatts</div>
 		<div class="panel-body">
-			<form:form action="settings" method="post" commandName="userForm">
+			<form:form action="settings" method="post" commandName="userForm" enctype="multipart/form-data">
 			<div class="error"><form:errors path="*" /></div>
 	
 				<form:hidden path="username" />
@@ -83,7 +83,7 @@
 					<div class="col-md-4">
 						<div>
 							<img
-								src="${pageContext.request.contextPath}/image?id=<c:out value='${user_id}'/>" />
+								src="${pageContext.request.contextPath}/bin/image/<c:out value='${user_username}'/>" />
 						</div>
 					</div>
 				</div>

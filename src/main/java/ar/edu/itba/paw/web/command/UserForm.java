@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.web.command;
 
+import ar.edu.itba.paw.model.User;
 import org.apache.commons.fileupload.FileItem;
 import org.joda.time.DateTime;
-
-import ar.edu.itba.paw.model.User;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class UserForm {
 
@@ -16,7 +16,7 @@ public class UserForm {
 	private String description;
 	private String secretquestion;
 	private String secretanswer;
-	private FileItem photo;
+	private CommonsMultipartFile photo;
 
 	public UserForm(){
 	}
@@ -60,7 +60,7 @@ public class UserForm {
 	public String getSecretanswer() {
 		return secretanswer;
 	}
-	public FileItem getPhoto() {
+	public CommonsMultipartFile getPhoto() {
 		return photo;
 	}
 	public void setUsername(String username){
@@ -90,11 +90,11 @@ public class UserForm {
 	public void setSecretanswer(String secretanswer) {
 		this.secretanswer = secretanswer;
 	}
-	public void setPhoto(FileItem photo) {
+	public void setPhoto(CommonsMultipartFile photo) {
 		this.photo = photo;
 	}
 	public User build(){
-		byte[] img = (photo == null)? new byte[0]:photo.get();
+		byte[] img = (photo == null)? new byte[0]:photo.getBytes();
 		if(user == null){
 			return new User(username, password, name, surname, description, DateTime.now(), secretquestion, secretanswer, img);
 		}else{

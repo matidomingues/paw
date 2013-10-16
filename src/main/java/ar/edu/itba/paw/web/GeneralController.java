@@ -25,21 +25,21 @@ import ar.edu.itba.paw.web.command.validator.UserFormValidator;
 @RequestMapping("/")
 public class GeneralController {
 	
-	private HashtagService hashtagmanager;
-	private UserService usermanager;
-	private TwattService twattmanager;
-	private MessageService messagemanager;
-	private UserFormValidator validator;
-	
 	@Autowired
-	public GeneralController(HashtagService hastagService, UserService userService, TwattService twattService, MessageService messagemanager, UserFormValidator userFormValidator){
-			this.hashtagmanager = hastagService;
-			this.usermanager = userService;
-			this.twattmanager = twattService;
-			this.validator = userFormValidator;
-			this.messagemanager = messagemanager;
-	}
-	
+    private HashtagService hashtagmanager;
+
+    @Autowired
+    private UserService usermanager;
+
+    @Autowired
+    private TwattService twattmanager;
+
+    @Autowired
+    private MessageService messagemanager;
+
+    @Autowired
+    private UserFormValidator validator;
+
 	@RequestMapping(value="home", method = RequestMethod.GET)
 	public ModelAndView	home(@RequestParam(value="dayfilter", required=false) String sDays) {
 		ModelAndView mav = new ModelAndView();

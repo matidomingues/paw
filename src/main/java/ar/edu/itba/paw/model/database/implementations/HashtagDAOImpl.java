@@ -7,7 +7,6 @@ import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.database.HashtagDAO;
 import ar.edu.itba.paw.model.database.TwattDAO;
 import ar.edu.itba.paw.utils.exceptions.InvalidHashtagException;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,13 +18,9 @@ import java.util.List;
 @Repository
 public class HashtagDAOImpl implements HashtagDAO {
 	
+    @Autowired
     private TwattDAO twattDAO;
 
-    @Autowired
-	public HashtagDAOImpl(TwattDAO twattDAO){
-		this.twattDAO = twattDAO;
-	}
-	
     public void create(Hashtag hashtag) {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();

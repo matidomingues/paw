@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 <div class="container">
     <div class="main-content-wrapper">
         <div class="main-content">
@@ -71,4 +71,4 @@
     </table>
 </div>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>

@@ -19,15 +19,10 @@ import java.util.regex.Pattern;
 @Service
 public class HashtagServiceImpl implements HashtagService {
 
-	private HashtagDAO hashtagDAO;
-	private Pattern hashtagPattern;
-
 	@Autowired
-	public HashtagServiceImpl(HashtagDAO hastagDAO) {
-		this.hashtagDAO = hastagDAO;
-		this.hashtagPattern = Pattern
-				.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
-	}
+    private HashtagDAO hashtagDAO;
+	private Pattern hashtagPattern = Pattern
+            .compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
 
 	public void create(Hashtag hashtag) {
 		if (!this.isValid(hashtag)) {

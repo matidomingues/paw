@@ -12,12 +12,8 @@ import ar.edu.itba.paw.service.UrlService;
 @RequestMapping("/s")
 public class UrlController {
 
-	UrlService urlService;
-	
 	@Autowired
-	public UrlController(UrlService urlService){
-		this.urlService = urlService;
-	}
+    UrlService urlService;
 	
 	@RequestMapping(value="{path}", method = RequestMethod.GET)
 	public String user(@PathVariable String path){

@@ -26,19 +26,20 @@ import ar.edu.itba.paw.web.command.validator.UserFormValidator;
 @Controller
 public class UserController {
 
+    @Autowired
 	private UserService usermanager;
+
+    @Autowired
 	private TwattService twattmanager;
+
+    @Autowired
 	private MessageService messagemanager;
+
+    @Autowired
 	private UserFormValidator validator;
 
-	@Autowired
-	public UserController(UserService userService, TwattService twattService,
-			MessageService messagemanager, UserFormValidator userFormValidator) {
-		this.usermanager = userService;
-		this.twattmanager = twattService;
-		this.validator = userFormValidator;
-		this.messagemanager = messagemanager;
-	}
+    @Autowired
+    private ServletContext servletContext;
 
 	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
 	public ModelAndView user(@PathVariable String username) {
@@ -135,7 +136,7 @@ public class UserController {
 			errors.rejectValue("username", "duplicated");
 			return null;
 		}
-		return "redirect:login";
+		return "redirect:/bin/user/login";
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -184,4 +185,36 @@ public class UserController {
 		}
 		return "redirect:/bin/user/restore";
 	}
+
+    @RequestMapping(value = "/image/{username}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getFile(@PathVariable String username)  {
+        User user = usermanager.getUserByUsername(username);
+        ResponseEntity<byte[]> responseEntity = null;
+        if (user == null) {
+            return responseEntity;
+        }
+        byte[] photo = null;
+        if ((photo = user.getPhoto()) == null || photo.length == 0) {
+            Path path = Paths.get(servletContext.getRealPath("/img/default_user_icon.png"));
+            try {
+                photo = Files.readAllBytes(path);
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        String[] contentType = null;
+        try {
+            contentType = Magic.getMagicMatch(photo).getMimeType().split("/");
+        } catch (MagicParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (MagicMatchNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (MagicException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(new MediaType(contentType[0], contentType[1]));
+        responseEntity = new ResponseEntity<byte[]>(photo, responseHeaders, HttpStatus.CREATED);
+        return responseEntity;
+    }
 }
