@@ -1,11 +1,10 @@
 package ar.edu.itba.paw.web.command.validator;
 
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.web.command.UserForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.web.command.UserForm;
 
 @Component
 public class UserFormValidator implements Validator{

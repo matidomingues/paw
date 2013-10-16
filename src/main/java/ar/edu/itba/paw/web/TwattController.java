@@ -1,7 +1,12 @@
 package ar.edu.itba.paw.web;
 
-import javax.servlet.http.HttpSession;
-
+import ar.edu.itba.paw.model.Twatt;
+import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.service.TwattService;
+import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.utils.exceptions.InvalidOperationExcetion;
+import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
+import com.google.common.base.Strings;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,14 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.common.base.Strings;
-
-import ar.edu.itba.paw.model.Twatt;
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.service.TwattService;
-import ar.edu.itba.paw.service.UserService;
-import ar.edu.itba.paw.utils.exceptions.InvalidOperationExcetion;
-import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class TwattController {

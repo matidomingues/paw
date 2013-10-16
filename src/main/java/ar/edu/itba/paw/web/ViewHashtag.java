@@ -40,7 +40,7 @@
 //            req.setAttribute("hashtag", hashtag);
 //            req.setAttribute("twatts", twatts);
 //        }
-//        req.getRequestDispatcher("/WEB-INF/jsp/viewhashtag.jsp").forward(req, resp);
+//        req.getRequestDispatcher("/WEB-INF/jsp/view.jsp").forward(req, resp);
 //    }
 //
 //}

@@ -1,15 +1,13 @@
 package ar.edu.itba.paw.service.implementations;
 
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.google.common.base.Strings;
-
 import ar.edu.itba.paw.model.Url;
 import ar.edu.itba.paw.model.database.UrlDAO;
 import ar.edu.itba.paw.service.UrlService;
+import com.google.common.base.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class UrlServiceImpl implements UrlService {

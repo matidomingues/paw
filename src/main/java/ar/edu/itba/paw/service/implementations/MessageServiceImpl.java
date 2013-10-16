@@ -1,20 +1,13 @@
 package ar.edu.itba.paw.service.implementations;
 
-import ar.edu.itba.paw.model.Url;
-import ar.edu.itba.paw.model.database.UrlDAO;
-import ar.edu.itba.paw.model.database.implementations.UrlDAOImpl;
 import ar.edu.itba.paw.service.MessageService;
-
 import com.google.common.base.Strings;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class MessageServiceImpl implements MessageService {

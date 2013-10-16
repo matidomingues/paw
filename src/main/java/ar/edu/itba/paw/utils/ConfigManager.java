@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.utils;
 
-import org.apache.commons.configuration.*;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class ConfigManager {
 

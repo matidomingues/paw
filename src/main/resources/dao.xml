@@ -10,25 +10,4 @@
          http://www.springframework.org/schema/context/spring-context-3.0.xsd
          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-	<bean id="userDAO"
-		class="ar.edu.itba.paw.model.database.implementations.UserDAOImpl" />
-
-	<bean id="urlDAO"
-		class="ar.edu.itba.paw.model.database.implementations.UrlDAOImpl" />
-
-	<bean id="twattDAO"
-		class="ar.edu.itba.paw.model.database.implementations.TwattDAOImpl">
-		<constructor-arg>
-			<ref bean="userDAO" />
-		</constructor-arg>
-	</bean>
-
-	<bean id="hashtagDAO"
-		class="ar.edu.itba.paw.model.database.implementations.HashtagDAOImpl">
-		<constructor-arg>
-			<ref bean="twattDAO" />
-		</constructor-arg>
-	</bean>
-	
-
 </beans>

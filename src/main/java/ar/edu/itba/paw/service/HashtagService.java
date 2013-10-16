@@ -6,13 +6,6 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: facundo
- * Date: 12/09/13
- * Time: 19:34
- * To change this template use File | Settings | File Templates.
- */
 public interface HashtagService {
 
     void create(Hashtag hashtag);

@@ -3,11 +3,8 @@ package ar.edu.itba.paw.service.implementations;
 import ar.edu.itba.paw.model.Hashtag;
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.database.HashtagDAO;
-import ar.edu.itba.paw.model.database.implementations.HashtagDAOImpl;
 import ar.edu.itba.paw.service.HashtagService;
-
 import com.google.common.base.Strings;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

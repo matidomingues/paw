@@ -4,22 +4,18 @@ import ar.edu.itba.paw.model.Hashtag;
 import ar.edu.itba.paw.model.Twatt;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.TwattDAO;
-import ar.edu.itba.paw.model.database.implementations.TwattDAOImpl;
 import ar.edu.itba.paw.service.HashtagService;
-import ar.edu.itba.paw.service.MessageService;
 import ar.edu.itba.paw.service.TwattService;
 import ar.edu.itba.paw.service.UrlService;
 import ar.edu.itba.paw.service.UserService;
-
 import com.google.common.base.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TwattServiceImpl implements TwattService {

@@ -2,16 +2,13 @@ package ar.edu.itba.paw.service.implementations;
 
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.database.UserDAO;
-import ar.edu.itba.paw.model.database.implementations.UserDAOImpl;
 import ar.edu.itba.paw.service.UserService;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
-
 import com.google.common.base.Strings;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {

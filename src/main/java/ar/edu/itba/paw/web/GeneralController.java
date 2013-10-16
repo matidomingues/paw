@@ -1,8 +1,13 @@
 package ar.edu.itba.paw.web;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import ar.edu.itba.paw.model.Hashtag;
+import ar.edu.itba.paw.service.HashtagService;
+import ar.edu.itba.paw.service.MessageService;
+import ar.edu.itba.paw.service.TwattService;
+import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.utils.HashtagBundle;
+import ar.edu.itba.paw.web.command.validator.UserFormValidator;
+import com.google.common.base.Strings;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,15 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.common.base.Strings;
-
-import ar.edu.itba.paw.model.Hashtag;
-import ar.edu.itba.paw.service.HashtagService;
-import ar.edu.itba.paw.service.MessageService;
-import ar.edu.itba.paw.service.TwattService;
-import ar.edu.itba.paw.service.UserService;
-import ar.edu.itba.paw.utils.HashtagBundle;
-import ar.edu.itba.paw.web.command.validator.UserFormValidator;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")

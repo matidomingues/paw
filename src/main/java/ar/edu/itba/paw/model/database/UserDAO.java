@@ -4,10 +4,6 @@ import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA. User: facundo Date: 07/09/13 Time: 20:04 To
- * change this template use File | Settings | File Templates.
- */
 public interface UserDAO {
 
 	User getUserByUsername(String username);

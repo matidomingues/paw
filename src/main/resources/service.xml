@@ -10,40 +10,4 @@
          http://www.springframework.org/schema/context/spring-context-3.0.xsd
          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-	<bean id="hashtagService"
-		class="ar.edu.itba.paw.service.implementations.HashtagServiceImpl">
-		<constructor-arg>
-			<ref bean="hashtagDAO" />
-		</constructor-arg>
-	</bean>
-
-	<bean id="messageService"
-		class="ar.edu.itba.paw.service.implementations.MessageServiceImpl">
-		<constructor-arg>
-			<ref bean="urlDAO" />
-		</constructor-arg>
-	</bean>
-
-	<bean id="userService"
-		class="ar.edu.itba.paw.service.implementations.UserServiceImpl">
-		<constructor-arg>
-			<ref bean="userDAO" />
-		</constructor-arg>
-	</bean>
-
-	<bean id="twattService"
-		class="ar.edu.itba.paw.service.implementations.TwattServiceImpl">
-		<constructor-arg>
-			<ref bean="twattDAO" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="hashtagService" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="userService" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="messageService" />
-		</constructor-arg>
-	</bean>
 </beans>
