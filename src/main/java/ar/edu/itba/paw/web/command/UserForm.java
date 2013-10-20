@@ -4,11 +4,11 @@ import org.apache.commons.fileupload.FileItem;
 import org.joda.time.DateTime;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import ar.edu.itba.paw.entity.User;
+import ar.edu.itba.paw.hibernate.entity.TwattUser;
 
 public class UserForm {
 
-	private User user;
+	private TwattUser user;
 	private String username;
 	private String name;
 	private String surname;
@@ -22,7 +22,7 @@ public class UserForm {
 	public UserForm(){
 	}
 	
-	public UserForm(User user){
+	public UserForm(TwattUser user){
 		this.user = user;
 		this.username = user.getUsername();
 		this.name = user.getName();
@@ -34,7 +34,7 @@ public class UserForm {
 		this.secretanswer = user.getSecretAnswer();
 	}
 	
-	public User getUser() {
+	public TwattUser getUser() {
 		return user;
 	}
 	public String getUsername() {
@@ -67,7 +67,7 @@ public class UserForm {
 	public void setUsername(String username){
 		this.username = username;
 	}
-	public void setUser(User user) {
+	public void setUser(TwattUser user) {
 		this.user = user;
 	}
 	public void setName(String name) {
@@ -94,10 +94,10 @@ public class UserForm {
 	public void setPhoto(CommonsMultipartFile photo) {
 		this.photo = photo;
 	}
-	public User build(){
+	public TwattUser build(){
 		byte[] img = (photo == null)? new byte[0]:photo.getBytes();
 		if(user == null){
-			return new User(username, password, name, surname, description, secretquestion, secretanswer, img);
+			return new TwattUser(username, password, name, surname, description, secretquestion, secretanswer, img);
 		}else{
 			user.setUsername(username);
 			user.setName(name);

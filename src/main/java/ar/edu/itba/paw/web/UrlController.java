@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.repository.UrlRepo;
+import ar.edu.itba.paw.hibernate.repository.UrlRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

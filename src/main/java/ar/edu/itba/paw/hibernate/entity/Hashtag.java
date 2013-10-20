@@ -1,8 +1,9 @@
-package ar.edu.itba.paw.entity;
+package ar.edu.itba.paw.hibernate.entity;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -12,6 +13,7 @@ import com.google.common.base.Strings;
 @Entity
 public class Hashtag extends PersistentEntity {
 
+	@Column(nullable=false,unique=true)
 	private String tagName;
 
 	@OneToOne
@@ -19,6 +21,9 @@ public class Hashtag extends PersistentEntity {
 
 	@OneToMany
 	private List<Twatt> twatts;
+
+	Hashtag() {
+	}
 
 	public Hashtag(Twatt firstTweet, String tagName) {
 		this.firstTwatt = firstTweet;
@@ -37,8 +42,8 @@ public class Hashtag extends PersistentEntity {
 	public List<Twatt> getTwatts() {
 		return twatts;
 	}
-	
-	public void addTwatt(Twatt twatt){
+
+	public void addTwatt(Twatt twatt) {
 		twatts.add(twatt);
 	}
 
@@ -47,7 +52,7 @@ public class Hashtag extends PersistentEntity {
 				&& this.getFirstTwatt() != null;
 
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

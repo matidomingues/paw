@@ -1,8 +1,9 @@
-package ar.edu.itba.paw.entity;
+package ar.edu.itba.paw.hibernate.entity;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -17,20 +18,21 @@ public class Twatt extends PersistentEntity {
 	private boolean deleted;
 
 	@ManyToOne
-	private User creator;
+	private TwattUser creator;
 
-	@OneToMany
+	@OneToMany(mappedBy="twatts", cascade=CascadeType.ALL)
 	private List<Hashtag> hashtags;
 
 	Twatt() {
 	}
 
-	public Twatt(String message, User user) {
+	public Twatt(String message, TwattUser user) {
 		this.message = message;
 		this.creator = user;
 		this.timestamp = DateTime.now();
 		this.deleted = false;
 		this.hashtags = new LinkedList<Hashtag>();
+		user.addTwatt(this);
 	}
 
 	public String getMessage() {
@@ -61,11 +63,11 @@ public class Twatt extends PersistentEntity {
 		this.deleted = deleted;
 	}
 
-	public User getCreator() {
+	public TwattUser getCreator() {
 		return creator;
 	}
 
-	public void setCreator(User creator) {
+	public void setCreator(TwattUser creator) {
 		this.creator = creator;
 	}
 

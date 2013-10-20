@@ -1,11 +1,12 @@
-package ar.edu.itba.paw.entity;
+package ar.edu.itba.paw.hibernate.entity;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import org.joda.time.DateTime;
@@ -13,9 +14,11 @@ import org.joda.time.DateTime;
 import com.google.common.base.Strings;
 
 @Entity
-public class User extends PersistentEntity {
+public class TwattUser extends PersistentEntity {
 
+	@Column(nullable=false,unique=true)
 	private String username;
+	
 	private String name;
 	private String surname;
 	private String password;
@@ -24,15 +27,17 @@ public class User extends PersistentEntity {
 	private String secretAnswer;
 	private DateTime date;
 	private boolean enabled;
+	
+	@Lob
 	private byte[] photo;
 
-	@OneToMany
+	@OneToMany(mappedBy="creator", cascade=CascadeType.ALL)
 	private List<Twatt> twatts;
 
-	User() {
+	TwattUser() {
 	}
 
-	public User(String username, String name, String surname, String password,
+	public TwattUser(String username, String name, String surname, String password,
 			String description, String secretquestion, String secretanswer,
 			byte[] photo) {
 		this.username = username;
@@ -155,10 +160,10 @@ public class User extends PersistentEntity {
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (!(o instanceof User))
+		if (!(o instanceof TwattUser))
 			return false;
 
-		User user = (User) o;
+		TwattUser user = (TwattUser) o;
 
 		if (enabled != user.enabled)
 			return false;

@@ -1,16 +1,20 @@
-package ar.edu.itba.paw.repository.impl;
+package ar.edu.itba.paw.hibernate.repository.impl;
 
 import java.util.UUID;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
 
-import ar.edu.itba.paw.entity.Url;
-import ar.edu.itba.paw.repository.UrlRepo;
+import ar.edu.itba.paw.hibernate.entity.Url;
+import ar.edu.itba.paw.hibernate.repository.UrlRepo;
 
+@Repository
 public class HibernateUrlRepo extends AbstractHibernateRepo implements UrlRepo {
 
+	@Autowired
 	public HibernateUrlRepo(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}

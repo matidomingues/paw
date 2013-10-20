@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.repository.impl;
+package ar.edu.itba.paw.hibernate.repository.impl;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,17 +7,19 @@ import java.util.regex.Pattern;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
 
-import ar.edu.itba.paw.entity.Hashtag;
-import ar.edu.itba.paw.entity.User;
-import ar.edu.itba.paw.entity.Twatt;
-import ar.edu.itba.paw.repository.HashtagRepo;
-import ar.edu.itba.paw.repository.TwattRepo;
-import ar.edu.itba.paw.repository.UrlRepo;
-import ar.edu.itba.paw.repository.UserRepo;
+import ar.edu.itba.paw.hibernate.entity.Hashtag;
+import ar.edu.itba.paw.hibernate.entity.Twatt;
+import ar.edu.itba.paw.hibernate.entity.TwattUser;
+import ar.edu.itba.paw.hibernate.repository.HashtagRepo;
+import ar.edu.itba.paw.hibernate.repository.TwattRepo;
+import ar.edu.itba.paw.hibernate.repository.UrlRepo;
+import ar.edu.itba.paw.hibernate.repository.UserRepo;
 
+@Repository
 public class HibernateTwattRepo extends AbstractHibernateRepo implements TwattRepo{
 
 	private UserRepo userRepo;
@@ -51,7 +53,6 @@ public class HibernateTwattRepo extends AbstractHibernateRepo implements TwattRe
 	public void addTwatt(Twatt twatt) {
 		if (this.isValidTwatt(twatt) && !twatt.isDeleted()) {
 			twatt.setMessage(shortenUrls(twatt.getMessage()));
-			twatt.getCreator().addTwatt(twatt);
 			save(twatt);
             hastagRepo.resolveHashtags(twatt);
 		} else {
@@ -63,7 +64,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo implements TwattRe
         if (Strings.isNullOrEmpty(username)) {
             throw new IllegalArgumentException("Invalid username");
         }
-		User user = userRepo.getUserByUsername(username);
+		TwattUser user = userRepo.getUserByUsername(username);
 		if (user != null) {
 			return user.getTwatts();
 

@@ -14,14 +14,14 @@
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
-	            <value>classpath:setup.properties</value>
+	            <value>classpath:twatt.properties</value>
         	</list>
 		</property>
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver" />
-		<property name="url" value="${jdbc.connection-string" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.connection-string}" />
 		<property name="username" value="${jdbc.user}" />
 		<property name="password" value="${jdbc.pass}" />
 	</bean>
@@ -40,7 +40,7 @@
 		</property>
 
 		<property name="packagesToScan">
-			<list> <value>ar.edu.itba.it.paw.domain</value> </list>
+			<list> <value>ar.edu.itba.paw.hibernate</value> </list>
 		</property>
 
 	</bean>

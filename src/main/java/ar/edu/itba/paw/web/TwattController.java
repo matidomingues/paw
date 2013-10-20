@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.entity.Twatt;
-import ar.edu.itba.paw.entity.User;
-import ar.edu.itba.paw.repository.TwattRepo;
-import ar.edu.itba.paw.repository.UserRepo;
+import ar.edu.itba.paw.hibernate.entity.Twatt;
+import ar.edu.itba.paw.hibernate.entity.TwattUser;
+import ar.edu.itba.paw.hibernate.repository.TwattRepo;
+import ar.edu.itba.paw.hibernate.repository.UserRepo;
 import ar.edu.itba.paw.utils.exceptions.InvalidOperationExcetion;
 import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
 
@@ -35,7 +35,7 @@ public class TwattController {
         }
        
         int user_id = (Integer) seq.getAttribute("user_id");
-        User user = this.userRepo.find(user_id);
+        TwattUser user = this.userRepo.find(user_id);
         
         ModelAndView mav = new ModelAndView("redirect:/bin/profile/"+user.getUsername());
         twattRepo.addTwatt(new Twatt(message, user));
@@ -52,7 +52,7 @@ public class TwattController {
 	public ModelAndView delete(@RequestParam("twattId") Integer twatt_id, HttpSession seq){
 		
         Twatt twatt = this.twattRepo.getTwatt(twatt_id);
-        User user = this.userRepo.find((Integer)seq.getAttribute("user_if"));
+        TwattUser user = this.userRepo.find((Integer)seq.getAttribute("user_if"));
 
         if (!twatt.getCreator().equals(user) && !user.isEnabled() && !twatt.isDeleted()) {
             throw new InvalidOperationExcetion();

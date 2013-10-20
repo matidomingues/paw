@@ -1,11 +1,11 @@
-package ar.edu.itba.paw.repository;
+package ar.edu.itba.paw.hibernate.repository;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.entity.Hashtag;
-import ar.edu.itba.paw.entity.Twatt;
+import ar.edu.itba.paw.hibernate.entity.Hashtag;
+import ar.edu.itba.paw.hibernate.entity.Twatt;
 
 
 public interface HashtagRepo {

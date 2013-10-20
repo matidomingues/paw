@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.repository.impl;
+package ar.edu.itba.paw.hibernate.repository.impl;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -6,20 +6,23 @@ import java.util.regex.Pattern;
 
 import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
 
-import ar.edu.itba.paw.entity.Hashtag;
-import ar.edu.itba.paw.entity.Twatt;
-import ar.edu.itba.paw.repository.HashtagRepo;
+import ar.edu.itba.paw.hibernate.entity.Hashtag;
+import ar.edu.itba.paw.hibernate.entity.Twatt;
+import ar.edu.itba.paw.hibernate.repository.HashtagRepo;
 
+@Repository
 public class HibernateHashtagRepo extends AbstractHibernateRepo implements
 		HashtagRepo {
 	
 	private Pattern hashtagPattern = Pattern
             .compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
 
-	
+	@Autowired
 	public HibernateHashtagRepo(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}

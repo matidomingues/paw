@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.repository.impl;
+package ar.edu.itba.paw.hibernate.repository.impl;
 
 import java.io.Serializable;
 import java.util.List;

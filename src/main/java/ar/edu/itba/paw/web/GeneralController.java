@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.entity.Hashtag;
 import ar.edu.itba.paw.helper.MessageHelper;
-import ar.edu.itba.paw.repository.HashtagRepo;
-import ar.edu.itba.paw.repository.TwattRepo;
-import ar.edu.itba.paw.repository.UserRepo;
+import ar.edu.itba.paw.hibernate.entity.Hashtag;
+import ar.edu.itba.paw.hibernate.repository.HashtagRepo;
+import ar.edu.itba.paw.hibernate.repository.TwattRepo;
+import ar.edu.itba.paw.hibernate.repository.UserRepo;
 import ar.edu.itba.paw.utils.HashtagBundle;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
 
