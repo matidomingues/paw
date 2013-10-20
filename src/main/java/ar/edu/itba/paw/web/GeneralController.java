@@ -1,13 +1,15 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.model.Hashtag;
-import ar.edu.itba.paw.service.HashtagService;
-import ar.edu.itba.paw.service.MessageService;
-import ar.edu.itba.paw.service.TwattService;
-import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.entity.Hashtag;
+import ar.edu.itba.paw.helper.MessageHelper;
+import ar.edu.itba.paw.repository.HashtagRepo;
+import ar.edu.itba.paw.repository.TwattRepo;
+import ar.edu.itba.paw.repository.UserRepo;
 import ar.edu.itba.paw.utils.HashtagBundle;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
+
 import com.google.common.base.Strings;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,16 +26,16 @@ import java.util.List;
 public class GeneralController {
 	
 	@Autowired
-    private HashtagService hashtagmanager;
+    private HashtagRepo hashtagRepo;
 
     @Autowired
-    private UserService usermanager;
+    private UserRepo userRepo;
 
     @Autowired
-    private TwattService twattmanager;
+    private TwattRepo twattRepo;
 
     @Autowired
-    private MessageService messagemanager;
+    private MessageHelper messagemanager;
 
     @Autowired
     private UserFormValidator validator;
@@ -50,10 +52,10 @@ public class GeneralController {
 
         }
         DateTime filterDate = DateTime.now().minusDays(days);
-		List<Hashtag> hashtagList = hashtagmanager.getTrendingsHashtagsAfter(filterDate);
+		List<Hashtag> hashtagList = hashtagRepo.getTrendingsHashtagsAfter(filterDate);
         List<HashtagBundle> hashtagBundles = new LinkedList<HashtagBundle>();
         for(Hashtag hashtag : hashtagList) {
-            hashtagBundles.add(new HashtagBundle(hashtag, hashtagmanager.getMentions(hashtag, filterDate)));
+            hashtagBundles.add(new HashtagBundle(hashtag, hashtagRepo.getMentions(hashtag, filterDate)));
         }
 		mav.addObject("hashtags", hashtagBundles);
 		return mav;

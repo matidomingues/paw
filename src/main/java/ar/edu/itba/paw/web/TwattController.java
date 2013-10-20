@@ -1,13 +1,14 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.model.Twatt;
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.service.TwattService;
-import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.entity.Twatt;
+import ar.edu.itba.paw.entity.User;
+import ar.edu.itba.paw.repository.TwattRepo;
+import ar.edu.itba.paw.repository.UserRepo;
 import ar.edu.itba.paw.utils.exceptions.InvalidOperationExcetion;
 import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
+
 import com.google.common.base.Strings;
-import org.joda.time.DateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,10 @@ import javax.servlet.http.HttpSession;
 public class TwattController {
 
     @Autowired
-	private UserService usermanager;
+	private UserRepo userRepo;
 
     @Autowired
-	private TwattService twattmanager;
+	private TwattRepo twattRepo;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView add(@RequestParam("message") String message, HttpSession seq){
@@ -34,10 +35,10 @@ public class TwattController {
         }
        
         int user_id = (Integer) seq.getAttribute("user_id");
-        User user = this.usermanager.find(user_id);
+        User user = this.userRepo.find(user_id);
         
         ModelAndView mav = new ModelAndView("redirect:/bin/profile/"+user.getUsername());
-        twattmanager.addTwatt(new Twatt(user, message, false, DateTime.now()));
+        twattRepo.addTwatt(new Twatt(message, user));
         boolean result = true;
         if (!result) {
 			mav.addObject("error", "No es posible Twattear en este momento");
@@ -50,14 +51,14 @@ public class TwattController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView delete(@RequestParam("twattId") Integer twatt_id, HttpSession seq){
 		
-        Twatt twatt = this.twattmanager.getTwatt(twatt_id);
-        User user = this.usermanager.find((Integer)seq.getAttribute("user_if"));
+        Twatt twatt = this.twattRepo.getTwatt(twatt_id);
+        User user = this.userRepo.find((Integer)seq.getAttribute("user_if"));
 
         if (!twatt.getCreator().equals(user) && !user.isEnabled() && !twatt.isDeleted()) {
             throw new InvalidOperationExcetion();
         }
 
-        this.twattmanager.delete(twatt);
+        this.twattRepo.delete(twatt);
         
         ModelAndView mav = new ModelAndView("forward:/bin/profile/"+user.getUsername());
         mav.addObject("success", "Has elminiado un twatt!");

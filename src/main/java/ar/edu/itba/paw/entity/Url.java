@@ -1,12 +1,14 @@
-package ar.edu.itba.paw.model;
+package ar.edu.itba.paw.entity;
 
-public class Url extends PersistableEntity {
+import javax.persistence.Entity;
 
+@Entity
+public class Url extends PersistentEntity {
+	
 	private String base;
 	private String resol;
 
 	public Url(String base, String resol){
-        super(-1);
 		this.base = base;
 		this.resol = resol;
 	}
@@ -18,6 +20,5 @@ public class Url extends PersistableEntity {
 	public String getResol() {
 		return resol;
 	}
-	
 	
 }

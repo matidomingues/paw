@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.service.UrlService;
+import ar.edu.itba.paw.repository.UrlRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UrlController {
 
 	@Autowired
-    UrlService urlService;
+    UrlRepo urlRepo;
 	
 	@RequestMapping(value="{path}", method = RequestMethod.GET)
 	public String user(@PathVariable String path){
-		String redirect = urlService.resolve(path);
+		String redirect = urlRepo.resolve(path);
 		return "redirect:"+redirect;
 	}
 }

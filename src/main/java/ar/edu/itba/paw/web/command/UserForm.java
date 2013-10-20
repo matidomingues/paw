@@ -1,9 +1,10 @@
 package ar.edu.itba.paw.web.command;
 
-import ar.edu.itba.paw.model.User;
 import org.apache.commons.fileupload.FileItem;
 import org.joda.time.DateTime;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import ar.edu.itba.paw.entity.User;
 
 public class UserForm {
 
@@ -96,7 +97,7 @@ public class UserForm {
 	public User build(){
 		byte[] img = (photo == null)? new byte[0]:photo.getBytes();
 		if(user == null){
-			return new User(username, password, name, surname, description, DateTime.now(), secretquestion, secretanswer, img);
+			return new User(username, password, name, surname, description, secretquestion, secretanswer, img);
 		}else{
 			user.setUsername(username);
 			user.setName(name);

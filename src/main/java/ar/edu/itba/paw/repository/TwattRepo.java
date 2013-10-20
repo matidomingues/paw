@@ -1,12 +1,12 @@
-package ar.edu.itba.paw.service;
-
-import ar.edu.itba.paw.model.Hashtag;
-import ar.edu.itba.paw.model.Twatt;
+package ar.edu.itba.paw.repository;
 
 import java.util.List;
 
-public interface TwattService {
+import ar.edu.itba.paw.entity.Hashtag;
+import ar.edu.itba.paw.entity.Twatt;
 
+public interface TwattRepo {
+	
 	public void addTwatt(Twatt twatt);
 
 	public List<Twatt> getTwattsByUsername(String username);

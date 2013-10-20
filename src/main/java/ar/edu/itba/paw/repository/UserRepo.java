@@ -1,12 +1,12 @@
-package ar.edu.itba.paw.service;
-
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
+package ar.edu.itba.paw.repository;
 
 import java.util.List;
 
-public interface UserService {
+import ar.edu.itba.paw.entity.User;
+import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
+public interface UserRepo {
+	
 	public User authenticate(String username, String password);
 
 	public boolean registerUser(User user) throws DuplicatedUserException;
@@ -22,7 +22,5 @@ public interface UserService {
 	public void userRestore(String username, String secretAnswer,
 			String newPassword);
 
-	public boolean isValidUser(User user);
-
-    public User find(int id);
+	public User find(int id);
 }

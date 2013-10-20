@@ -1,6 +1,6 @@
-package ar.edu.itba.paw.service;
+package ar.edu.itba.paw.helper;
 
-public interface MessageService {
+public interface MessageHelper {
 
     public String prepareMessage(String context, String message);
 

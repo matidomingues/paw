@@ -1,7 +1,9 @@
-package ar.edu.itba.paw.service.implementations;
+package ar.edu.itba.paw.helper.impl;
 
-import ar.edu.itba.paw.service.MessageService;
+import ar.edu.itba.paw.helper.MessageHelper;
+
 import com.google.common.base.Strings;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -10,12 +12,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class MessageServiceImpl implements MessageService {
+public class MessageHelperImpl implements MessageHelper {
 
 	private Pattern urlPattern;
 	private Pattern hashtagPattern;
 
-	public MessageServiceImpl() {
+	public MessageHelperImpl() {
 		urlPattern = Pattern.compile("/s/[a-z0-9]{5}");
 		hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
 	}

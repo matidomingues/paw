@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.utils;
 
-import ar.edu.itba.paw.model.Hashtag;
+import ar.edu.itba.paw.entity.Hashtag;
+
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,36 +1,35 @@
-package ar.edu.itba.paw.service.implementations;
-
-import ar.edu.itba.paw.model.Hashtag;
-import ar.edu.itba.paw.model.Twatt;
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.model.database.TwattDAO;
-import ar.edu.itba.paw.service.HashtagService;
-import ar.edu.itba.paw.service.TwattService;
-import ar.edu.itba.paw.service.UrlService;
-import ar.edu.itba.paw.service.UserService;
-import com.google.common.base.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package ar.edu.itba.paw.repository.impl;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Service
-public class TwattServiceImpl implements TwattService {
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-	private UrlService urlService;
-	private UserService usermanager;
-	private TwattDAO twattDAO;
-	private HashtagService hashtagHelper;
+import com.google.common.base.Strings;
 
+import ar.edu.itba.paw.entity.Hashtag;
+import ar.edu.itba.paw.entity.User;
+import ar.edu.itba.paw.entity.Twatt;
+import ar.edu.itba.paw.repository.HashtagRepo;
+import ar.edu.itba.paw.repository.TwattRepo;
+import ar.edu.itba.paw.repository.UrlRepo;
+import ar.edu.itba.paw.repository.UserRepo;
+
+public class HibernateTwattRepo extends AbstractHibernateRepo implements TwattRepo{
+
+	private UserRepo userRepo;
+	private HashtagRepo hastagRepo;
+	private UrlRepo urlRepo;
+	
 	@Autowired
-	public TwattServiceImpl(TwattDAO twattDAO, HashtagService hastagService, UserService userService, UrlService urlService) {
-	    this.usermanager = userService;
-	    this.twattDAO = twattDAO;
-	    this.urlService = urlService;
-	    this.hashtagHelper = hastagService;
+	public HibernateTwattRepo(SessionFactory sessionFactory, UserRepo userRepo, HashtagRepo hastagRepo, UrlRepo urlRepo) {
+		super(sessionFactory);
+		this.userRepo = userRepo;
+		this.hastagRepo = hastagRepo;
+		this.urlRepo = urlRepo;
 	}
 
 	private String shortenUrls(String message) {
@@ -43,17 +42,18 @@ public class TwattServiceImpl implements TwattService {
 		String newurl;
 		while (urlMatcher.find()) {
 			String oldurl = urlMatcher.group();
-			newurl = urlService.shorten(oldurl);
+			newurl = urlRepo.shorten(oldurl);
 			message = message.replace(oldurl, newurl);
 		}
 		return message;
 	}
 
 	public void addTwatt(Twatt twatt) {
-		if (this.isValidTwatt(twatt) && !twatt.isDeleted() ) {
+		if (this.isValidTwatt(twatt) && !twatt.isDeleted()) {
 			twatt.setMessage(shortenUrls(twatt.getMessage()));
-			this.twattDAO.create(twatt);
-            this.hashtagHelper.resolveHashtags(this.twattDAO.find(twatt));
+			twatt.getCreator().addTwatt(twatt);
+			save(twatt);
+            hastagRepo.resolveHashtags(twatt);
 		} else {
             throw new IllegalArgumentException("Invalid twatt");
         }
@@ -63,9 +63,9 @@ public class TwattServiceImpl implements TwattService {
         if (Strings.isNullOrEmpty(username)) {
             throw new IllegalArgumentException("Invalid username");
         }
-		User user = usermanager.getUserByUsername(username);
+		User user = userRepo.getUserByUsername(username);
 		if (user != null) {
-			return twattDAO.find(user);
+			return user.getTwatts();
 
 		}
 		return new LinkedList<Twatt>();
@@ -75,27 +75,28 @@ public class TwattServiceImpl implements TwattService {
     public boolean isValidTwatt(Twatt twatt) {
         return twatt != null &&
                 twatt.getCreator() != null &&
-                usermanager.isValidUser(twatt.getCreator()) &&
+                twatt.getCreator().isValidUser() &&
                 !Strings.isNullOrEmpty(twatt.getMessage()) &&
                 twatt.getTimestamp() != null;
     }
 
     public List<Twatt> getTwattsByHashtag(Hashtag hashtag) {
-        if (!this.hashtagHelper.isValid(hashtag)) {
+        if (!hashtag.isValid()) {
             throw new IllegalArgumentException("Invalid hashtag");
         }
-        return this.twattDAO.find(hashtag);
+        return hashtag.getTwatts();
     }
 
     public Twatt getTwatt(int twatt_id) {
         if (twatt_id <= 0) {
             throw  new IllegalArgumentException("Invalid id");
         }
-        return this.twattDAO.find(twatt_id);
+        return get(Twatt.class, twatt_id);
     }
 
     public void delete(Twatt twatt) {
         twatt.setDeleted();
-        this.twattDAO.update(twatt);
+        save(twatt);
     }
+
 }

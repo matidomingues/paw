@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.model.Twatt;
-import ar.edu.itba.paw.model.User;
-import ar.edu.itba.paw.service.MessageService;
-import ar.edu.itba.paw.service.TwattService;
-import ar.edu.itba.paw.service.UserService;
+import ar.edu.itba.paw.entity.Twatt;
+import ar.edu.itba.paw.entity.User;
+import ar.edu.itba.paw.helper.MessageHelper;
+import ar.edu.itba.paw.repository.TwattRepo;
+import ar.edu.itba.paw.repository.UserRepo;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 import ar.edu.itba.paw.web.command.UserForm;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
@@ -12,6 +12,7 @@ import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,13 +36,13 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-	private UserService usermanager;
+	private UserRepo userRepo;
 
     @Autowired
-	private TwattService twattmanager;
+	private TwattRepo twattRepo;
 
     @Autowired
-	private MessageService messagemanager;
+	private MessageHelper messagemanager;
 
     @Autowired
 	private UserFormValidator validator;
@@ -51,10 +53,10 @@ public class UserController {
 	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
 	public ModelAndView user(@PathVariable String username) {
 		ModelAndView mav = new ModelAndView("user/userdetail");
-		User user = usermanager.getUserByUsername(username);
+		User user = userRepo.getUserByUsername(username);
 		if (user != null) {
 			mav.addObject("searchuser", user);
-			List<Twatt> twatts = twattmanager.getTwattsByUsername(user
+			List<Twatt> twatts = twattRepo.getTwattsByUsername(user
 					.getUsername());
 			for (Twatt twatt : twatts) {
 				twatt.setMessage(messagemanager.prepareMessage("/",
@@ -72,14 +74,14 @@ public class UserController {
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	public ModelAndView find() {
 		ModelAndView mav = new ModelAndView("user/find");
-		mav.addObject("users", usermanager.getAll());
+		mav.addObject("users", userRepo.getAll());
 		return mav;
 	}
 
 	@RequestMapping(value = "/find", method = RequestMethod.POST)
 	public ModelAndView find(@RequestParam("username") String username) {
 		ModelAndView mav = new ModelAndView("user/find");
-		mav.addObject("users", usermanager.find(username));
+		mav.addObject("users", userRepo.find(username));
 		return mav;
 	}
 
@@ -87,7 +89,7 @@ public class UserController {
 	public ModelAndView settings(HttpSession seq) {
 		ModelAndView mav = new ModelAndView();
 		Integer user_id = (Integer) seq.getAttribute("user_id");
-		User user = usermanager.find(user_id);
+		User user = userRepo.find(user_id);
 		mav.addObject("userForm", new UserForm(user));
 		return mav;
 	}
@@ -99,7 +101,7 @@ public class UserController {
 			return null;
 		}
 		try {
-			usermanager.updateUser(editForm.build());
+			userRepo.updateUser(editForm.build());
 		} catch (IllegalArgumentException e) {
 			errors.rejectValue("username", "invalid");
 			return null;
@@ -138,7 +140,7 @@ public class UserController {
 			return null;
 		}
 		try {
-			usermanager.registerUser(userForm.build());
+			userRepo.registerUser(userForm.build());
 		} catch (DuplicatedUserException e) {
 			errors.rejectValue("username", "duplicated");
 			return null;
@@ -165,7 +167,7 @@ public class UserController {
 
 	@RequestMapping(value = "restore/{username}", method = RequestMethod.GET)
 	public ModelAndView restoreQuestion(@PathVariable String username) {
-		User user = usermanager.getUserByUsername(username);
+		User user = userRepo.getUserByUsername(username);
 		if (user != null) {
 			ModelAndView mav = new ModelAndView("user/restoreq");
 			mav.addObject("restoreuser", user);
@@ -184,7 +186,7 @@ public class UserController {
 			@RequestParam("confirmpassword") String newPassword) {
 		if(password.equals(newPassword)){
 			try{
-				usermanager.userRestore(username, answer, password);
+				userRepo.userRestore(username, answer, password);
 				return "redirect:/bin/user/login";
 			}catch(Exception e){
 				return "redirect:/bin/restore";
@@ -195,7 +197,7 @@ public class UserController {
 
     @RequestMapping(value = "/image/{username}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getFile(@PathVariable String username)  {
-        User user = usermanager.getUserByUsername(username);
+        User user = userRepo.getUserByUsername(username);
         ResponseEntity<byte[]> responseEntity = null;
         if (user == null) {
             return responseEntity;
