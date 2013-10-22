@@ -35,20 +35,20 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    @Autowired
+	@Autowired
 	private UserRepo userRepo;
 
-    @Autowired
+	@Autowired
 	private TwattRepo twattRepo;
 
-    @Autowired
+	@Autowired
 	private MessageHelper messagemanager;
 
-    @Autowired
+	@Autowired
 	private UserFormValidator validator;
 
-    @Autowired
-    private ServletContext servletContext;
+	@Autowired
+	private ServletContext servletContext;
 
 	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
 	public ModelAndView user(@PathVariable String username) {
@@ -163,7 +163,7 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView restore(@RequestParam("username") String username) {
-		return new ModelAndView("redirect:restore/"+username);
+		return new ModelAndView("redirect:restore/" + username);
 	}
 
 	@RequestMapping(value = "restore/{username}", method = RequestMethod.GET)
@@ -185,46 +185,67 @@ public class UserController {
 			@RequestParam("secretanswer") String answer,
 			@RequestParam("password") String password,
 			@RequestParam("confirmpassword") String newPassword) {
-		if(password.equals(newPassword)){
-			try{
+		if (password.equals(newPassword)) {
+			try {
 				userRepo.userRestore(username, answer, password);
 				return "redirect:/bin/user/login";
-			}catch(Exception e){
+			} catch (Exception e) {
 				return "redirect:/bin/restore";
 			}
 		}
 		return "redirect:/bin/user/restore";
 	}
 
-    @RequestMapping(value = "/image/{username}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getFile(@PathVariable String username)  {
-        TwattUser user = userRepo.getUserByUsername(username);
-        ResponseEntity<byte[]> responseEntity = null;
-        if (user == null) {
-            return responseEntity;
-        }
-        byte[] photo = null;
-        if ((photo = user.getPhoto()) == null || photo.length == 0) {
-            Path path = Paths.get(servletContext.getRealPath("/img/default_user_icon.png"));
-            try {
-                photo = Files.readAllBytes(path);
-            } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-        }
-        String[] contentType = null;
-        try {
-            contentType = Magic.getMagicMatch(photo).getMimeType().split("/");
-        } catch (MagicParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MagicMatchNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MagicException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setContentType(new MediaType(contentType[0], contentType[1]));
-        responseEntity = new ResponseEntity<byte[]>(photo, responseHeaders, HttpStatus.CREATED);
-        return responseEntity;
-    }
+	@RequestMapping(value = "/image/{username}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> getFile(@PathVariable String username) {
+		TwattUser user = userRepo.getUserByUsername(username);
+		ResponseEntity<byte[]> responseEntity = null;
+		if (user == null) {
+			return responseEntity;
+		}
+		byte[] photo = null;
+		if ((photo = user.getPhoto()) == null || photo.length == 0) {
+			Path path = Paths.get(servletContext
+					.getRealPath("/img/default_user_icon.png"));
+			try {
+				photo = Files.readAllBytes(path);
+			} catch (IOException e) {
+				e.printStackTrace(); // To change body of catch statement use
+										// File | Settings | File Templates.
+			}
+		}
+		String[] contentType = null;
+		try {
+			contentType = Magic.getMagicMatch(photo).getMimeType().split("/");
+		} catch (MagicParseException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		} catch (MagicMatchNotFoundException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		} catch (MagicException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		}
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setContentType(new MediaType(contentType[0],
+				contentType[1]));
+		responseEntity = new ResponseEntity<byte[]>(photo, responseHeaders,
+				HttpStatus.CREATED);
+		return responseEntity;
+	}
+
+	@RequestMapping(value = "/follow/{user}", method = RequestMethod.GET)
+	public String follow(@PathVariable TwattUser user, HttpSession seq) {
+		TwattUser localUser = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+		localUser.addFollowing(user);
+		return "redirect:/bin/profile/"+localUser.getUsername();
+	}
+	
+	@RequestMapping(value = "/unfollow/{user}", method = RequestMethod.GET)
+	public String unfollow(@PathVariable TwattUser user, HttpSession seq) {
+		TwattUser localUser = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+		localUser.removeFollowing(user);
+		return "redirect:/bin/profile/"+localUser.getUsername();
+	}
 }
