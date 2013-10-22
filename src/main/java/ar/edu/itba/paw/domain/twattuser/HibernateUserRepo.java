@@ -47,7 +47,12 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		if (Strings.isNullOrEmpty(username)) {
 			throw new IllegalArgumentException("Invalid username");
 		}
-		return (TwattUser)(find("from TwattUser where username=?", username).get(0));
+		List<TwattUser> user = super.find("from TwattUser where username = ?", username);
+		if(user.isEmpty()){
+			System.out.println("empty");
+			return null;
+		}
+		return user.get(0);
 	}
 
 	public boolean updateUser(TwattUser user) {

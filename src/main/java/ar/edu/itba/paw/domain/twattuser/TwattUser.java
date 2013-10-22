@@ -7,10 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
 import ar.edu.itba.paw.domain.twatt.Twatt;
+
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -47,6 +49,12 @@ public class TwattUser extends PersistentEntity {
 	@OneToMany(mappedBy="creator", cascade=CascadeType.ALL)
 	private List<Twatt> twatts;
 
+	@OneToMany(mappedBy="followers", cascade=CascadeType.ALL)
+	private List<TwattUser> followings;
+	
+	@ManyToOne
+	private List<TwattUser> followers;
+	
 	TwattUser() {
 	}
 
@@ -68,6 +76,24 @@ public class TwattUser extends PersistentEntity {
 
 	public DateTime getDate() {
 		return date;
+	}
+	
+	private void addFollower(TwattUser user){
+		this.followers.add(user);
+	}
+	
+	public void addFollowing(TwattUser user){
+		user.addFollower(this);
+		this.followings.add(user);
+	}
+	
+	private void removeFollower(TwattUser user){
+		this.followers.remove(user);
+	}
+	
+	public void removeFollowing(TwattUser user){
+		user.removeFollower(this);
+		this.followings.remove(user);
 	}
 
 	public void setDate(DateTime date) {

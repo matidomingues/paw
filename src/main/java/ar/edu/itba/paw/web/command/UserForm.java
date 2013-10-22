@@ -1,13 +1,12 @@
 package ar.edu.itba.paw.web.command;
 
-import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
 public class UserForm {
 
-	private TwattUser user;
+	private TwattUser twattUser;
 	private String username;
 	private String name;
 	private String surname;
@@ -22,7 +21,7 @@ public class UserForm {
 	}
 	
 	public UserForm(TwattUser user){
-		this.user = user;
+		this.twattUser = user;
 		this.username = user.getUsername();
 		this.name = user.getName();
 		this.surname = user.getSurname();
@@ -33,8 +32,8 @@ public class UserForm {
 		this.secretanswer = user.getSecretAnswer();
 	}
 	
-	public TwattUser getUser() {
-		return user;
+	public TwattUser getTwattUser() {
+		return twattUser;
 	}
 	public String getUsername() {
 		return username;
@@ -66,8 +65,8 @@ public class UserForm {
 	public void setUsername(String username){
 		this.username = username;
 	}
-	public void setUser(TwattUser user) {
-		this.user = user;
+	public void setTwattUser(TwattUser user) {
+		this.twattUser = user;
 	}
 	public void setName(String name) {
 		this.name = name;
@@ -95,18 +94,24 @@ public class UserForm {
 	}
 	public TwattUser build(){
 		byte[] img = (photo == null)? new byte[0]:photo.getBytes();
-		if(user == null){
+		if(twattUser == null){
 			return new TwattUser(username, password, name, surname, description, secretquestion, secretanswer, img);
 		}else{
-			user.setUsername(username);
-			user.setName(name);
-			user.setSurname(surname);
-			user.setPassword(password);
-			user.setDescription(description);
-			user.setSecretQuestion(secretquestion);
-			user.setSecretAnswer(secretanswer);
-			user.setPhoto(img);
-			return user;
+			if(username != null){
+				twattUser.setUsername(username);
+			}
+			twattUser.setName(name);
+			twattUser.setSurname(surname);
+			twattUser.setPassword(password);
+			twattUser.setDescription(description);
+			if(secretquestion != null){
+				twattUser.setSecretQuestion(secretquestion);
+			}
+			if(secretanswer != null){
+				twattUser.setSecretAnswer(secretanswer);
+			}
+			twattUser.setPhoto(img);
+			return twattUser;
 		}
 	}
 }

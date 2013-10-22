@@ -103,10 +103,11 @@ public class UserController {
 		try {
 			userRepo.updateUser(editForm.build());
 		} catch (IllegalArgumentException e) {
+			System.out.println("error");
 			errors.rejectValue("username", "invalid");
 			return null;
 		}
-		return "redirect:/bin/profile/" + editForm.getUsername();
+		return "redirect:/bin/profile/" + seq.getAttribute("user_username");
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -117,12 +118,12 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String login(@RequestParam("username") TwattUser user,
 			@RequestParam("password") String password, HttpSession seq) {
-		if (user.checkPassword(password)) {
+		if (user != null && user.checkPassword(password)) {
 			seq.setAttribute("user_id", user.getId());
 			seq.setAttribute("user_username", user.getUsername());
 			return "redirect:/bin/home";
 		}
-		return "forward:login";
+		return "redirect:login";
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

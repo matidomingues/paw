@@ -5,23 +5,27 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
+
 public class EnhancedFormattingConversionServiceFactoryBean extends
 		FormattingConversionServiceFactoryBean {
 
 	private Converter<?, ?>[] converters;
+	private UserFormatter userFormatter;
 
 	@Autowired
 	public EnhancedFormattingConversionServiceFactoryBean(
-			final Converter<?, ?>[] converters) {
+			Converter<?, ?>[] converters, UserFormatter userFormatter) {
 		this.converters = converters;
+		this.userFormatter = userFormatter;
 	}
 
 	@Override
-	protected void installFormatters(final FormatterRegistry registry) {
+	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);
-		for (final Converter<?, ?> c : this.converters) {
-			System.out.println(c);
+		for (Converter<?, ?> c : converters) {
 			registry.addConverter(c);
 		}
+		registry.addFormatterForFieldType(TwattUser.class, userFormatter);
 	}
 }

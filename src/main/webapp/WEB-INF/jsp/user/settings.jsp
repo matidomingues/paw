@@ -7,9 +7,8 @@
 			<form:form action="settings" method="post" commandName="userForm" enctype="multipart/form-data">
 			<div class="error"><form:errors path="*" /></div>
 	
-				<form:hidden path="username" />
-				<form:hidden path="secretquestion" />
-				<form:hidden path="secretanswer" />
+				<form:hidden path="twattUser" />
+				
 				<div class="row input-padding">
 					<div class="col-md-2">
 						<label class="input-label">Nombre</label>
