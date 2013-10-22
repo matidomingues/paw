@@ -40,7 +40,7 @@ public class MessageHelperImpl implements MessageHelper {
 		StringBuffer sb = new StringBuffer();
 		while (hashtagMatcher.find()) {
 			String hashtag = hashtagMatcher.group();
-			hashtagMatcher.appendReplacement(sb, "<a href=\"/hashtag/"
+			hashtagMatcher.appendReplacement(sb, "<a href=\"/bin/hashtag/"
 					+ hashtag.trim().split("#")[1] + "\">" + hashtag + "</a>");
 		}
 		hashtagMatcher.appendTail(sb);

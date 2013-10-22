@@ -1,9 +1,10 @@
-package ar.edu.itba.paw.hibernate.repository.impl;
+package ar.edu.itba.paw.domain.hashtag;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
 
-import ar.edu.itba.paw.hibernate.entity.Hashtag;
-import ar.edu.itba.paw.hibernate.entity.Twatt;
-import ar.edu.itba.paw.hibernate.repository.HashtagRepo;
+import ar.edu.itba.paw.domain.twatt.Twatt;
 
 @Repository
-public class HibernateHashtagRepo extends AbstractHibernateRepo implements
+public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> implements
 		HashtagRepo {
 	
 	private Pattern hashtagPattern = Pattern
@@ -53,7 +52,11 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo implements
 		if (Strings.isNullOrEmpty(hashtag)) {
 			throw new IllegalArgumentException("Invalid hashtag");
 		}
-		return (Hashtag)find("from Hashtag where tagName = ?", hashtag).get(0);
+        List<Hashtag> hashtags = find("from Hashtag where tagName = ?", hashtag);
+        if (hashtags.isEmpty()) {
+            return  null;
+        }
+        return hashtags.get(0);
 	}
 
 	public List<Hashtag> getHashtags(Twatt twatt) {
@@ -67,7 +70,7 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo implements
 		if (dateTime == null || dateTime.isAfterNow()) {
 			throw new IllegalArgumentException("Invalid Date");
 		}
-		return find("from Hashtag where date > ?", dateTime);
+		return find("from Hashtag where firstTwatt.timestamp > ?", dateTime);
 	}
 
 	public void relate(Hashtag hashtag, Twatt twatt) {

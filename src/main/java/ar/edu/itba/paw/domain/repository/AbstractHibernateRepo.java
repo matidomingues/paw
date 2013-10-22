@@ -1,13 +1,14 @@
-package ar.edu.itba.paw.hibernate.repository.impl;
+package ar.edu.itba.paw.domain.repository;
 
 import java.io.Serializable;
 import java.util.List;
 
+import ar.edu.itba.paw.domain.entity.PersistentEntity;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 
-public abstract class AbstractHibernateRepo {
+public abstract class AbstractHibernateRepo<T extends PersistentEntity> {
 	private final SessionFactory sessionFactory;
 
 	public AbstractHibernateRepo(SessionFactory sessionFactory) {
@@ -15,12 +16,12 @@ public abstract class AbstractHibernateRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T get(Class<T> type, Serializable id) {
+	public T get(Class<T> type, Serializable id) {
 		return (T) getSession().get(type, id);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> List<T> find(String hql, Object... params) {
+	public List<T> find(String hql, Object... params) {
 		Session session = getSession();
 
 		Query query = session.createQuery(hql);
@@ -35,7 +36,7 @@ public abstract class AbstractHibernateRepo {
 		return sessionFactory.getCurrentSession();
 	}
 
-	public Serializable save(Object o) {
+	public Serializable save(T o) {
 		return getSession().save(o);
 	}
 

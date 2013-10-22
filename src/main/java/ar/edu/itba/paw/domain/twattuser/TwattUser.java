@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.hibernate.entity;
+package ar.edu.itba.paw.domain.twattuser;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import ar.edu.itba.paw.domain.twatt.Twatt;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Strings;
@@ -20,12 +23,22 @@ public class TwattUser extends PersistentEntity {
 	private String username;
 	
 	private String name;
+
 	private String surname;
+
 	private String password;
+
 	private String description;
+
 	private String secretQuestion;
+
 	private String secretAnswer;
+
+    @Column(nullable = false)
+    @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	private DateTime date;
+
+    @Column(nullable = false)
 	private boolean enabled;
 	
 	@Lob
@@ -49,7 +62,7 @@ public class TwattUser extends PersistentEntity {
 		this.secretAnswer = secretanswer;
 		this.photo = photo;
 		this.twatts = new LinkedList<Twatt>();
-		this.date = DateTime.now();
+		this.date = new DateTime();
 		this.enabled = true;
 	}
 

@@ -1,4 +1,6 @@
-package ar.edu.itba.paw.hibernate.entity;
+package ar.edu.itba.paw.domain.url;
+
+import ar.edu.itba.paw.domain.entity.PersistentEntity;
 
 import javax.persistence.Entity;
 

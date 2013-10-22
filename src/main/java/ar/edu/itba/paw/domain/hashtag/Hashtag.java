@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.hibernate.entity;
+package ar.edu.itba.paw.domain.hashtag;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import ar.edu.itba.paw.domain.twatt.Twatt;
 import com.google.common.base.Strings;
 
 @Entity

@@ -1,10 +1,9 @@
 package ar.edu.itba.paw.web.command;
 
-import org.apache.commons.fileupload.FileItem;
-import org.joda.time.DateTime;
+import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import ar.edu.itba.paw.hibernate.entity.TwattUser;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
 public class UserForm {
 

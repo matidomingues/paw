@@ -21,7 +21,7 @@
 							<tbody>
 								<c:forEach items="${hashtags}" var="hashtagBundle">
 									<tr>
-										<td><a href="${pageContext.request.contextPath}/hashtag/<c:out value='${hashtagBundle.hashtag.tagName}'/>">#<c:out value="${hashtagBundle.hashtag.tagName}"></c:out></a></td>
+										<td><a href="${pageContext.request.contextPath}/bin/hashtag/<c:out value='${hashtagBundle.hashtag.tagName}'/>">#<c:out value="${hashtagBundle.hashtag.tagName}"></c:out></a></td>
 										<td><c:out value="${hashtagBundle.mentions}"></c:out></td>
 									</tr>
 								</c:forEach>

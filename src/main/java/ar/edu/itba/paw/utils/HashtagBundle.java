@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.utils;
 
-import ar.edu.itba.paw.hibernate.entity.Hashtag;
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
 
 
 /**

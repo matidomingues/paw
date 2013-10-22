@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.hibernate.entity;
+package ar.edu.itba.paw.domain.entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

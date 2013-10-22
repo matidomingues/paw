@@ -7,7 +7,7 @@
                     <div class="panel-heading">Primer Twatt</div>
 
                     <c:choose>
-                        <c:when test="${not empty hashtag and not hashtag.firstTweet.deleted}">
+                        <c:when test="${not empty hashtag and not hashtag.firstTwatt.deleted}">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -18,8 +18,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:set var="twatt" value="${hashtag.firstTweet}"/>
-                                <%@include file="twatt.jsp" %>
+                                <c:set var="twatt" value="${hashtag.firstTwatt}"/>
+                                <%@include file="../twatt.jsp" %>
                                 </tbody>
                             </table>
                         </c:when>
@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                             <c:forEach items="${twatts}" var="twatt">
-                                <%@include file="twatt.jsp" %>
+                                <%@include file="../twatt.jsp" %>
                             </c:forEach>
                             </tbody>
                         </table>

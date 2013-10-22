@@ -1,26 +1,25 @@
-package ar.edu.itba.paw.hibernate.repository.impl;
+package ar.edu.itba.paw.domain.twatt;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
 
-import ar.edu.itba.paw.hibernate.entity.Hashtag;
-import ar.edu.itba.paw.hibernate.entity.Twatt;
-import ar.edu.itba.paw.hibernate.entity.TwattUser;
-import ar.edu.itba.paw.hibernate.repository.HashtagRepo;
-import ar.edu.itba.paw.hibernate.repository.TwattRepo;
-import ar.edu.itba.paw.hibernate.repository.UrlRepo;
-import ar.edu.itba.paw.hibernate.repository.UserRepo;
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
+import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
+import ar.edu.itba.paw.domain.url.UrlRepo;
+import ar.edu.itba.paw.domain.twattuser.UserRepo;
 
 @Repository
-public class HibernateTwattRepo extends AbstractHibernateRepo implements TwattRepo{
+public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements TwattRepo{
 
 	private UserRepo userRepo;
 	private HashtagRepo hastagRepo;

@@ -22,7 +22,7 @@
 								</thead>
 								<tbody>
 								<c:forEach items="${twatts}" var="twatt">
-                                    <%@include file="twatt.jsp" %>
+                                    <%@include file="../twatt.jsp" %>
 								</c:forEach>
 								</tbody>
 							</table>

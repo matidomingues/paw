@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.itba.paw.hibernate.entity.Hashtag;
-import ar.edu.itba.paw.hibernate.entity.Twatt;
-import ar.edu.itba.paw.hibernate.repository.HashtagRepo;
-import ar.edu.itba.paw.hibernate.repository.TwattRepo;
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
+import ar.edu.itba.paw.domain.twatt.TwattRepo;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.web;
 
 import ar.edu.itba.paw.helper.MessageHelper;
-import ar.edu.itba.paw.hibernate.entity.Hashtag;
-import ar.edu.itba.paw.hibernate.repository.HashtagRepo;
-import ar.edu.itba.paw.hibernate.repository.TwattRepo;
-import ar.edu.itba.paw.hibernate.repository.UserRepo;
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
+import ar.edu.itba.paw.domain.twatt.TwattRepo;
+import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.utils.HashtagBundle;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
 
@@ -51,7 +51,7 @@ public class GeneralController {
         } catch (Exception e) {
 
         }
-        DateTime filterDate = DateTime.now().minusDays(days);
+        DateTime filterDate = new DateTime().minusDays(days);
 		List<Hashtag> hashtagList = hashtagRepo.getTrendingsHashtagsAfter(filterDate);
         List<HashtagBundle> hashtagBundles = new LinkedList<HashtagBundle>();
         for(Hashtag hashtag : hashtagList) {

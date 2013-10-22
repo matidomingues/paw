@@ -1,9 +1,9 @@
-package ar.edu.itba.paw.hibernate.repository;
+package ar.edu.itba.paw.domain.twatt;
 
 import java.util.List;
 
-import ar.edu.itba.paw.hibernate.entity.Hashtag;
-import ar.edu.itba.paw.hibernate.entity.Twatt;
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.twatt.Twatt;
 
 public interface TwattRepo {
 	

@@ -39,11 +39,11 @@
 	</filter>
 
 	<filter-mapping>
-		<filter-name>transactionFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<filter-name>errorFilter</filter-name>
+		<url-pattern>/bin/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>errorFilter</filter-name>
+		<filter-name>transactionFilter</filter-name>
 		<url-pattern>/bin/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>

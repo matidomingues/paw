@@ -1,20 +1,27 @@
-package ar.edu.itba.paw.hibernate.entity;
+package ar.edu.itba.paw.domain.twatt;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 @Entity
 public class Twatt extends PersistentEntity {
 
+    @Column(nullable = false)
 	private String message;
+
+    @Column(nullable = false)
+    @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	private DateTime timestamp;
+
+    @Column(nullable = false)
 	private boolean deleted;
 
 	@ManyToOne
@@ -29,7 +36,7 @@ public class Twatt extends PersistentEntity {
 	public Twatt(String message, TwattUser user) {
 		this.message = message;
 		this.creator = user;
-		this.timestamp = DateTime.now();
+		this.timestamp = new DateTime();
 		this.deleted = false;
 		this.hashtags = new LinkedList<Hashtag>();
 		user.addTwatt(this);

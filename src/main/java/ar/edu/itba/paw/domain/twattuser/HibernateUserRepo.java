@@ -1,19 +1,18 @@
-package ar.edu.itba.paw.hibernate.repository.impl;
+package ar.edu.itba.paw.domain.twattuser;
 
 import java.util.List;
 
+import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
 
-import ar.edu.itba.paw.hibernate.entity.TwattUser;
-import ar.edu.itba.paw.hibernate.repository.UserRepo;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
 @Repository
-public class HibernateUserRepo extends AbstractHibernateRepo implements
+public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implements
 		UserRepo {
 	
 	@Autowired
@@ -55,19 +54,19 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 		if (!user.isValidUser()) {
 			throw new IllegalArgumentException("Invalid user");
 		}
-		save(user);
+	    //save(user);
 		return true;
 	}
 
 	public List<TwattUser> getAll() {
-		return find("from User");
+		return super.find("from TwattUser");
 	}
 
 	public List<TwattUser> find(String username) {
 		if (Strings.isNullOrEmpty(username)) {
 			throw new IllegalArgumentException("Invalid username");
 		}
-		return find("from TwattUser where username LIKE%?%", username);
+		return super.find("from TwattUser where username LIKE '%" + username + "%'");
 
 	}
 
