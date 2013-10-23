@@ -6,7 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
+
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -98,5 +101,17 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements 
         twatt.setDeleted();
         save(twatt);
     }
+
+	@Override
+	public List<Twatt> getTwattsByFollowings(TwattUser user) {
+		Session session = super.getSession();
+		String hql = "from Twatt where creator IN (:ids)";
+		Query query = session.createQuery(hql);
+		query.setParameterList("ids", user.getFollowings());
+		List<Twatt> list = query.list();
+		return list;
+//		List<TwattUser> followings = user.getFollowings();
+		//return super.find("from Twatt where creator IN ?", user.getFollowings());
+	}
 
 }

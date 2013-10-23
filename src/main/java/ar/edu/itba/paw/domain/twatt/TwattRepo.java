@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
 public interface TwattRepo {
 	
@@ -18,4 +19,6 @@ public interface TwattRepo {
     Twatt getTwatt(int twatt_id);
 
     void delete(Twatt twatt);
+    
+    List<Twatt> getTwattsByFollowings(TwattUser user);
 }

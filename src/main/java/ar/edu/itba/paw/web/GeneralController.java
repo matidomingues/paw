@@ -4,6 +4,7 @@ import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.utils.HashtagBundle;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
@@ -41,7 +44,7 @@ public class GeneralController {
     private UserFormValidator validator;
 
 	@RequestMapping(value="home", method = RequestMethod.GET)
-	public ModelAndView	home(@RequestParam(value="dayfilter", required=false) String sDays) {
+	public ModelAndView	home(@RequestParam(value="dayfilter", required=false) String sDays,HttpSession seq) {
 		ModelAndView mav = new ModelAndView();
 		int days = 1;
         try {
@@ -51,6 +54,7 @@ public class GeneralController {
         } catch (Exception e) {
 
         }
+        TwattUser user = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
         DateTime filterDate = new DateTime().minusDays(days);
 		List<Hashtag> hashtagList = hashtagRepo.getTrendingsHashtagsAfter(filterDate);
         List<HashtagBundle> hashtagBundles = new LinkedList<HashtagBundle>();
@@ -58,6 +62,11 @@ public class GeneralController {
             hashtagBundles.add(new HashtagBundle(hashtag, hashtagRepo.getMentions(hashtag, filterDate)));
         }
 		mav.addObject("hashtags", hashtagBundles);
+		
+		if(user.getFollowings().size() != 0){
+			mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(user));
+		}
+		
 		return mav;
 	}
 	
