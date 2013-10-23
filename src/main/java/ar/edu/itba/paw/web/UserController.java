@@ -51,11 +51,21 @@ public class UserController {
 	private ServletContext servletContext;
 
 	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
-	public ModelAndView user(@PathVariable String username) {
+	public ModelAndView user(@PathVariable String username, HttpSession seq) {
 		ModelAndView mav = new ModelAndView("user/userdetail");
+		TwattUser localUser = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
 		TwattUser user = userRepo.getUserByUsername(username);
 		if (user != null) {
 			mav.addObject("searchuser", user);
+			
+			if(!user.equals(localUser)){
+				if(user.isFollowedBy(localUser)){
+					mav.addObject("follow", false);
+				}else{
+					mav.addObject("follow", true);
+				}
+			}
+			
 			List<Twatt> twatts = twattRepo.getTwattsByUsername(user
 					.getUsername());
 			for (Twatt twatt : twatts) {

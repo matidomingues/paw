@@ -54,7 +54,7 @@ public class TwattUser extends PersistentEntity {
 	@ManyToMany
 	private List<TwattUser> followers = new ArrayList<TwattUser>();
 	
-	@OneToMany(mappedBy="followers", cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy="followers", cascade=CascadeType.ALL)
 	private List<TwattUser> followings = new ArrayList<TwattUser>();;
 	
 
@@ -81,6 +81,15 @@ public class TwattUser extends PersistentEntity {
 		return date;
 	}
 	
+	public List<TwattUser> getFollowers(){
+		return followers;
+	}
+	
+	public List<TwattUser> getFollowings(){
+		System.out.println(this.followings.size());
+		return followings;
+	}
+	
 	private void addFollower(TwattUser user){
 		this.followers.add(user);
 	}
@@ -88,6 +97,7 @@ public class TwattUser extends PersistentEntity {
 	public void addFollowing(TwattUser user){
 		user.addFollower(this);
 		this.followings.add(user);
+		System.out.println(this.followings.size());
 	}
 	
 	private void removeFollower(TwattUser user){
@@ -198,6 +208,10 @@ public class TwattUser extends PersistentEntity {
 				&& this.getDate() != null;
 	}
 
+	public boolean isFollowedBy(TwattUser user){
+		return followers.contains(user);
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
