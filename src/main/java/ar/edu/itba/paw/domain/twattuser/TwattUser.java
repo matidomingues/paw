@@ -57,6 +57,10 @@ public class TwattUser extends PersistentEntity {
 	@ManyToMany(mappedBy="followers", cascade=CascadeType.ALL)
 	private List<TwattUser> followings = new ArrayList<TwattUser>();;
 	
+	
+	private boolean privacy;
+	
+	private Long access;
 
 	TwattUser() {
 	}
@@ -75,10 +79,31 @@ public class TwattUser extends PersistentEntity {
 		this.twatts = new LinkedList<Twatt>();
 		this.date = new DateTime();
 		this.enabled = true;
+		this.privacy = true;
+		this.access = (long) 0;
 	}
 
 	public DateTime getDate() {
 		return date;
+	}
+	public Long getAccess(){
+		return this.access;
+	}
+	
+	public void setAccess(Long access){
+		this.access = access;
+	}
+	
+	public void addAccess(){
+		this.access++;
+	}
+	
+	public boolean getPrivacy(){
+		return privacy;
+	}
+	
+	public void setPrivacy(boolean status){
+		this.privacy = status;
 	}
 	
 	public List<TwattUser> getFollowers(){
@@ -97,7 +122,6 @@ public class TwattUser extends PersistentEntity {
 	public void addFollowing(TwattUser user){
 		user.addFollower(this);
 		this.followings.add(user);
-		System.out.println(this.followings.size());
 	}
 	
 	private void removeFollower(TwattUser user){

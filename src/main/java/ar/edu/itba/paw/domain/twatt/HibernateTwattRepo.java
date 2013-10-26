@@ -110,8 +110,6 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements 
 		query.setParameterList("ids", user.getFollowings());
 		List<Twatt> list = query.list();
 		return list;
-//		List<TwattUser> followings = user.getFollowings();
-		//return super.find("from Twatt where creator IN ?", user.getFollowings());
 	}
 
 }

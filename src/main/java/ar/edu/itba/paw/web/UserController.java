@@ -52,20 +52,36 @@ public class UserController {
 
 	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
 	public ModelAndView user(@PathVariable String username, HttpSession seq) {
-		ModelAndView mav = new ModelAndView("user/userdetail");
-		TwattUser localUser = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+		TwattUser localUser;
+
+		if (seq.getAttribute("user_username") == null) {
+			localUser = null;
+		} else {
+			localUser = userRepo.getUserByUsername((String) seq
+					.getAttribute("user_username"));
+		}
 		TwattUser user = userRepo.getUserByUsername(username);
+
 		if (user != null) {
+
+			if (localUser == null && user.getPrivacy()) {
+				return new ModelAndView("user/private");
+			}
+
+			ModelAndView mav = new ModelAndView("user/userdetail");
 			mav.addObject("searchuser", user);
-			
-			if(!user.equals(localUser)){
-				if(user.isFollowedBy(localUser)){
+
+			if (localUser != null && !user.equals(localUser)) {
+				if (user.isFollowedBy(localUser)) {
 					mav.addObject("follow", false);
-				}else{
+				} else {
 					mav.addObject("follow", true);
 				}
 			}
-			
+			if (!user.equals(localUser)) {
+				user.addAccess();
+			}
+
 			List<Twatt> twatts = twattRepo.getTwattsByUsername(user
 					.getUsername());
 			for (Twatt twatt : twatts) {
@@ -75,7 +91,7 @@ public class UserController {
 			mav.addObject("twatts", twatts);
 			return mav;
 		} else {
-			mav = new ModelAndView("forward:/bin/find");
+			ModelAndView mav = new ModelAndView("forward:/bin/find");
 			mav.addObject("error", "No existe ningun usuario con ese nombre");
 			return mav;
 		}
@@ -247,15 +263,17 @@ public class UserController {
 
 	@RequestMapping(value = "/follow/{user}", method = RequestMethod.GET)
 	public String follow(@PathVariable TwattUser user, HttpSession seq) {
-		TwattUser localUser = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+		TwattUser localUser = userRepo.getUserByUsername((String) seq
+				.getAttribute("user_username"));
 		localUser.addFollowing(user);
-		return "redirect:/bin/profile/"+localUser.getUsername();
+		return "redirect:/bin/profile/" + localUser.getUsername();
 	}
-	
+
 	@RequestMapping(value = "/unfollow/{user}", method = RequestMethod.GET)
 	public String unfollow(@PathVariable TwattUser user, HttpSession seq) {
-		TwattUser localUser = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+		TwattUser localUser = userRepo.getUserByUsername((String) seq
+				.getAttribute("user_username"));
 		localUser.removeFollowing(user);
-		return "redirect:/bin/profile/"+localUser.getUsername();
+		return "redirect:/bin/profile/" + localUser.getUsername();
 	}
 }
