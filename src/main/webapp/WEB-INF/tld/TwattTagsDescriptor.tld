@@ -2,11 +2,11 @@
 <taglib>
     <tlibversion>1.0</tlibversion>
     <jspversion>1.1</jspversion>
-    <shortname>msg-converter</shortname>
+    <shortname>twattlib</shortname>
     <info>Twatt Message HTML converter</info>
     <uri>http://viralpatel.net/blogs/jsp/taglib/substr</uri>
     <tag>
-        <name>substring</name>
+        <name>message-converter</name>
         <tagclass>ar.edu.itba.paw.web.jsp.MessageConverterTag</tagclass>
         <info>MessageFunction</info>
         <attribute>

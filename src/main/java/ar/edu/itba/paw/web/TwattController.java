@@ -58,7 +58,7 @@ public class TwattController {
             throw new InvalidOperationExcetion();
         }
 
-        this.twattRepo.delete(twatt);
+        twatt.setDeleted();
         
         ModelAndView mav = new ModelAndView("forward:/bin/profile/"+user.getUsername());
         mav.addObject("success", "Has elminiado un twatt!");
