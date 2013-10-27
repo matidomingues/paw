@@ -57,6 +57,10 @@
 					<th># de Followings</th>
 					<td><c:out value="${fn:length(searchuser.followings)}"></c:out></td>
 				</tr>
+				<tr>
+					<th>Cantidad de Accesos</th>
+					<td><c:out value="${searchuser.access}"></c:out></td>
+				</tr>
 				<c:choose>
 					<c:when test="${!empty follow}">
 						<c:choose>

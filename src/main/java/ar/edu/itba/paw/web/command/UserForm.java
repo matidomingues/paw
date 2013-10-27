@@ -15,6 +15,7 @@ public class UserForm {
 	private String description;
 	private String secretquestion;
 	private String secretanswer;
+	private Boolean privacy;
 	private CommonsMultipartFile photo;
 
 	public UserForm(){
@@ -30,8 +31,17 @@ public class UserForm {
 		this.description = user.getDescription();
 		this.secretquestion = user.getSecretQuestion();
 		this.secretanswer = user.getSecretAnswer();
+		this.privacy = user.getPrivacy();
 	}
 	
+	public boolean isPrivacy() {
+		return privacy;
+	}
+
+	public void setPrivacy(boolean privacy) {
+		this.privacy = privacy;
+	}
+
 	public TwattUser getTwattUser() {
 		return twattUser;
 	}
@@ -95,7 +105,7 @@ public class UserForm {
 	public TwattUser build(){
 		byte[] img = (photo == null)? new byte[0]:photo.getBytes();
 		if(twattUser == null){
-			return new TwattUser(username, password, name, surname, description, secretquestion, secretanswer, img);
+			return new TwattUser(username, name, surname, password, description, secretquestion, secretanswer, img);
 		}else{
 			if(username != null){
 				twattUser.setUsername(username);
@@ -109,6 +119,9 @@ public class UserForm {
 			}
 			if(secretanswer != null){
 				twattUser.setSecretAnswer(secretanswer);
+			}
+			if(privacy != null){
+				twattUser.setPrivacy(privacy);
 			}
 			twattUser.setPhoto(img);
 			return twattUser;

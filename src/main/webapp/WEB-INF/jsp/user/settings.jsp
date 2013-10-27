@@ -71,6 +71,17 @@
 				</div>
 				<div class="row input-padding">
 					<div class="col-md-2">
+						<label class="input-label">Privacidad del Perfil</label>
+					</div>
+					<div class="col-md-10">
+						<form:checkbox path="privacy"/> Privado
+						<div class="error">
+							<form:errors path="privacy" />
+						</div>
+					</div>
+				</div>
+				<div class="row input-padding">
+					<div class="col-md-2">
 						<label class="input-label">Foto</label>
 					</div>
 					<div class="col-md-6">
