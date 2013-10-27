@@ -84,10 +84,6 @@ public class UserController {
 
 			List<Twatt> twatts = twattRepo.getTwattsByUsername(user
 					.getUsername());
-			for (Twatt twatt : twatts) {
-				twatt.setMessage(messagemanager.prepareMessage("/",
-						twatt.getMessage()));
-			}
 			mav.addObject("twatts", twatts);
 			return mav;
 		} else {

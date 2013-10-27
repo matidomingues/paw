@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<taglib>
-    <tlibversion>1.0</tlibversion>
-    <jspversion>1.1</jspversion>
-    <shortname>twattlib</shortname>
-    <info>Twatt Message HTML converter</info>
-    <uri>http://viralpatel.net/blogs/jsp/taglib/substr</uri>
-    <tag>
-        <name>message-converter</name>
-        <tagclass>ar.edu.itba.paw.web.jsp.MessageConverterTag</tagclass>
-        <info>MessageFunction</info>
-        <attribute>
-            <name>twatt</name>
-            <required>true</required>
-        </attribute>
-    </tag>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2eeweb-jsptaglibrary_2_0.xsd">
+<tlib-version>1.0</tlib-version>
+<short-name>twattlib</short-name>
+<uri>/WEB-INF/jsp/tld/TwattTagsDescriptor.tld</uri>
+<tag>
+    <name>messag-converter</name>
+    <tag-class>ar.edu.itba.paw.web.jsp.MessageConverterTag</tag-class>
+    <info>Converts Twatt Message to an HTML friendly message</info>
+    <attribute>
+        <name>twatt</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+</tag>
 </taglib>

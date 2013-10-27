@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.domain.url;
 
+import java.util.List;
 import java.util.UUID;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
@@ -34,7 +35,11 @@ public class HibernateUrlRepo extends AbstractHibernateRepo<Url> implements UrlR
 	}
 
 	public String resolve(String data) {
-		return ((Url)(find("from Url where base = ?", data).get(0))).getResol();
+        List<Url> urls = find("from Url where base = ?", data);
+        if (urls.isEmpty()) {
+            return null;
+        }
+		return urls.get(0).getResol();
 	}
 	
 	private boolean baseExists(String base){

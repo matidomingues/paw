@@ -2,8 +2,10 @@ package ar.edu.itba.paw.web.jsp;
 
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.helper.MessageHelper;
+import ar.edu.itba.paw.helper.impl.MessageHelperImpl;
 import com.sun.deploy.net.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletConfig;
@@ -14,13 +16,11 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
-@Component
 public class MessageConverterTag extends TagSupport {
 
     private Twatt twatt;
 
-    @Autowired
-    private MessageHelper messageHelper;
+    private MessageHelper messageHelper = new MessageHelperImpl();
 
     @Override
     public int doStartTag() throws JspException {
@@ -38,7 +38,15 @@ public class MessageConverterTag extends TagSupport {
         return  this.twatt;
     }
 
-    public Twatt setTwatt(Twatt twatt) {
-        return this.twatt = twatt;
+    public void setTwatt(Twatt twatt) {
+        this.twatt = twatt;
+    }
+
+    public void setTwatt(Object twatt) {
+        try{
+            this.setTwatt((Twatt)twatt);
+        } catch (ClassCastException cce) {
+            throw new IllegalArgumentException("Not a twatt");
+        }
     }
 }

@@ -1,4 +1,4 @@
-
+    <%@ taglib prefix="twatt" uri="/WEB-INF/jsp/tld/TwattTagsDescriptor.tld"%>
     <c:if test="${not twatt.deleted}" >
     <tr>
         <td>
@@ -10,7 +10,7 @@
             <c:out value="${twatt.creator.username}"></c:out>
         </td>
         <td>
-            <c:url value="${twatt.message}"></c:url>
+            <twatt:messag-converter twatt="${twatt}"/>
         </td>
         <td>
             <c:out value="${twatt.timestamp}"></c:out>
