@@ -10,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css" />
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
+	
 	<title>Twatter! - Where the words are blah and the hashtags don't matter</title>
 </head>
 <body>

@@ -5,6 +5,7 @@ import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
+import ar.edu.itba.paw.utils.Report;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 import ar.edu.itba.paw.web.command.UserForm;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
@@ -13,6 +14,8 @@ import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
 
+import org.mortbay.util.ajax.JSON;
+import org.mortbay.util.ajax.JSONObjectConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -276,4 +279,18 @@ public class UserController {
 		localUser.removeFollowing(user);
 		return "redirect:/bin/profile/" + localUser.getUsername();
 	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	@ResponseBody
+	public String report(HttpSession seq) {
+		StringBuilder builder = new StringBuilder();
+		TwattUser user = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+		builder.append("{ datagrams: [");
+		for(Report report: twattRepo.getTwattReportByDate(user , null, null)){
+			builder.append("{" + report.getHeader() + ": " + report.getValue() + "},");
+		}
+		builder.append("]}");
+		return builder.toString();
+	}
+	
 }
