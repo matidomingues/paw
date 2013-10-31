@@ -25,5 +25,5 @@ public interface TwattRepo {
     
     List<Twatt> getTwattsByFollowings(TwattUser user);
     
-    public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate);
+    public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate, String days);
 }

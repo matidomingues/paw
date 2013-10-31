@@ -14,6 +14,10 @@ import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
 
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.mortbay.util.ajax.JSON;
 import org.mortbay.util.ajax.JSONObjectConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,10 +91,6 @@ public class UserController {
 
 			List<Twatt> twatts = twattRepo.getTwattsByUsername(user
 					.getUsername());
-			for (Twatt twatt : twatts) {
-				twatt.setMessage(messagemanager.prepareMessage("/",
-						twatt.getMessage()));
-			}
 			mav.addObject("twatts", twatts);
 			return mav;
 		} else {
@@ -279,18 +279,40 @@ public class UserController {
 		localUser.removeFollowing(user);
 		return "redirect:/bin/profile/" + localUser.getUsername();
 	}
-	
+
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView report(HttpSession seq) throws JSONException {
+		return new ModelAndView();
+	}
+
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public String report(HttpSession seq) {
-		StringBuilder builder = new StringBuilder();
-		TwattUser user = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
-		builder.append("{ datagrams: [");
-		for(Report report: twattRepo.getTwattReportByDate(user , null, null)){
-			builder.append("{" + report.getHeader() + ": " + report.getValue() + "},");
+	public String getreport(
+			@RequestParam(value = "time", required = true) String days,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate,
+			HttpSession seq) throws JSONException {
+		DateTime startTime, endTime;
+		if(startDate.compareTo("0") == 0){
+			startTime=null;
+		}else{
+			startTime = new DateTime(Long.parseLong(startDate));
 		}
-		builder.append("]}");
-		return builder.toString();
+		if(endDate.compareTo("0") == 0){
+			endTime = null;
+		}else{
+			endTime= new DateTime(Long.parseLong(endDate));
+		}
+
+		JSONArray arr = new JSONArray();
+		TwattUser user = userRepo.getUserByUsername((String) seq.getAttribute("user_username"));
+		
+		for (Report report : twattRepo.getTwattReportByDate(user, startTime, endTime,
+				days)) {
+			arr.put(new JSONObject().put("label", report.getHeader()).put("y",
+					Integer.parseInt(report.getValue())));
+		}
+		return new JSONObject().put("datagrams", arr).toString();
 	}
-	
+
 }

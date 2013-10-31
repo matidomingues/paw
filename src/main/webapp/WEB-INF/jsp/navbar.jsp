@@ -17,6 +17,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li> <a href="${pageContext.request.contextPath}/bin/profile/<c:out value='${user_username}'/>">Perfil</a></li>
 					<li> <a href="${pageContext.request.contextPath}/bin/find"> Busqueda</a></li>
+					<li> <a href="${pageContext.request.contextPath}/bin/user/report"> Reporte</a></li>
 					<li class="dropdown">
 	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Cuenta <b class="caret"></b></a>
 		   				<ul class="dropdown-menu pull-right">

@@ -123,16 +123,23 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 		return list;
 	}
 
-	public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate) {
+	public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate, String days) {
+		System.out.println();
+		if(!(days.compareTo("day") == 0) && !(days.compareTo("month") == 0) && !(days.compareTo("year") == 0) ){
+			throw new RuntimeException();
+		}
 		Session session = super.getSession();
 		Criteria criteria = session.createCriteria(Twatt.class);
 		criteria.add(Restrictions.eq("creator", user));
-		criteria.setProjection(Projections
-				.projectionList()
-				.add(Projections
-						.sqlGroupProjection(
-								"date_trunc('day', timestamp) as date, count(*) as count",
-								"date_trunc('day', timestamp)",
+		if(startDate != null){
+			criteria.add(Restrictions.ge("timestamp", startDate));
+		}
+		if(endDate != null){
+			criteria.add(Restrictions.le("timestamp", endDate));
+		}
+		criteria.setProjection(Projections.projectionList().add(Projections.sqlGroupProjection(
+								"date_trunc('"+days +"', timestamp) as date, count(*) as count",
+								"date_trunc('"+days+"', timestamp)",
 								new String[] { "date", "count" },
 								(org.hibernate.type.Type[]) new Type[] { Hibernate.TIMESTAMP, Hibernate.LONG })));
 		List<Object[]> result = criteria.list();
