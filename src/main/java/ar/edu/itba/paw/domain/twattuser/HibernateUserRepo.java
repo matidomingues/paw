@@ -1,14 +1,20 @@
 package ar.edu.itba.paw.domain.twattuser;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
+
+import org.apache.commons.configuration.ConfigurationException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 
+import ar.edu.itba.paw.utils.ConfigManager;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
 @Repository
@@ -102,6 +108,24 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 	
 	private boolean existsUsername(String username){
 		return !find("from TwattUser where username=?", username).isEmpty();
+	}
+	
+	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException, ConfigurationException{
+		int deep = 3;
+		List<TwattUser> users = getRecomendations(user, deep);
+		Collections.shuffle(users);
+		return users.subList(0, 2);
+	}
+	
+	private List<TwattUser> getRecomendations(TwattUser user, Integer deep){
+		if(deep == 0){
+			return user.getFollowings();
+		}
+		List<TwattUser> followers = new LinkedList<TwattUser>(); 
+		for(TwattUser follower: user.getFollowings()){
+			followers.addAll(getRecomendations(follower,deep-1));
+		}
+		return followers;
 	}
 
 }

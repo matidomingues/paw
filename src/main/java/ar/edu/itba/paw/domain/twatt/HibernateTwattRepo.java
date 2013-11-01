@@ -14,6 +14,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
@@ -123,31 +124,59 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 		return list;
 	}
 
-	public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate, String days) {
-		System.out.println();
-		if(!(days.compareTo("day") == 0) && !(days.compareTo("month") == 0) && !(days.compareTo("year") == 0) ){
-			throw new RuntimeException();
+	public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate,
+			String days) {
+		Session session = getSession();
+		String sql;
+		if (days.compareTo("day") == 0) {
+			sql = "select count(*),day(timestamp), month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by day(timestamp), month(timestamp),year(timestamp)";
+		} else if (days.compareTo("month") == 0) {
+			sql = "select count(*),month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by month(timestamp),year(timestamp)";
+		} else if (days.compareTo("year") == 0) {
+			sql = "select count(*),year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by year(timestamp)";
+		} else {
+			throw new RuntimeException("Day not correct");
 		}
-		Session session = super.getSession();
-		Criteria criteria = session.createCriteria(Twatt.class);
-		criteria.add(Restrictions.eq("creator", user));
-		if(startDate != null){
-			criteria.add(Restrictions.ge("timestamp", startDate));
-		}
-		if(endDate != null){
-			criteria.add(Restrictions.le("timestamp", endDate));
-		}
-		criteria.setProjection(Projections.projectionList().add(Projections.sqlGroupProjection(
-								"date_trunc('"+days +"', timestamp) as date, count(*) as count",
-								"date_trunc('"+days+"', timestamp)",
-								new String[] { "date", "count" },
-								(org.hibernate.type.Type[]) new Type[] { Hibernate.TIMESTAMP, Hibernate.LONG })));
-		List<Object[]> result = criteria.list();
+		Query query = session.createQuery(sql);
+		query.setParameter(0, startDate);
+		query.setParameter(1, endDate);
+		List<Object[]> list = query.list();
 		List<Report> report = new LinkedList<Report>();
-		for(Object[] elem: result){
-			report.add(new Report(elem));
+		for (Object[] elem : list) {
+			report.add(new Report(elem, days));
 		}
-		
 		return report;
 	}
+
+//	public List<Report> getTwattReportByDate(TwattUser user,
+//			DateTime startDate, DateTime endDate, String days) {
+//		test(user);
+//		if (!(days.compareTo("day") == 0) && !(days.compareTo("month") == 0)
+//				&& !(days.compareTo("year") == 0)) {
+//			throw new RuntimeException();
+//		}
+//		Session session = super.getSession();
+//		Criteria criteria = session.createCriteria(Twatt.class);
+//		criteria.add(Restrictions.eq("creator", user));
+//		if (startDate != null) {
+//			criteria.add(Restrictions.ge("timestamp", startDate));
+//		}
+//		if (endDate != null) {
+//			criteria.add(Restrictions.le("timestamp", endDate));
+//		}
+//		criteria.setProjection(Projections.projectionList().add(
+//				Projections.sqlGroupProjection("date_trunc('" + days
+//						+ "', timestamp) as date, count(*) as count",
+//						"date_trunc('" + days + "', timestamp)", new String[] {
+//								"date", "count" },
+//						(org.hibernate.type.Type[]) new Type[] {
+//								Hibernate.TIMESTAMP, Hibernate.LONG })));
+//		List<Object[]> result = criteria.list();
+//		List<Report> report = new LinkedList<Report>();
+//		for (Object[] elem : result) {
+//			report.add(new Report(elem));
+//		}
+//
+//		return report;
+//	}
 }

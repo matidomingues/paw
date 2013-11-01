@@ -294,12 +294,12 @@ public class UserController {
 			HttpSession seq) throws JSONException {
 		DateTime startTime, endTime;
 		if(startDate.compareTo("0") == 0){
-			startTime=null;
+			startTime= new DateTime(0);
 		}else{
 			startTime = new DateTime(Long.parseLong(startDate));
 		}
 		if(endDate.compareTo("0") == 0){
-			endTime = null;
+			endTime = new DateTime();
 		}else{
 			endTime= new DateTime(Long.parseLong(endDate));
 		}
@@ -310,7 +310,7 @@ public class UserController {
 		for (Report report : twattRepo.getTwattReportByDate(user, startTime, endTime,
 				days)) {
 			arr.put(new JSONObject().put("label", report.getHeader()).put("y",
-					Integer.parseInt(report.getValue())));
+					report.getValue()));
 		}
 		return new JSONObject().put("datagrams", arr).toString();
 	}

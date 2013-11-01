@@ -2,6 +2,8 @@ package ar.edu.itba.paw.domain.twattuser;
 
 import java.util.List;
 
+import org.apache.commons.configuration.ConfigurationException;
+
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
@@ -23,4 +25,6 @@ public interface UserRepo {
 			String newPassword);
 
 	public TwattUser find(int id);
+	
+	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException, ConfigurationException;
 }

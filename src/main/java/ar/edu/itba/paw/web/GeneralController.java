@@ -7,10 +7,12 @@ import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.utils.HashtagBundle;
+import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
 
 import com.google.common.base.Strings;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +46,7 @@ public class GeneralController {
     private UserFormValidator validator;
 
 	@RequestMapping(value="home", method = RequestMethod.GET)
-	public ModelAndView	home(@RequestParam(value="dayfilter", required=false) String sDays,HttpSession seq) {
+	public ModelAndView	home(@RequestParam(value="dayfilter", required=false) String sDays,HttpSession seq) throws NumberFormatException, ConfigurationException {
 		ModelAndView mav = new ModelAndView();
 		int days = 1;
         try {
@@ -62,12 +64,40 @@ public class GeneralController {
             hashtagBundles.add(new HashtagBundle(hashtag, hashtagRepo.getMentions(hashtag, filterDate)));
         }
 		mav.addObject("hashtags", hashtagBundles);
-		
+		//List<TwattUser> list = userRepo.getRecomendationsByUser(user);
+		//System.out.println(list);
 		if(user.getFollowings().size() != 0){
 			mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(user));
 		}
 		
 		return mav;
+	}
+	
+	public void addUsers() throws DuplicatedUserException{
+		userRepo.registerUser(new TwattUser("test1", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test2", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test3", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test4", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test5", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test6", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test7", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test8", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test9", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test10", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test11", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test12", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test13", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test14", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test15", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test16", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test17", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test18", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test19", "test", "test", "test", "test", "test", "test", null));
+		userRepo.registerUser(new TwattUser("test20", "test", "test", "test", "test", "test", "test", null));
+		userRepo.getUserByUsername("test").addFollowing(userRepo.getUserByUsername("test1"));
+		
+		
+		
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
