@@ -12,7 +12,11 @@ import java.util.TreeMap;
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,12 +25,13 @@ import com.google.common.collect.Iterables;
 
 import ar.edu.itba.paw.utils.ConfigManager;
 import ar.edu.itba.paw.utils.OrderedLinkedList;
+import ar.edu.itba.paw.utils.Report;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
 @Repository
-public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implements
-		UserRepo {
-	
+public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
+		implements UserRepo {
+
 	@Autowired
 	public HibernateUserRepo(SessionFactory sessionFactory) {
 		super(sessionFactory);
@@ -59,8 +64,9 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		if (Strings.isNullOrEmpty(username)) {
 			throw new IllegalArgumentException("Invalid username");
 		}
-		List<TwattUser> user = super.find("from TwattUser where username = ?", username);
-		if(user.isEmpty()){
+		List<TwattUser> user = super.find("from TwattUser where username = ?",
+				username);
+		if (user.isEmpty()) {
 			System.out.println("empty");
 			return null;
 		}
@@ -71,7 +77,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		if (!user.isValidUser()) {
 			throw new IllegalArgumentException("Invalid user");
 		}
-	    //save(user);
+		// save(user);
 		return true;
 	}
 
@@ -83,7 +89,8 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		if (Strings.isNullOrEmpty(username)) {
 			throw new IllegalArgumentException("Invalid username");
 		}
-		return super.find("from TwattUser where username LIKE '%" + username + "%'");
+		return super.find("from TwattUser where username LIKE '%" + username
+				+ "%'");
 
 	}
 
@@ -111,27 +118,51 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		}
 		return get(TwattUser.class, id);
 	}
-	
-	private boolean existsUsername(String username){
+
+	private boolean existsUsername(String username) {
 		return !find("from TwattUser where username=?", username).isEmpty();
 	}
-	
-	public List<TwattUser> getRecomendations(TwattUser user){
+
+	public List<TwattUser> getRecomendations(TwattUser user) {
 		int deep = 3;
 		OrderedLinkedList list = new OrderedLinkedList();
-		for(TwattUser following: user.getFollowings()){
-			for(TwattUser candidate: following.getFollowings()){
-				list.add(user);
+		for (TwattUser following : user.getFollowings()) {
+			for (TwattUser candidate : following.getFollowings()) {
+				if (!user.equals(candidate)
+						&& !user.getFollowings().contains(candidate)) {
+					list.add(candidate);
+				}
 			}
 		}
 		LinkedList<TwattUser> candidates = list.getMoreThan(deep);
-		if(candidates.size() >=3){
+		if (candidates.size() >= 3) {
 			Collections.shuffle(candidates);
-			return candidates.subList(0, 2);
+			return candidates.subList(0, 3);
 		}
-		candidates = list.getOrderedByCount();
-		return candidates.subList(0, 2);	
+		candidates.addAll(getMostFollowedUsers(user).subList(0,
+				(3 - candidates.size())));
+		return candidates;
 	}
-	
+
+	private List<TwattUser> getMostFollowedUsers(TwattUser user) {
+		Session session = super.getSession();
+		String sql;
+		if (user.getFollowings().size() != 0) {
+			sql = "select size(followers), username from TwattUser u where username != ? and u not in (:ids) group by username";
+		} else {
+			sql = "select size(followers), username from TwattUser where username != ? group by username";
+		}
+		Query query = session.createQuery(sql);
+		query.setParameter(0, user.getUsername());
+		if (user.getFollowings().size() != 0) {
+			query.setParameterList("ids", user.getFollowings());
+		}
+		List<Object[]> list = query.list();
+		OrderedLinkedList followed = new OrderedLinkedList();
+		for (Object[] data : list) {
+			followed.add(getUserByUsername((String) data[1]), (Integer) data[0]);
+		}
+		return followed.getOrderedByCount();
+	}
 
 }
