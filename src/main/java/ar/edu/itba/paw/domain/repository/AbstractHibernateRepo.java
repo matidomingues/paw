@@ -1,12 +1,13 @@
 package ar.edu.itba.paw.domain.repository;
 
-import java.io.Serializable;
-import java.util.List;
-
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.Serializable;
+import java.util.List;
 
 public abstract class AbstractHibernateRepo<T extends PersistentEntity> {
 	private final SessionFactory sessionFactory;

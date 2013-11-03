@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.helper.impl;
 
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.domain.url.UrlRepo;
 import ar.edu.itba.paw.helper.MessageHelper;
@@ -10,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

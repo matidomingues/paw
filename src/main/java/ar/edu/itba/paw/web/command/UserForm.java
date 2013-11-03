@@ -1,8 +1,7 @@
 package ar.edu.itba.paw.web.command;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class UserForm {
 

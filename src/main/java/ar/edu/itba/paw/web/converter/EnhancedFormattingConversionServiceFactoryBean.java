@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.web.converter;
 
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
 public class EnhancedFormattingConversionServiceFactoryBean extends
 		FormattingConversionServiceFactoryBean {

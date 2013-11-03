@@ -1,24 +1,14 @@
 package ar.edu.itba.paw.domain.twattuser;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
 import ar.edu.itba.paw.domain.twatt.Twatt;
-
+import com.google.common.base.Strings;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import com.google.common.base.Strings;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 public class TwattUser extends PersistentEntity {

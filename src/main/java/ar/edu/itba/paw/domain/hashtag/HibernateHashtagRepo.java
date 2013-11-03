@@ -1,18 +1,17 @@
 package ar.edu.itba.paw.domain.hashtag;
 
+import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
+import ar.edu.itba.paw.domain.twatt.Twatt;
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
+import com.sun.istack.internal.Nullable;
+import org.joda.time.DateTime;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
-import org.hibernate.SessionFactory;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import com.google.common.base.Strings;
-
-import ar.edu.itba.paw.domain.twatt.Twatt;
 
 @Repository
 public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> implements

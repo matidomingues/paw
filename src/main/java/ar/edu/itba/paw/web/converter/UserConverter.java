@@ -1,12 +1,12 @@
 package ar.edu.itba.paw.web.converter;
 
 
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
+import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
-import ar.edu.itba.paw.domain.twattuser.UserRepo;
 
 @Component
 public class UserConverter implements Converter<String, TwattUser>{

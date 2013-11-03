@@ -1,15 +1,11 @@
 package ar.edu.itba.paw.domain.twattuser;
 
-import java.util.List;
-
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
+import com.google.common.base.Strings;
 import org.springframework.stereotype.Repository;
 
-import com.google.common.base.Strings;
-
-import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
+import java.util.List;
 
 @Repository
 public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implements

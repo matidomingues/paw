@@ -1,16 +1,14 @@
 package ar.edu.itba.paw.domain.twatt;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.persistence.*;
-
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 @Entity
 public class Twatt extends PersistentEntity {
 

@@ -1,16 +1,15 @@
 package ar.edu.itba.paw.web;
 
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
+import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import ar.edu.itba.paw.domain.hashtag.Hashtag;
-import ar.edu.itba.paw.domain.twatt.Twatt;
-import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
-import ar.edu.itba.paw.domain.twatt.TwattRepo;
 
 import java.util.List;
 

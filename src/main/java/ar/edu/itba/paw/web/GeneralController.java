@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
+import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.utils.HashtagBundle;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
 
@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")

@@ -16,5 +16,4 @@
 	<!-- Beans relacionados con Spring-Hibernate -->
 	<import resource="classpath:data.xml" />
 
-
 </beans>

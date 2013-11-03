@@ -1,9 +1,8 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.domain.twatt.Twatt;
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 import ar.edu.itba.paw.web.command.UserForm;

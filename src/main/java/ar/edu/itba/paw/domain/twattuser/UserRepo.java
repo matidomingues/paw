@@ -1,9 +1,8 @@
 package ar.edu.itba.paw.domain.twattuser;
 
-import java.util.List;
-
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
+
+import java.util.List;
 
 public interface UserRepo {
 	

@@ -1,14 +1,12 @@
 package ar.edu.itba.paw.web;
 
 import ar.edu.itba.paw.domain.twatt.Twatt;
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.utils.exceptions.InvalidOperationExcetion;
 import ar.edu.itba.paw.utils.exceptions.MessageEmptyException;
-
 import com.google.common.base.Strings;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

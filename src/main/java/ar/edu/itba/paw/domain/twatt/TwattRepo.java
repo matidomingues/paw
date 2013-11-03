@@ -1,10 +1,9 @@
 package ar.edu.itba.paw.domain.twatt;
 
-import java.util.List;
-
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
-import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
+
+import java.util.List;
 
 public interface TwattRepo {
 	

@@ -1,10 +1,9 @@
 package ar.edu.itba.paw.domain.hashtag;
 
-import java.util.List;
-
+import ar.edu.itba.paw.domain.twatt.Twatt;
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.domain.twatt.Twatt;
+import java.util.List;
 
 
 public interface HashtagRepo {
