@@ -20,7 +20,7 @@ public class Hashtag extends PersistentEntity {
 	@OneToOne
 	private Twatt firstTwatt;
 
-	@OneToMany
+	@ManyToMany
 	private List<Twatt> twatts;
 
 	Hashtag() {

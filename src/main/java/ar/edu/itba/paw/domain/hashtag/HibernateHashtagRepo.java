@@ -20,11 +20,6 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> impleme
 	private Pattern hashtagPattern = Pattern
             .compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
 
-	@Autowired
-	public HibernateHashtagRepo(SessionFactory sessionFactory) {
-		super(sessionFactory);
-	}
-	
 	public void create(Hashtag hashtag) {
 		if (!hashtag.isValid()) {
 			throw new IllegalArgumentException("Invalid Hashtag");
@@ -81,13 +76,18 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> impleme
 		hashtag.addTwatt(twatt);
 	}
 
-	public int getMentions(Hashtag hashtag, DateTime filterDate) {
+	public int getMentions(final Hashtag hashtag, final DateTime filterDate) {
 		if (!hashtag.isValid() || filterDate == null
 				|| filterDate.isAfterNow()) {
 			throw new IllegalArgumentException("Invalid Hashtag or filter date");
 		}
 		//TODO: filtrar por fecha
-		return hashtag.getTwatts().size();
+        return Iterables.size(Iterables.filter(hashtag.getTwatts(), new Predicate<Twatt>() {
+            @Override
+            public boolean apply(@Nullable Twatt input) {
+                return !input.isDeleted() && input.getTimestamp().isAfter(filterDate.toInstant());
+            }
+        }));
 	}
 
 }
