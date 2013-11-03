@@ -117,8 +117,10 @@ public class TwattUser extends PersistentEntity {
 	}
 	
 	public void addFollowing(TwattUser user){
-		user.addFollower(this);
-		this.followings.add(user);
+		if(!followings.contains(user)){
+			user.addFollower(this);
+			this.followings.add(user);
+		}
 	}
 	
 	private void removeFollower(TwattUser user){

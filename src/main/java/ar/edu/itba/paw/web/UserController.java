@@ -344,6 +344,18 @@ public class UserController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/social/{user}", method = RequestMethod.GET)
+	public ModelAndView social(@PathVariable TwattUser user, HttpSession seq) {
+		TwattUser localUser = userRepo.getUserByUsername((String) seq
+				.getAttribute(SESSION_USERNAME));
+		ModelAndView mav = new ModelAndView("user/social");
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		if(user != null){
+			mav.addObject("localUser", user);
+		}
+		return mav;
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView report(HttpSession seq) throws JSONException {
 		TwattUser localUser = userRepo.getUserByUsername((String) seq

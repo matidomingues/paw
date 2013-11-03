@@ -51,11 +51,12 @@
 				</tr>
 				<tr>
 					<th># de Followers</th>
-					<td><c:out value="${fn:length(searchuser.followers)}"></c:out></td>
+					<td><a href="/bin/social/<c:out value='${searchuser.username}'/>"><c:out value="${fn:length(searchuser.followers)}"></c:out></a></td>
 				</tr>
 				<tr>
 					<th># de Followings</th>
-					<td><c:out value="${fn:length(searchuser.followings)}"></c:out></td>
+					<td><a href="/bin/social/<c:out value='${searchuser.username}'/>"><c:out value="${fn:length(searchuser.followings)}"></c:out></a></td>
+
 				</tr>
 				<tr>
 					<th>Cantidad de Accesos</th>

@@ -121,12 +121,13 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 			return candidates.subList(0, 3);
 		}
 		List<TwattUser> orderedCandidates = getMostFollowedUsers(user);
+		orderedCandidates.removeAll(candidates);
 		if (orderedCandidates.size() < 3
 				&& orderedCandidates.size() >= candidates.size()) {
-			candidates.addAll(getMostFollowedUsers(user).subList(0,
+			candidates.addAll(orderedCandidates.subList(0,
 					(orderedCandidates.size() - candidates.size())));
 		} else {
-			candidates.addAll(getMostFollowedUsers(user).subList(0,
+			candidates.addAll(orderedCandidates.subList(0,
 					(3 - candidates.size())));
 		}
 		return candidates;
