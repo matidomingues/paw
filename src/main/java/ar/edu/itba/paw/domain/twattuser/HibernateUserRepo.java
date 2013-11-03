@@ -63,7 +63,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 	}
 
 	public List<TwattUser> getAll() {
-		return super.find("from TwattUser");
+		return super.find("from TwattUser order by name, surname");
 	}
 
 	public List<TwattUser> find(String username) {
@@ -71,7 +71,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 			throw new IllegalArgumentException("Invalid username");
 		}
 		return super.find("from TwattUser where username LIKE '%" + username
-				+ "%'");
+				+ "%' order by name, surname");
 
 	}
 
