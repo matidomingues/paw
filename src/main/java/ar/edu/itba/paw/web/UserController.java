@@ -156,7 +156,7 @@ public class UserController {
 	public ModelAndView login(@RequestParam("username") TwattUser user,
 			@RequestParam("password") String password, HttpSession seq) {
 		if (user != null && user.checkPassword(password)) {
-            ModelAndView mav = new ModelAndView("redirect:/home");
+            ModelAndView mav = new ModelAndView("redirect:/bin/home");
             mav.addObject(LOCAL_USER_REFERENCER, user);
 			seq.setAttribute(SESSION_USER_ID, user.getId());
 			seq.setAttribute(SESSION_USERNAME, user.getUsername());
@@ -316,7 +316,9 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
 	public ModelAndView report(HttpSession seq) throws JSONException {
-		return new ModelAndView();
+        ModelAndView mav = new ModelAndView();
+        mav.addObject(LOCAL_USER_REFERENCER, userRepo.getUserByUsername((String)seq.getAttribute(SESSION_USERNAME)));
+		return mav;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

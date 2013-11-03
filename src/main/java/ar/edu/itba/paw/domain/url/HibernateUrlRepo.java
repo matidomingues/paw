@@ -27,6 +27,10 @@ public class HibernateUrlRepo extends AbstractHibernateRepo<Url> implements UrlR
 	}
 
 	public String resolve(String data) {
+        if (Strings.isNullOrEmpty(data)) {
+            throw new IllegalArgumentException("Data is null or empty");
+        }
+
         List<Url> urls = find("from Url where base = ?", data);
         if (urls.isEmpty()) {
             return null;
@@ -35,6 +39,9 @@ public class HibernateUrlRepo extends AbstractHibernateRepo<Url> implements UrlR
 	}
 	
 	private boolean baseExists(String base){
+        if (Strings.isNullOrEmpty(base)) {
+            throw new IllegalArgumentException("Base is null or empty");
+        }
 		return !find("from Url where base = ?", base).isEmpty();
 	}
 

@@ -45,7 +45,6 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
     private MessageHelper messageHelper;
 	
 	private String shortenUrls(String message) {
-
         if (Strings.isNullOrEmpty(message)) {
 			throw new IllegalArgumentException("Invalid message received");
 		}
@@ -78,6 +77,9 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 	}
 
     public void create(Retwatt retwatt) {
+        if (retwatt == null) {
+            throw new IllegalArgumentException("Null twatt");
+        }
         this.create((Twatt) retwatt);
         Notification notification = new RetwattNotification(retwatt.getCreator(), retwatt);
         this.notificationRepo.save(notification);
@@ -125,6 +127,9 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 
 	@Override
 	public List<Twatt> getTwattsByFollowings(TwattUser user) {
+        if (user == null) {
+            throw new IllegalArgumentException("Null user");
+        }
 		Session session = super.getSession();
 		String hql = "from Twatt where creator IN (:ids)";
 		Query query = session.createQuery(hql);
@@ -135,6 +140,15 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 
 	public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate,
 			String days) {
+        if (user == null) {
+            throw new IllegalArgumentException("Null user");
+        }
+        if (startDate == null) {
+            throw new IllegalArgumentException("Null start date");
+        }
+        if (endDate == null) {
+            throw new IllegalArgumentException("Null end date");
+        }
 		Session session = getSession();
 		String sql;
 		if (days.compareTo("day") == 0) {

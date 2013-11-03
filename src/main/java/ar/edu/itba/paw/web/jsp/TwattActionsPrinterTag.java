@@ -42,7 +42,7 @@ public class TwattActionsPrinterTag extends TagSupport {
 
     private String retweetAction(Twatt twatt, TwattUser user) {
         return "<form method=\"POST\" action=\"/bin/twatt/retwatt\">\n<input type=\"hidden\" name=\"twattId\" value=\"" +
-                twatt.getId() + "\"/>\n<button title=\"Retwatt\" type=\"submit\" class=\"pull-right btn btn-primary\" value=\"Retwatt\"><span class=\"glyphicon glyphicon-share\"></span></button>\n</form>";
+                twatt.getId() + "\"/>\n<button title=\"Retwatt\" type=\"submit\" class=\"pull-right btn btn-primary\" value=\"Retwatt\"><span class=\"glyphicon glyphicon-retweet\"></span></button>\n</form>";
     }
 
     private String favouriteAction(Twatt twatt, TwattUser user) {

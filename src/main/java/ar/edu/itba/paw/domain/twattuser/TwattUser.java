@@ -6,6 +6,7 @@ import ar.edu.itba.paw.domain.twatt.Twatt;
 import com.google.common.base.Strings;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.*;
@@ -65,7 +66,16 @@ public class TwattUser extends PersistentEntity {
 	public TwattUser(String username, String name, String surname, String password,
 			String description, String secretquestion, String secretanswer,
 			byte[] photo) {
-		this.username = username;
+        Assert.hasText(username);
+        Assert.hasText(name);
+        Assert.hasText(surname);
+        Assert.hasText(password);
+        Assert.hasText(description);
+        Assert.hasText(secretquestion);
+        Assert.hasText(secretanswer);
+        Assert.notNull(photo);
+
+        this.username = username;
 		this.name = name;
 		this.surname = surname;
 		this.password = password;
@@ -88,6 +98,7 @@ public class TwattUser extends PersistentEntity {
 	}
 	
 	public void setAccess(Long access){
+        Assert.notNull(access);
 		this.access = access;
 	}
 	
@@ -113,24 +124,29 @@ public class TwattUser extends PersistentEntity {
 	}
 	
 	private void addFollower(TwattUser user){
+        Assert.notNull(user);
 		this.followers.add(user);
 	}
 	
 	public void addFollowing(TwattUser user){
+        Assert.notNull(user);
 		user.addFollower(this);
 		this.followings.add(user);
 	}
 	
 	private void removeFollower(TwattUser user){
+        Assert.notNull(user);
 		this.followers.remove(user);
 	}
 	
 	public void removeFollowing(TwattUser user){
+        Assert.notNull(user);
 		user.removeFollower(this);
 		this.followings.remove(user);
 	}
 
 	public void setDate(DateTime date) {
+        Assert.notNull(date);
 		this.date = date;
 	}
 
@@ -143,6 +159,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void addTwatt(Twatt twatt) {
+        Assert.notNull(twatt);
 		twatts.add(twatt);
 	}
 
@@ -155,6 +172,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setUsername(String username) {
+        Assert.hasText(username);
 		this.username = username;
 	}
 
@@ -163,6 +181,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setName(String name) {
+        Assert.hasText(name);
 		this.name = name;
 	}
 
@@ -171,6 +190,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setSurname(String surname) {
+        Assert.hasText(surname);
 		this.surname = surname;
 	}
 
@@ -179,6 +199,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setPassword(String password) {
+        Assert.hasText(password);
 		this.password = password;
 	}
 
@@ -187,6 +208,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setDescription(String description) {
+        Assert.hasText(description);
 		this.description = description;
 	}
 
@@ -195,6 +217,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setSecretQuestion(String secretQuestion) {
+        Assert.hasText(secretQuestion);
 		this.secretQuestion = secretQuestion;
 	}
 
@@ -203,6 +226,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setSecretAnswer(String secretanswer) {
+        Assert.hasText(secretanswer);
 		this.secretAnswer = secretanswer;
 	}
 
@@ -211,10 +235,12 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setPhoto(byte[] photo) {
+        Assert.notNull(photo);
 		this.photo = photo;
 	}
 
 	public boolean checkPassword(String pass){
+        Assert.hasText(pass);
 		return getPassword().equals(pass);
 	}
 	
@@ -230,26 +256,32 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public boolean isFollowedBy(TwattUser user){
+        Assert.notNull(user);
 		return followers.contains(user);
 	}
 
     public void addFavourite(Twatt favorite) {
+        Assert.notNull(favorite);
         this.favourites.add(favorite);
     }
 
     public void removeFavourite(Twatt favourite) {
+        Assert.notNull(favourite);
         this.favourites.remove(favourite);
     }
 
-    public boolean isFavourite(Twatt user) {
-        return this.favourites.contains(user);
+    public boolean isFavourite(Twatt twatt) {
+        Assert.notNull(twatt);
+        return this.favourites.contains(twatt);
     }
 
     public void notify(Notification notification) {
+        Assert.notNull(notification);
         this.notifications.add(notification);
     }
 
     public void hasNotification(Notification notification) {
+        Assert.notNull(notification);
         this.notifications.contains(notification);
     }
 

@@ -26,6 +26,9 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 	}
 
 	public boolean registerUser(TwattUser user) throws DuplicatedUserException {
+        if (user == null) {
+            throw  new IllegalArgumentException("Null user");
+        }
 		if (!user.isValidUser()) {
 			throw new IllegalArgumentException("Invalid user");
 		} else if (existsUsername(user.getUsername())) {
@@ -49,6 +52,9 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 	}
 
 	public boolean updateUser(TwattUser user) {
+        if (user == null) {
+            throw new IllegalArgumentException("Null User");
+        }
 		if (!user.isValidUser()) {
 			throw new IllegalArgumentException("Invalid user");
 		}
@@ -74,7 +80,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 				|| Strings.isNullOrEmpty(secretAnswer)
 				|| Strings.isNullOrEmpty(newPassword)) {
 			throw new IllegalArgumentException(
-					"Invalid username, secrec answer or password detected");
+					"Invalid username, secret answer or password detected");
 		}
 		TwattUser user = getUserByUsername(username);
 		if (user != null && user.getSecretAnswer().compareTo(secretAnswer) == 0) {
@@ -94,10 +100,16 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 	}
 	
 	private boolean existsUsername(String username){
+        if (Strings.isNullOrEmpty(username)) {
+            throw new IllegalArgumentException("Null or empty username");
+        }
 		return !find("from TwattUser where username=?", username).isEmpty();
 	}
 	
 	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException {
+        if (user == null) {
+            throw new IllegalArgumentException("Null user");
+        }
 		int deep = 3;
 		List<TwattUser> users = getRecomendations(user, deep);
 		Collections.shuffle(users);
@@ -105,6 +117,12 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 	}
 	
 	private List<TwattUser> getRecomendations(TwattUser user, Integer deep){
+        if (user == null) {
+            throw new IllegalArgumentException("Null user");
+        }
+        if (deep < 0 ) {
+            throw new IllegalArgumentException("Invalid depth");
+        }
 		if(deep == 0){
 			return user.getFollowings();
 		}
