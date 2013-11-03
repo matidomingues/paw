@@ -3,25 +3,20 @@
     <tr>
         <td>
             <div>
-            <img src="${pageContext.request.contextPath}/bin/image/<c:out value='${user_username}'/>">
+            <img src="${pageContext.request.contextPath}/bin/image/<c:out value='${twatt.creator.username}'/>">
             </div>
         </td>
         <td>
-            <c:out value="${twatt.creator.username}"></c:out>
+            <twatt:author-printer twatt="${twatt}"/>
         </td>
         <td>
-            <twatt:messag-converter twatt="${twatt}"/>
+            <twatt:message-printer twatt="${twatt}"/>
         </td>
         <td>
             <c:out value="${twatt.timestamp}"></c:out>
         </td>
         <td>
-            <c:if test="${not empty user_id and user_id == twatt.creator.id}">
-                <form method="POST" action="/bin/twatt/delete">
-                    <input type="hidden" name="twattId" value="<c:out value='${twatt.id}'/>"/>
-                    <input type="submit" class="pull-right btn btn-primary" value="Eliminar"/>
-                </form>
-            </c:if>
+            <twatt:actions-printer twatt="${twatt}" user="${local_user}"/>
         </td>
     </tr>
     </c:if>

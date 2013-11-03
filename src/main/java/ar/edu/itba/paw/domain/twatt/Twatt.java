@@ -9,7 +9,9 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
+
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Twatt extends PersistentEntity {
 
     @Column(nullable = false)
@@ -25,7 +27,7 @@ public class Twatt extends PersistentEntity {
 	@ManyToOne
 	private TwattUser creator;
 
-	@OneToMany(mappedBy="twatts", cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy="twatts", cascade=CascadeType.ALL)
 	private List<Hashtag> hashtags;
 
 	Twatt() {
@@ -40,7 +42,7 @@ public class Twatt extends PersistentEntity {
 		user.addTwatt(this);
 	}
 
-	public String getMessage() {
+    public String getMessage() {
 		return message;
 	}
 

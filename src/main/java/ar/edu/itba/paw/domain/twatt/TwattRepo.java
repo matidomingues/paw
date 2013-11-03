@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface TwattRepo {
 	
-	public void addTwatt(Twatt twatt);
+	public void create(Twatt twatt);
+
+    public void create(Retwatt retwatt);
 
 	public List<Twatt> getTwattsByUsername(String username);
 
@@ -17,7 +19,5 @@ public interface TwattRepo {
 
     Twatt getTwatt(int twatt_id);
 
-    void delete(Twatt twatt);
-    
     List<Twatt> getTwattsByFollowings(TwattUser user);
 }

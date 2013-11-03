@@ -8,9 +8,7 @@ import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.utils.HashtagBundle;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
-
 import com.google.common.base.Strings;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +51,8 @@ public class GeneralController {
         } catch (Exception e) {
 
         }
-        TwattUser user = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+        TwattUser localUser = userRepo.getUserByUsername((String)seq.getAttribute("user_username"));
+        mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
         DateTime filterDate = new DateTime().minusDays(days);
 		List<Hashtag> hashtagList = hashtagRepo.getTrendingsHashtagsAfter(filterDate);
         List<HashtagBundle> hashtagBundles = new LinkedList<HashtagBundle>();
@@ -62,8 +61,8 @@ public class GeneralController {
         }
 		mav.addObject("hashtags", hashtagBundles);
 		
-		if(user.getFollowings().size() != 0){
-			mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(user));
+		if(localUser.getFollowings().size() != 0){
+			mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(localUser));
 		}
 		
 		return mav;

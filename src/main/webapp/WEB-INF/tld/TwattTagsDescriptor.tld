@@ -2,17 +2,57 @@
 <taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/j2eeweb-jsptaglibrary_2_0.xsd">
-<tlib-version>1.0</tlib-version>
-<short-name>twattlib</short-name>
-<uri>/WEB-INF/jsp/tld/TwattTagsDescriptor.tld</uri>
-<tag>
-    <name>messag-converter</name>
-    <tag-class>ar.edu.itba.paw.web.jsp.MessageConverterTag</tag-class>
-    <info>Converts Twatt Message to an HTML friendly message</info>
-    <attribute>
-        <name>twatt</name>
-        <required>true</required>
-        <rtexprvalue>true</rtexprvalue>
-    </attribute>
-</tag>
+    <tlib-version>1.0</tlib-version>
+    <short-name>twattlib</short-name>
+    <uri>/WEB-INF/jsp/tld/TwattTagsDescriptor.tld</uri>
+    <tag>
+        <name>message-printer</name>
+        <tag-class>ar.edu.itba.paw.web.jsp.MessagePrinterTag</tag-class>
+        <info>Converts Twatt Message to an HTML friendly message</info>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>twatt</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>actions-printer</name>
+        <tag-class>ar.edu.itba.paw.web.jsp.TwattActionsPrinterTag</tag-class>
+        <info>Outputs Twatt available actions</info>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>twatt</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>author-printer</name>
+        <tag-class>ar.edu.itba.paw.web.jsp.TwattAuthorPrinterTag</tag-class>
+        <info>Outputs twatt author acordingly</info>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>twatt</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>notification</name>
+        <tag-class>ar.edu.itba.paw.web.jsp.NotificationTag</tag-class>
+        <info>Outputs notifications accordingly</info>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>notification</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>ar.edu.itba.paw.domain.notification.Notification</type>
+        </attribute>
+    </tag>
 </taglib>

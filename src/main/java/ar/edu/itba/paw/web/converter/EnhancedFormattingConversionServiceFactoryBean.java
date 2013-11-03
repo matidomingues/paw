@@ -6,7 +6,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
-
 public class EnhancedFormattingConversionServiceFactoryBean extends
 		FormattingConversionServiceFactoryBean {
 

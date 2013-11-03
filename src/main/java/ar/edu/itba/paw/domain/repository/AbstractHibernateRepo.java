@@ -10,11 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public abstract class AbstractHibernateRepo<T extends PersistentEntity> {
-	private final SessionFactory sessionFactory;
 
-	public AbstractHibernateRepo(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+    @Autowired
+    private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
 	public T get(Class<T> type, Serializable id) {

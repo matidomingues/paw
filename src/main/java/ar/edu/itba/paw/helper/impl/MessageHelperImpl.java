@@ -6,9 +6,7 @@ import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.domain.url.UrlRepo;
 import ar.edu.itba.paw.helper.MessageHelper;
-
 import com.google.common.base.Strings;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,9 @@ public class MessageHelperImpl implements MessageHelper {
 
     @Autowired
     private UrlRepo urlRepo;
+
+    @Autowired
+    private HashtagRepo hashtagRepo;
 
 	private final Pattern urlPattern;
 	private final Pattern hashtagPattern;
@@ -51,22 +52,14 @@ public class MessageHelperImpl implements MessageHelper {
                     return match;
                 }
                 return "<a target=\"_blank\" href="
-                        + context + "/" + match + ">" + match + "</a>";
+                        + context + "/bin" + match + ">" + match + "</a>";
             }
         }, urlMatcher);
-//		while (urlMatcher.find()) {
-//			String url = urlMatcher.group();
-//			if (!alreadyReplaced.contains(url)) {
-//				message = message.replace(url, "<a target=\"_blank\" href="
-//						+ context + "/" + url + ">" + url + "</a>");
-//				alreadyReplaced.add(url);
-//			}
-//		}
 		Matcher hashtagMatcher = hashtagPattern.matcher(message);
         message = this.surround(context, message, new Replacer() {
             @Override
             public String replace(String context, String match) {
-                return "<a href=\"" + context + "/hashtag/"
+                return "<a href=\"" + context + "/bin/hashtag/"
                         + match.trim().split("#")[1] + "\">" + match + "</a>";
             }
         }, hashtagMatcher);
@@ -78,12 +71,37 @@ public class MessageHelperImpl implements MessageHelper {
                 if (userRepo.getUserByUsername(username) == null) {
                     return match;
                 }
-                return "<a href=\"" + context + "/profile/"
+                return "<a href=\"" + context + "/bin/profile/"
                         + username + "\">" + match + "</a>";
             }
         }, mentionMatcher);
 		return message;
 	}
+
+    @Override
+    public List<Hashtag> getHashtags(String message) {
+        List<Hashtag> hashtags = new LinkedList<Hashtag>();
+        Matcher hashtagMatcher = hashtagPattern.matcher(message);
+        while(hashtagMatcher.find()) {
+            String match = hashtagMatcher.group();
+            hashtags.add(hashtagRepo.getHashtag(match.trim().split("#")[1]));
+        }
+        return hashtags;
+    }
+
+    @Override
+    public List<TwattUser> getMentions(String message) {
+        List<TwattUser> twattUsers = new LinkedList<TwattUser>();
+        Matcher mentionMatcher = mentionPattern.matcher(message);
+        while(mentionMatcher.find()) {
+            String match = mentionMatcher.group();
+            List<TwattUser> us = userRepo.find(match.trim().split("@")[1]);
+            if (!us.isEmpty()) {
+                twattUsers.add(us.get(0));
+            }
+        }
+        return twattUsers;
+    }
 
     private String surround(String context, String original, Replacer replacer, Matcher matcher) {
         StringBuffer sb = new StringBuffer();

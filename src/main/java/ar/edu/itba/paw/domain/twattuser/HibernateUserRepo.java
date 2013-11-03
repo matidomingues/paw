@@ -11,11 +11,6 @@ import java.util.List;
 public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implements
 		UserRepo {
 	
-	@Autowired
-	public HibernateUserRepo(SessionFactory sessionFactory) {
-		super(sessionFactory);
-	}
-
 	public TwattUser authenticate(String username, String password) {
 		if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
 			throw new IllegalArgumentException("Invalid Username or Password");

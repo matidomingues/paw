@@ -6,9 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class PersistentEntity {
+public abstract class PersistentEntity {
 	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int id;
 	
 	public int getId() {

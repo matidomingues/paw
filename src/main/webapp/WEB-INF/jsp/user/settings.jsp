@@ -93,7 +93,7 @@
 					<div class="col-md-4">
 						<div>
 							<img
-								src="${pageContext.request.contextPath}/bin/image/<c:out value='${user_username}'/>" />
+								src="${pageContext.request.contextPath}/bin/image/<c:out value='${local_user.username}'/>" />
 						</div>
 					</div>
 				</div>

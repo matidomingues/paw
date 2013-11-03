@@ -2,7 +2,6 @@ package ar.edu.itba.paw.web.command.validator;
 
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.web.command.UserForm;
-
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

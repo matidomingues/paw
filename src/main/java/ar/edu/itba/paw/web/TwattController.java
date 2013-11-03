@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.web;
 
+import ar.edu.itba.paw.domain.twatt.Retwatt;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -32,11 +33,12 @@ public class TwattController {
             throw new MessageEmptyException();
         }
        
-        int user_id = (Integer) seq.getAttribute("user_id");
-        TwattUser user = this.userRepo.find(user_id);
+        int localUser_id = (Integer) seq.getAttribute("user_id");
+        TwattUser localUser = this.userRepo.find(localUser_id);
         
-        ModelAndView mav = new ModelAndView("redirect:/bin/profile/"+user.getUsername());
-        twattRepo.addTwatt(new Twatt(message, user));
+        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
+        mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
+        twattRepo.create(new Twatt(message, localUser));
         boolean result = true;
         if (!result) {
 			mav.addObject("error", "No es posible Twattear en este momento");
@@ -50,18 +52,71 @@ public class TwattController {
 	public ModelAndView delete(@RequestParam("twattId") Integer twatt_id, HttpSession seq){
 		
         Twatt twatt = this.twattRepo.getTwatt(twatt_id);
-        TwattUser user = this.userRepo.find((Integer)seq.getAttribute("user_if"));
+        TwattUser localUser = this.userRepo.find((Integer)seq.getAttribute("user_id"));
 
-        if (!twatt.getCreator().equals(user) && !user.isEnabled() && !twatt.isDeleted()) {
+        if (!twatt.getCreator().equals(localUser) && !localUser.isEnabled() && !twatt.isDeleted()) {
             throw new InvalidOperationExcetion();
         }
 
         twatt.setDeleted();
         
-        ModelAndView mav = new ModelAndView("forward:/bin/profile/"+user.getUsername());
+        ModelAndView mav = new ModelAndView("redirect:/bin/profile/"+localUser.getUsername());
+        mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
         mav.addObject("success", "Has elminiado un twatt!");
 
         return mav;
 	}
-	
+
+    @RequestMapping(value = "/favourite", method = RequestMethod.POST)
+    public ModelAndView favourite(@RequestParam("twattId") Integer twatt_id, HttpSession seq) {
+        Twatt twatt = this.twattRepo.getTwatt(twatt_id);
+        TwattUser localUser = this.userRepo.find((Integer)seq.getAttribute("user_id"));
+
+        if (localUser.isFavourite(twatt)) {
+            throw new InvalidOperationExcetion();
+        }
+
+        localUser.addFavourite(twatt);
+
+        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
+        mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
+        mav.addObject("success", "Has agregado un twatt como favorito!");
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/unfavourite", method = RequestMethod.POST)
+    public ModelAndView unfavourite(@RequestParam("twattId") Integer twatt_id, HttpSession seq) {
+        Twatt twatt = this.twattRepo.getTwatt(twatt_id);
+        TwattUser localUser = this.userRepo.find((Integer)seq.getAttribute("user_id"));
+
+        if (!localUser.isFavourite(twatt)) {
+            throw new InvalidOperationExcetion();
+        }
+
+        localUser.removeFavourite(twatt);
+
+        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
+        mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
+        mav.addObject("success", "Has removido un twatt de tus favoritos!");
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/retwatt", method = RequestMethod.POST)
+    public ModelAndView retwatt(@RequestParam("twattId") Integer twatt_id, HttpSession seq) {
+        Twatt twatt = this.twattRepo.getTwatt(twatt_id);
+        TwattUser localUser = this.userRepo.find((Integer)seq.getAttribute("user_id"));
+
+        Retwatt retwatt = new Retwatt(twatt, localUser);
+
+        this.twattRepo.create(retwatt);
+
+        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
+        mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
+        mav.addObject("success", "Has hecho un retwatt!");
+
+        return mav;
+    }
+
 }

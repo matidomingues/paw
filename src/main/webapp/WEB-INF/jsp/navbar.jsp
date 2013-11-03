@@ -4,10 +4,10 @@
 	</div>
 	<div class="collapse navbar-collapse navbar-ex1-collapse">	
 		<c:choose>
-			<c:when  test="${empty user_id}">
+			<c:when  test="${empty local_user}">
 				<ul class="nav navbar-nav navbar-right">
-					<li> <a href="${pageContext.request.contextPath}/bin/user/login"> Login </a> </li>
-					<li> <a href="${pageContext.request.contextPath}/bin/user/register"> Register </a> </li>
+					<li> <a href="${pageContext.request.contextPath}/bin/user/login"> Ingresar </a> </li>
+					<li> <a href="${pageContext.request.contextPath}/bin/user/register"> Registrarse </a> </li>
 				</ul>
 			</c:when>
 			<c:otherwise>
@@ -15,13 +15,15 @@
 					<li><a data-toggle="modal" href="#twatt-modal">Twatt!</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li> <a href="${pageContext.request.contextPath}/bin/profile/<c:out value='${user_username}'/>">Perfil</a></li>
+					<li> <a href="${pageContext.request.contextPath}/bin/profile/<c:out value='${local_user.username}'/>">Perfil</a></li>
 					<li> <a href="${pageContext.request.contextPath}/bin/find"> Busqueda</a></li>
 					<li class="dropdown">
 	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Cuenta <b class="caret"></b></a>
 		   				<ul class="dropdown-menu pull-right">
+                            <li><a href="${pageContext.request.contextPath}/bin/user/notifications">Notificaciones</a></li>
+                            <li><a href="${pageContext.request.contextPath}/bin/user/favourites">Favoritos</a></li>
 			          		<li><a href="${pageContext.request.contextPath}/bin/user/settings">Configuracion</a></li>
-			          		<li><a href="${pageContext.request.contextPath}/bin/user/logout">Log Out</a></li>
+			          		<li><a href="${pageContext.request.contextPath}/bin/user/logout">Salir</a></li>
 			        	</ul>
 			     	</li>
 			     <ul>
@@ -30,7 +32,7 @@
 	</div>
 </nav>
 <c:choose>
-	<c:when  test="${!empty user_id}">
+	<c:when  test="${!empty local_user}">
 		<div class="modal fade" id="twatt-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		      	<div class="modal-content">

@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.web;
 
+import ar.edu.itba.paw.domain.notification.FollowingNotification;
+import ar.edu.itba.paw.domain.notification.Notification;
+import ar.edu.itba.paw.domain.notification.NotificationRepo;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -11,7 +14,6 @@ import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,6 +35,10 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    public static final String LOCAL_USER_REFERENCER = "local_user";
+    public static final String SESSION_USERNAME = "user_username";
+    public static final String SESSION_USER_ID = "user_id";
+
 	@Autowired
 	private UserRepo userRepo;
 
@@ -41,23 +46,23 @@ public class UserController {
 	private TwattRepo twattRepo;
 
 	@Autowired
-	private MessageHelper messagemanager;
-
-	@Autowired
 	private UserFormValidator validator;
 
 	@Autowired
 	private ServletContext servletContext;
 
-	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
+    @Autowired
+    private NotificationRepo notificationRepo;
+
+    @RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
 	public ModelAndView user(@PathVariable String username, HttpSession seq) {
 		TwattUser localUser;
 
-		if (seq.getAttribute("user_username") == null) {
+		if (seq.getAttribute(SESSION_USERNAME) == null) {
 			localUser = null;
 		} else {
 			localUser = userRepo.getUserByUsername((String) seq
-					.getAttribute("user_username"));
+					.getAttribute(SESSION_USERNAME));
 		}
 		TwattUser user = userRepo.getUserByUsername(username);
 
@@ -84,6 +89,7 @@ public class UserController {
 			List<Twatt> twatts = twattRepo.getTwattsByUsername(user
 					.getUsername());
 			mav.addObject("twatts", twatts);
+            mav.addObject(LOCAL_USER_REFERENCER, localUser);
 			return mav;
 		} else {
 			ModelAndView mav = new ModelAndView("forward:/bin/find");
@@ -109,26 +115,31 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView settings(HttpSession seq) {
 		ModelAndView mav = new ModelAndView();
-		Integer user_id = (Integer) seq.getAttribute("user_id");
+		Integer user_id = (Integer) seq.getAttribute(SESSION_USER_ID);
 		TwattUser user = userRepo.find(user_id);
 		mav.addObject("userForm", new UserForm(user));
 		return mav;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String settings(UserForm editForm, Errors errors, HttpSession seq) {
+	public ModelAndView settings(UserForm editForm, Errors errors, HttpSession seq) {
+        ModelAndView mav = null;
+        TwattUser localUser;
 		validator.validate(editForm, errors);
 		if (errors.hasErrors()) {
-			return null;
+			return mav;
 		}
 		try {
-			userRepo.updateUser(editForm.build());
+            localUser = editForm.build();
+			userRepo.updateUser(localUser);
 		} catch (IllegalArgumentException e) {
 			System.out.println("error");
 			errors.rejectValue("username", "invalid");
-			return null;
+			return mav;
 		}
-		return "redirect:/bin/profile/" + seq.getAttribute("user_username");
+        mav = new ModelAndView("redirect:/bin/profile/" + seq.getAttribute(SESSION_USERNAME));
+        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		return mav;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -137,14 +148,16 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String login(@RequestParam("username") TwattUser user,
+	public ModelAndView login(@RequestParam("username") TwattUser user,
 			@RequestParam("password") String password, HttpSession seq) {
 		if (user != null && user.checkPassword(password)) {
-			seq.setAttribute("user_id", user.getId());
-			seq.setAttribute("user_username", user.getUsername());
-			return "redirect:/bin/home";
+            ModelAndView mav = new ModelAndView("redirect:/home");
+            mav.addObject(LOCAL_USER_REFERENCER, user);
+			seq.setAttribute(SESSION_USER_ID, user.getId());
+			seq.setAttribute(SESSION_USERNAME, user.getUsername());
+			return mav;
 		}
-		return "redirect:login";
+        return new ModelAndView("redirect:login");
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -172,8 +185,7 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(HttpSession seq) {
-		seq.removeAttribute("user_id");
-		seq.removeAttribute("user_username");
+        seq.invalidate();
 		return "redirect:/bin/user/login";
 	}
 
@@ -257,18 +269,43 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/follow/{user}", method = RequestMethod.GET)
-	public String follow(@PathVariable TwattUser user, HttpSession seq) {
+	public ModelAndView follow(@PathVariable TwattUser user, HttpSession seq) {
 		TwattUser localUser = userRepo.getUserByUsername((String) seq
-				.getAttribute("user_username"));
+				.getAttribute(SESSION_USERNAME));
+        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
 		localUser.addFollowing(user);
-		return "redirect:/bin/profile/" + localUser.getUsername();
+        Notification notification = new FollowingNotification(user, localUser);
+        notificationRepo.save(notification);
+        user.notify(notificationRepo.find(notification));
+        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		return mav;
 	}
 
 	@RequestMapping(value = "/unfollow/{user}", method = RequestMethod.GET)
-	public String unfollow(@PathVariable TwattUser user, HttpSession seq) {
+	public ModelAndView unfollow(@PathVariable TwattUser user, HttpSession seq) {
 		TwattUser localUser = userRepo.getUserByUsername((String) seq
-				.getAttribute("user_username"));
+				.getAttribute(SESSION_USERNAME));
+        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
 		localUser.removeFollowing(user);
-		return "redirect:/bin/profile/" + localUser.getUsername();
+        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		return mav;
 	}
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView notifications(HttpSession seq) {
+        TwattUser localUser = userRepo.getUserByUsername((String) seq.getAttribute(SESSION_USERNAME));
+        ModelAndView mav = new ModelAndView("user/notifications");
+        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+        mav.addObject("notifications", localUser.getNotifications());
+        return mav;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView favourites(HttpSession seq) {
+        TwattUser localUser = userRepo.getUserByUsername((String) seq.getAttribute(SESSION_USERNAME));
+        ModelAndView mav = new ModelAndView("user/favourites");
+        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+        mav.addObject("favourites", localUser.getFavourites());
+        return mav;
+    }
 }

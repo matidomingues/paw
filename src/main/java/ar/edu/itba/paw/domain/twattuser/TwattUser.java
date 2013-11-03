@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.domain.twattuser;
 
-
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import ar.edu.itba.paw.domain.notification.Notification;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import com.google.common.base.Strings;
 import org.hibernate.annotations.Type;
@@ -42,10 +42,17 @@ public class TwattUser extends PersistentEntity {
 	private List<Twatt> twatts;
 
 	@ManyToMany
-	private List<TwattUser> followers = new ArrayList<TwattUser>();
+	private Set<TwattUser> followers = new HashSet<TwattUser>();
 	
 	@ManyToMany(mappedBy="followers", cascade=CascadeType.ALL)
-	private List<TwattUser> followings = new ArrayList<TwattUser>();;
+	private Set<TwattUser> followings = new HashSet<TwattUser>();
+
+    @ManyToMany
+    private Set<Twatt> favourites = new HashSet<Twatt>();
+
+    @OneToMany
+    @JoinColumn(name = "recipient_id")
+    private Set<Notification> notifications = new HashSet<Notification>();
 	
 	
 	private boolean privacy;
@@ -96,11 +103,11 @@ public class TwattUser extends PersistentEntity {
 		this.privacy = status;
 	}
 	
-	public List<TwattUser> getFollowers(){
+	public Set<TwattUser> getFollowers(){
 		return followers;
 	}
 	
-	public List<TwattUser> getFollowings(){
+	public Set<TwattUser> getFollowings(){
 		System.out.println(this.followings.size());
 		return followings;
 	}
@@ -225,6 +232,40 @@ public class TwattUser extends PersistentEntity {
 	public boolean isFollowedBy(TwattUser user){
 		return followers.contains(user);
 	}
+
+    public void addFavourite(Twatt favorite) {
+        this.favourites.add(favorite);
+    }
+
+    public void removeFavourite(Twatt favourite) {
+        this.favourites.remove(favourite);
+    }
+
+    public boolean isFavourite(Twatt user) {
+        return this.favourites.contains(user);
+    }
+
+    public void notify(Notification notification) {
+        this.notifications.add(notification);
+    }
+
+    public void hasNotification(Notification notification) {
+        this.notifications.contains(notification);
+    }
+
+    public Set<Notification> getNotifications() {
+        return this.notifications;
+    }
+
+    public Set<Notification> getUnreadNotifications() {
+        Set<Notification> unreads = Collections.EMPTY_SET;
+        for(Notification notification : this.getNotifications()) {
+            if (!notification.isRead()) {
+                unreads.add(notification);
+            }
+        }
+        return unreads;
+    }
 	
 	@Override
 	public boolean equals(Object o) {
@@ -270,4 +311,8 @@ public class TwattUser extends PersistentEntity {
 		result = 31 * result + secretAnswer.hashCode();
 		return result;
 	}
+
+    public Set<Twatt> getFavourites() {
+        return favourites;
+    }
 }

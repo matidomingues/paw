@@ -2,6 +2,10 @@ package ar.edu.itba.paw.domain.twatt;
 
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
+import ar.edu.itba.paw.domain.notification.MentionNotification;
+import ar.edu.itba.paw.domain.notification.Notification;
+import ar.edu.itba.paw.domain.notification.NotificationRepo;
+import ar.edu.itba.paw.domain.notification.RetwattNotification;
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
@@ -21,18 +25,21 @@ import java.util.regex.Pattern;
 @Repository
 public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements TwattRepo{
 
-	private UserRepo userRepo;
-	private HashtagRepo hastagRepo;
-	private UrlRepo urlRepo;
-	
 	@Autowired
-	public HibernateTwattRepo(SessionFactory sessionFactory, UserRepo userRepo, HashtagRepo hastagRepo, UrlRepo urlRepo) {
-		super(sessionFactory);
-		this.userRepo = userRepo;
-		this.hastagRepo = hastagRepo;
-		this.urlRepo = urlRepo;
-	}
+    private UserRepo userRepo;
 
+    @Autowired
+    private HashtagRepo hastagRepo;
+
+    @Autowired
+    private UrlRepo urlRepo;
+
+    @Autowired
+    private NotificationRepo notificationRepo;
+
+    @Autowired
+    private MessageHelper messageHelper;
+	
 	private String shortenUrls(String message) {
         if (Strings.isNullOrEmpty(message)) {
             throw new IllegalArgumentException("Invalid message received");
@@ -49,17 +56,31 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements 
 		return message;
 	}
 
-	public void addTwatt(Twatt twatt) {
+	public void create(Twatt twatt) {
 		if (this.isValidTwatt(twatt) && !twatt.isDeleted()) {
 			twatt.setMessage(shortenUrls(twatt.getMessage()));
-			save(twatt);
+            save(twatt);
             hastagRepo.resolveHashtags(twatt);
-		} else {
-            throw new IllegalArgumentException("Invalid twatt");
+            List<TwattUser> mentions = this.messageHelper.getMentions(twatt.getMessage());
+            for(TwattUser mentioned : mentions) {
+                Notification notification = new MentionNotification(mentioned, twatt);
+                this.notificationRepo.save(notification);
+                mentioned.notify(this.notificationRepo.find(notification));
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid retwatt");
         }
 	}
 
-	public List<Twatt> getTwattsByUsername(String username) {
+    public void create(Retwatt retwatt) {
+        this.create((Twatt) retwatt);
+        Notification notification = new RetwattNotification(retwatt.getCreator(), retwatt);
+        this.notificationRepo.save(notification);
+        notification = this.notificationRepo.find(notification);
+        retwatt.getCreator().notify(notification);
+    }
+
+    public List<Twatt> getTwattsByUsername(String username) {
         if (Strings.isNullOrEmpty(username)) {
             throw new IllegalArgumentException("Invalid username");
         }
