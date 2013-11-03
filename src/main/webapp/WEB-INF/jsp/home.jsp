@@ -1,7 +1,7 @@
 <%@ include file="header.jsp"%>
 <div class="container">
-	<div class="main-content-wrapper">
-		<div class="main-content">
+	<div class="row">
+		<div class="col-md-9">
 			<div class="panel panel-info">
 				<div class="panel-heading">Hashtags</div>
 				<c:choose>
@@ -56,21 +56,39 @@
 				</c:when>
 			</c:choose>
 		</div>
-	</div>
-	<div class="sidebar panel panel-info">
-		<div class="panel-heading">Busqueda</div>
-		<div class="formsidebar">
-			<form method="get" action="${pageContext.request.contextPath}/home">
-				<input type="radio" name="dayfilter" value="1"> Dia<br>
-				<input type="radio" name="dayfilter" value="7"> Semana<br>
-				<input type="radio" name="dayfilter" value="30"> Mes<br>
-				<div class="twat-button">
-					<input type="submit" class="btn btn-large" value="Buscar">
+		<div class="col-md-3">
+			<div class="panel panel-info">
+				<div class="panel-heading">Busqueda</div>
+				<div class="formsidebar">
+					<form method="get" action="${pageContext.request.contextPath}/home">
+						<input type="radio" name="dayfilter" value="1"> Dia<br>
+						<input type="radio" name="dayfilter" value="7"> Semana<br>
+						<input type="radio" name="dayfilter" value="30"> Mes<br>
+						<div class="twat-button">
+							<input type="submit" class="btn btn-large" value="Buscar">
+						</div>
+						<div class="clearfix"></div>
+					</form>
 				</div>
-				<div class="clearfix"></div>
-			</form>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">Recomendaciones</div>
+				<table class="table">
+					<tbody>
+						<c:forEach items="${candidates}" var="candidate">
+							<tr>
+								<th><c:out value='${candidate.username}'/></th>
+								<td><a
+									href="/bin/follow/<c:out value='${candidate.username}'/>">Follow!</a>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+
 		</div>
 	</div>
 </div>
-</div>
+
 <%@ include file="footer.jsp"%>

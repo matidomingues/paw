@@ -15,6 +15,7 @@ import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
+
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,9 +42,9 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    public static final String LOCAL_USER_REFERENCER = "local_user";
-    public static final String SESSION_USERNAME = "user_username";
-    public static final String SESSION_USER_ID = "user_id";
+	public static final String LOCAL_USER_REFERENCER = "local_user";
+	public static final String SESSION_USERNAME = "user_username";
+	public static final String SESSION_USER_ID = "user_id";
 
 	@Autowired
 	private UserRepo userRepo;
@@ -56,10 +58,10 @@ public class UserController {
 	@Autowired
 	private ServletContext servletContext;
 
-    @Autowired
-    private NotificationRepo notificationRepo;
+	@Autowired
+	private NotificationRepo notificationRepo;
 
-    @RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
 	public ModelAndView user(@PathVariable String username, HttpSession seq) {
 		TwattUser localUser;
 
@@ -94,7 +96,7 @@ public class UserController {
 			List<Twatt> twatts = twattRepo.getTwattsByUsername(user
 					.getUsername());
 			mav.addObject("twatts", twatts);
-            mav.addObject(LOCAL_USER_REFERENCER, localUser);
+			mav.addObject(LOCAL_USER_REFERENCER, localUser);
 			return mav;
 		} else {
 			ModelAndView mav = new ModelAndView("forward:/bin/find");
@@ -104,46 +106,69 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public ModelAndView find() {
+	public ModelAndView find(HttpSession seq) {
+		TwattUser localUser;
+		if (seq.getAttribute(SESSION_USERNAME) == null) {
+			localUser = null;
+		} else {
+			localUser = userRepo.getUserByUsername((String) seq
+					.getAttribute(SESSION_USERNAME));
+		}
 		ModelAndView mav = new ModelAndView("user/find");
 		mav.addObject("users", userRepo.getAll());
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
 		return mav;
 	}
 
 	@RequestMapping(value = "/find", method = RequestMethod.POST)
-	public ModelAndView find(@RequestParam("username") String username) {
+	public ModelAndView find(@RequestParam("username") String username,
+			HttpSession seq) {
+		TwattUser localUser;
+		if (seq.getAttribute(SESSION_USERNAME) == null) {
+			localUser = null;
+		} else {
+			localUser = userRepo.getUserByUsername((String) seq
+					.getAttribute(SESSION_USERNAME));
+		}
 		ModelAndView mav = new ModelAndView("user/find");
 		mav.addObject("users", userRepo.find(username));
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
 		return mav;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView settings(HttpSession seq) {
+		TwattUser localUser;
+		localUser = userRepo.getUserByUsername((String) seq
+				.getAttribute(SESSION_USERNAME));
 		ModelAndView mav = new ModelAndView();
 		Integer user_id = (Integer) seq.getAttribute(SESSION_USER_ID);
 		TwattUser user = userRepo.find(user_id);
 		mav.addObject("userForm", new UserForm(user));
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
 		return mav;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView settings(UserForm editForm, Errors errors, HttpSession seq) {
-        ModelAndView mav = null;
-        TwattUser localUser;
+	public ModelAndView settings(UserForm editForm, Errors errors,
+			HttpSession seq) {
+		ModelAndView mav = null;
+		TwattUser localUser;
 		validator.validate(editForm, errors);
 		if (errors.hasErrors()) {
 			return mav;
 		}
 		try {
-            localUser = editForm.build();
+			localUser = editForm.build();
 			userRepo.updateUser(localUser);
 		} catch (IllegalArgumentException e) {
 			System.out.println("error");
 			errors.rejectValue("username", "invalid");
 			return mav;
 		}
-        mav = new ModelAndView("redirect:/bin/profile/" + seq.getAttribute(SESSION_USERNAME));
-        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		mav = new ModelAndView("redirect:/bin/profile/"
+				+ seq.getAttribute(SESSION_USERNAME));
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
 		return mav;
 	}
 
@@ -156,13 +181,13 @@ public class UserController {
 	public ModelAndView login(@RequestParam("username") TwattUser user,
 			@RequestParam("password") String password, HttpSession seq) {
 		if (user != null && user.checkPassword(password)) {
-            ModelAndView mav = new ModelAndView("redirect:/bin/home");
-            mav.addObject(LOCAL_USER_REFERENCER, user);
+			ModelAndView mav = new ModelAndView("redirect:/bin/home");
+			mav.addObject(LOCAL_USER_REFERENCER, user);
 			seq.setAttribute(SESSION_USER_ID, user.getId());
 			seq.setAttribute(SESSION_USERNAME, user.getUsername());
 			return mav;
 		}
-        return new ModelAndView("redirect:login");
+		return new ModelAndView("redirect:login");
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -190,7 +215,7 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String logout(HttpSession seq) {
-        seq.invalidate();
+		seq.invalidate();
 		return "redirect:/bin/user/login";
 	}
 
@@ -277,12 +302,13 @@ public class UserController {
 	public ModelAndView follow(@PathVariable TwattUser user, HttpSession seq) {
 		TwattUser localUser = userRepo.getUserByUsername((String) seq
 				.getAttribute(SESSION_USERNAME));
-        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
+		ModelAndView mav = new ModelAndView("redirect:/bin/profile/"
+				+ localUser.getUsername());
 		localUser.addFollowing(user);
-        Notification notification = new FollowingNotification(user, localUser);
-        notificationRepo.save(notification);
-        user.notify(notificationRepo.find(notification));
-        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		Notification notification = new FollowingNotification(user, localUser);
+		notificationRepo.save(notification);
+		user.notify(notificationRepo.find(notification));
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
 		return mav;
 	}
 
@@ -290,31 +316,34 @@ public class UserController {
 	public ModelAndView unfollow(@PathVariable TwattUser user, HttpSession seq) {
 		TwattUser localUser = userRepo.getUserByUsername((String) seq
 				.getAttribute(SESSION_USERNAME));
-        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
+		ModelAndView mav = new ModelAndView("redirect:/bin/profile/"
+				+ localUser.getUsername());
 		localUser.removeFollowing(user);
-        mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
 		return mav;
 	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView notifications(HttpSession seq) {
-        TwattUser localUser = userRepo.getUserByUsername((String) seq.getAttribute(SESSION_USERNAME));
-        ModelAndView mav = new ModelAndView("user/notifications");
-        mav.addObject(LOCAL_USER_REFERENCER, localUser);
-        mav.addObject("notifications", localUser.getNotifications());
-        return mav;
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView notifications(HttpSession seq) {
+		TwattUser localUser = userRepo.getUserByUsername((String) seq
+				.getAttribute(SESSION_USERNAME));
+		ModelAndView mav = new ModelAndView("user/notifications");
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		mav.addObject("notifications", localUser.getNotifications());
+		return mav;
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView favourites(HttpSession seq) {
-        TwattUser localUser = userRepo.getUserByUsername((String) seq.getAttribute(SESSION_USERNAME));
-        ModelAndView mav = new ModelAndView("user/favourites");
-        mav.addObject(LOCAL_USER_REFERENCER, localUser);
-        mav.addObject("favourites", localUser.getFavourites());
-        return mav;
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView favourites(HttpSession seq) {
+		TwattUser localUser = userRepo.getUserByUsername((String) seq
+				.getAttribute(SESSION_USERNAME));
+		ModelAndView mav = new ModelAndView("user/favourites");
+		mav.addObject(LOCAL_USER_REFERENCER, localUser);
+		mav.addObject("favourites", localUser.getFavourites());
+		return mav;
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView report(HttpSession seq) throws JSONException {
         ModelAndView mav = new ModelAndView();
         mav.addObject(LOCAL_USER_REFERENCER, userRepo.getUserByUsername((String)seq.getAttribute(SESSION_USERNAME)));
@@ -329,22 +358,24 @@ public class UserController {
 			@RequestParam(value = "endDate", required = true) String endDate,
 			HttpSession seq) throws JSONException {
 		DateTime startTime, endTime;
-		if(startDate.compareTo("0") == 0){
-			startTime= new DateTime(0);
-		}else{
+		if (startDate.compareTo("0") == 0) {
+			startTime = new DateTime(0);
+		} else {
 			startTime = new DateTime(Long.parseLong(startDate));
 		}
-		if(endDate.compareTo("0") == 0){
+		if (endDate.compareTo("0") == 0) {
 			endTime = new DateTime();
-		}else{
-			endTime= new DateTime(Long.parseLong(endDate));
+		} else {
+			endTime = new DateTime(Long.parseLong(endDate));
 		}
 
 		JSONArray arr = new JSONArray();
-		TwattUser user = userRepo.getUserByUsername((String) seq.getAttribute("user_username"));
-		
-		for (Report report : twattRepo.getTwattReportByDate(user, startTime, endTime,
-				days)) {
+		TwattUser localUser;
+		localUser = userRepo.getUserByUsername((String) seq
+				.getAttribute(SESSION_USERNAME));
+
+		for (Report report : twattRepo.getTwattReportByDate(localUser,
+				startTime, endTime, days)) {
 			arr.put(new JSONObject().put("label", report.getHeader()).put("y",
 					report.getValue()));
 		}

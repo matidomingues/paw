@@ -61,9 +61,9 @@ public class GeneralController {
         }
 		mav.addObject("hashtags", hashtagBundles);
 
+		mav.addObject("candidates", userRepo.getRecomendations(localUser));
 		if(localUser.getFollowings().size() != 0){
 			mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(localUser));
-
 		}
 		
 		return mav;

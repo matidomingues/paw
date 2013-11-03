@@ -1,18 +1,23 @@
 package ar.edu.itba.paw.domain.twattuser;
 
-import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
-import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
-import com.google.common.base.Strings;
-import org.springframework.stereotype.Repository;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
+
+import com.google.common.base.Strings;
+import ar.edu.itba.paw.utils.OrderedLinkedList;
+import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
+
 @Repository
-public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implements
-		UserRepo {
-	
+public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
+		implements UserRepo {
+
 	public TwattUser authenticate(String username, String password) {
 		if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
 			throw new IllegalArgumentException("Invalid Username or Password");
@@ -43,8 +48,9 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		if (Strings.isNullOrEmpty(username)) {
 			throw new IllegalArgumentException("Invalid username");
 		}
-		List<TwattUser> user = super.find("from TwattUser where username = ?", username);
-		if(user.isEmpty()){
+		List<TwattUser> user = super.find("from TwattUser where username = ?",
+				username);
+		if (user.isEmpty()) {
 			System.out.println("empty");
 			return null;
 		}
@@ -58,7 +64,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		if (!user.isValidUser()) {
 			throw new IllegalArgumentException("Invalid user");
 		}
-	    //save(user);
+		// save(user);
 		return true;
 	}
 
@@ -70,7 +76,8 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		if (Strings.isNullOrEmpty(username)) {
 			throw new IllegalArgumentException("Invalid username");
 		}
-		return super.find("from TwattUser where username LIKE '%" + username + "%'");
+		return super.find("from TwattUser where username LIKE '%" + username
+				+ "%'");
 
 	}
 
@@ -98,7 +105,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		}
 		return get(TwattUser.class, id);
 	}
-	
+
 	private boolean existsUsername(String username){
         if (Strings.isNullOrEmpty(username)) {
             throw new IllegalArgumentException("Null or empty username");
@@ -106,31 +113,56 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		return !find("from TwattUser where username=?", username).isEmpty();
 	}
 	
-	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException {
+	public List<TwattUser> getRecomendations(TwattUser user) {
         if (user == null) {
             throw new IllegalArgumentException("Null user");
         }
 		int deep = 3;
-		List<TwattUser> users = getRecomendations(user, deep);
-		Collections.shuffle(users);
-		return users.subList(0, 2);
+		OrderedLinkedList list = new OrderedLinkedList();
+		for (TwattUser following : user.getFollowings()) {
+			for (TwattUser candidate : following.getFollowings()) {
+				if (!user.equals(candidate)
+						&& !user.getFollowings().contains(candidate)) {
+					list.add(candidate);
+				}
+			}
+		}
+		LinkedList<TwattUser> candidates = list.getMoreThan(deep);
+		if (candidates.size() >= 3) {
+			Collections.shuffle(candidates);
+			return candidates.subList(0, 3);
+		}
+		List<TwattUser> orderedCandidates = getMostFollowedUsers(user);
+		if (orderedCandidates.size() < 3
+				&& orderedCandidates.size() >= candidates.size()) {
+			candidates.addAll(getMostFollowedUsers(user).subList(0,
+					(orderedCandidates.size() - candidates.size())));
+		} else {
+			candidates.addAll(getMostFollowedUsers(user).subList(0,
+					(3 - candidates.size())));
+		}
+		return candidates;
 	}
-	
-	private List<TwattUser> getRecomendations(TwattUser user, Integer deep){
-        if (user == null) {
-            throw new IllegalArgumentException("Null user");
-        }
-        if (deep < 0 ) {
-            throw new IllegalArgumentException("Invalid depth");
-        }
-		if(deep == 0){
-			return user.getFollowings();
+
+	private List<TwattUser> getMostFollowedUsers(TwattUser user) {
+		Session session = super.getSession();
+		String sql;
+		if (user.getFollowings().size() != 0) {
+			sql = "select size(followers), username from TwattUser u where username != ? and u not in (:ids) group by username";
+		} else {
+			sql = "select size(followers), username from TwattUser where username != ? group by username";
 		}
-		List<TwattUser> followers = new LinkedList<TwattUser>();
-		for(TwattUser follower: user.getFollowings()){
-			followers.addAll(getRecomendations(follower,deep-1));
+		Query query = session.createQuery(sql);
+		query.setParameter(0, user.getUsername());
+		if (user.getFollowings().size() != 0) {
+			query.setParameterList("ids", user.getFollowings());
 		}
-		return followers;
+		List<Object[]> list = query.list();
+		OrderedLinkedList followed = new OrderedLinkedList();
+		for (Object[] data : list) {
+			followed.add(getUserByUsername((String) data[1]), (Integer) data[0]);
+		}
+		return followed.getOrderedByCount();
 	}
 
 }
