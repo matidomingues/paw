@@ -42,10 +42,10 @@ public class TwattUser extends PersistentEntity {
 	private List<Twatt> twatts;
 
 	@ManyToMany
-	private Set<TwattUser> followers = new HashSet<TwattUser>();
+	private List<TwattUser> followers = new ArrayList<TwattUser>();
 	
 	@ManyToMany(mappedBy="followers", cascade=CascadeType.ALL)
-	private Set<TwattUser> followings = new HashSet<TwattUser>();
+	private List<TwattUser> followings = new ArrayList<TwattUser>();
 
     @ManyToMany
     private Set<Twatt> favourites = new HashSet<Twatt>();
@@ -103,11 +103,11 @@ public class TwattUser extends PersistentEntity {
 		this.privacy = status;
 	}
 	
-	public Set<TwattUser> getFollowers(){
+	public List<TwattUser> getFollowers(){
 		return followers;
 	}
 	
-	public Set<TwattUser> getFollowings(){
+	public List<TwattUser> getFollowings(){
 		System.out.println(this.followings.size());
 		return followings;
 	}

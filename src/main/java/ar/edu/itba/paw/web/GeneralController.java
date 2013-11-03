@@ -41,7 +41,7 @@ public class GeneralController {
     private UserFormValidator validator;
 
 	@RequestMapping(value="home", method = RequestMethod.GET)
-	public ModelAndView	home(@RequestParam(value="dayfilter", required=false) String sDays,HttpSession seq) {
+	public ModelAndView	home(@RequestParam(value="dayfilter", required=false) String sDays,HttpSession seq) throws NumberFormatException {
 		ModelAndView mav = new ModelAndView();
 		int days = 1;
         try {
@@ -60,9 +60,10 @@ public class GeneralController {
             hashtagBundles.add(new HashtagBundle(hashtag, hashtagRepo.getMentions(hashtag, filterDate)));
         }
 		mav.addObject("hashtags", hashtagBundles);
-		
+
 		if(localUser.getFollowings().size() != 0){
 			mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(localUser));
+
 		}
 		
 		return mav;

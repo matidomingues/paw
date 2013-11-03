@@ -5,6 +5,8 @@ import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -93,6 +95,24 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 	
 	private boolean existsUsername(String username){
 		return !find("from TwattUser where username=?", username).isEmpty();
+	}
+	
+	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException {
+		int deep = 3;
+		List<TwattUser> users = getRecomendations(user, deep);
+		Collections.shuffle(users);
+		return users.subList(0, 2);
+	}
+	
+	private List<TwattUser> getRecomendations(TwattUser user, Integer deep){
+		if(deep == 0){
+			return user.getFollowings();
+		}
+		List<TwattUser> followers = new LinkedList<TwattUser>();
+		for(TwattUser follower: user.getFollowings()){
+			followers.addAll(getRecomendations(follower,deep-1));
+		}
+		return followers;
 	}
 
 }

@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.domain.twatt;
 
+
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
 import ar.edu.itba.paw.domain.notification.MentionNotification;
@@ -11,9 +12,11 @@ import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.domain.url.UrlRepo;
 import ar.edu.itba.paw.helper.MessageHelper;
+import ar.edu.itba.paw.utils.Report;
 import com.google.common.base.Strings;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Repository
-public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements TwattRepo{
+public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
+		TwattRepo {
 
 	@Autowired
     private UserRepo userRepo;
@@ -41,9 +45,10 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements 
     private MessageHelper messageHelper;
 	
 	private String shortenUrls(String message) {
+
         if (Strings.isNullOrEmpty(message)) {
-            throw new IllegalArgumentException("Invalid message received");
-        }
+			throw new IllegalArgumentException("Invalid message received");
+		}
 		Pattern urlPattern = Pattern
 				.compile("((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)");
 		Matcher urlMatcher = urlPattern.matcher(message);
@@ -92,33 +97,31 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements 
 		return new LinkedList<Twatt>();
 	}
 
+	public boolean isValidTwatt(Twatt twatt) {
+		return twatt != null && twatt.getCreator() != null
+				&& twatt.getCreator().isValidUser()
+				&& !Strings.isNullOrEmpty(twatt.getMessage())
+				&& twatt.getTimestamp() != null;
+	}
 
-    public boolean isValidTwatt(Twatt twatt) {
-        return twatt != null &&
-                twatt.getCreator() != null &&
-                twatt.getCreator().isValidUser() &&
-                !Strings.isNullOrEmpty(twatt.getMessage()) &&
-                twatt.getTimestamp() != null;
-    }
+	public List<Twatt> getTwattsByHashtag(Hashtag hashtag) {
+		if (!hashtag.isValid()) {
+			throw new IllegalArgumentException("Invalid hashtag");
+		}
+		return hashtag.getTwatts();
+	}
 
-    public List<Twatt> getTwattsByHashtag(Hashtag hashtag) {
-        if (!hashtag.isValid()) {
-            throw new IllegalArgumentException("Invalid hashtag");
-        }
-        return hashtag.getTwatts();
-    }
+	public Twatt getTwatt(int twatt_id) {
+		if (twatt_id <= 0) {
+			throw new IllegalArgumentException("Invalid id");
+		}
+		return get(Twatt.class, twatt_id);
+	}
 
-    public Twatt getTwatt(int twatt_id) {
-        if (twatt_id <= 0) {
-            throw  new IllegalArgumentException("Invalid id");
-        }
-        return get(Twatt.class, twatt_id);
-    }
-
-    public void delete(Twatt twatt) {
-        twatt.setDeleted();
-        save(twatt);
-    }
+	public void delete(Twatt twatt) {
+		twatt.setDeleted();
+		save(twatt);
+	}
 
 	@Override
 	public List<Twatt> getTwattsByFollowings(TwattUser user) {
@@ -130,4 +133,27 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements 
 		return list;
 	}
 
+	public List<Report> getTwattReportByDate(TwattUser user, DateTime startDate, DateTime endDate,
+			String days) {
+		Session session = getSession();
+		String sql;
+		if (days.compareTo("day") == 0) {
+			sql = "select count(*),day(timestamp), month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by day(timestamp), month(timestamp),year(timestamp)";
+		} else if (days.compareTo("month") == 0) {
+			sql = "select count(*),month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by month(timestamp),year(timestamp)";
+		} else if (days.compareTo("year") == 0) {
+			sql = "select count(*),year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by year(timestamp)";
+		} else {
+			throw new RuntimeException("Day not correct");
+		}
+		Query query = session.createQuery(sql);
+		query.setParameter(0, startDate);
+		query.setParameter(1, endDate);
+		List<Object[]> list = query.list();
+		List<Report> report = new LinkedList<Report>();
+		for (Object[] elem : list) {
+			report.add(new Report(elem, days));
+		}
+		return report;
+	}
 }

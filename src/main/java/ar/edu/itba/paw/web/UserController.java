@@ -7,6 +7,7 @@ import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
+import ar.edu.itba.paw.utils.Report;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 import ar.edu.itba.paw.web.command.UserForm;
 import ar.edu.itba.paw.web.command.validator.UserFormValidator;
@@ -14,6 +15,10 @@ import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -308,4 +313,40 @@ public class UserController {
         mav.addObject("favourites", localUser.getFavourites());
         return mav;
     }
+
+    @RequestMapping(method = RequestMethod.GET)
+	public ModelAndView report(HttpSession seq) throws JSONException {
+		return new ModelAndView();
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	@ResponseBody
+	public String getreport(
+			@RequestParam(value = "time", required = true) String days,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate,
+			HttpSession seq) throws JSONException {
+		DateTime startTime, endTime;
+		if(startDate.compareTo("0") == 0){
+			startTime= new DateTime(0);
+		}else{
+			startTime = new DateTime(Long.parseLong(startDate));
+		}
+		if(endDate.compareTo("0") == 0){
+			endTime = new DateTime();
+		}else{
+			endTime= new DateTime(Long.parseLong(endDate));
+		}
+
+		JSONArray arr = new JSONArray();
+		TwattUser user = userRepo.getUserByUsername((String) seq.getAttribute("user_username"));
+		
+		for (Report report : twattRepo.getTwattReportByDate(user, startTime, endTime,
+				days)) {
+			arr.put(new JSONObject().put("label", report.getHeader()).put("y",
+					report.getValue()));
+		}
+		return new JSONObject().put("datagrams", arr).toString();
+	}
+
 }

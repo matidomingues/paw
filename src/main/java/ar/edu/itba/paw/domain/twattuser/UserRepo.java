@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.domain.twattuser;
 
+
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface UserRepo {
 			String newPassword);
 
 	public TwattUser find(int id);
+	
+	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException;
 }

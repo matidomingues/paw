@@ -13,10 +13,12 @@ public class ConfigManager {
     private String connectionString;
     private String dbUser;
     private String dbPass;
-
+    private String deep;
+    
     private ConfigManager() throws ConfigurationException {
         this.config = new PropertiesConfiguration("twatt.properties");
 
+        this.deep = config.getString("recommendations.deep");
         this.driver = config.getString("database.driver");
         this.connectionString = config.getString("database.connection-string");
         this.dbUser = config.getString("database.user");
@@ -24,7 +26,7 @@ public class ConfigManager {
 
     }
 
-    public static ConfigManager getInstance() throws ConfigurationException {
+    public synchronized static ConfigManager getInstance() throws ConfigurationException {
         if (instance == null) {
             instance = new ConfigManager();
         }
@@ -33,6 +35,9 @@ public class ConfigManager {
 
     public String getDatabaseDriver() {
         return this.driver;
+    }
+    public String getDeep(){
+    	return this.deep;
     }
     public String getConnectionString() {
         return this.connectionString;

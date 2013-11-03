@@ -12,7 +12,6 @@ public class AuthenticationFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-
 		boolean logued = req.getSession().getAttribute("user_id") != null;
 		boolean login = req.getRequestURL().toString().contains("login");
 		boolean profile = req.getRequestURL().toString().contains("profile");
