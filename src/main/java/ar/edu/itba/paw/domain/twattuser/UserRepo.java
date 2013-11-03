@@ -26,5 +26,5 @@ public interface UserRepo {
 
 	public TwattUser find(int id);
 	
-	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException, ConfigurationException;
+	public List<TwattUser> getRecomendations(TwattUser user);
 }

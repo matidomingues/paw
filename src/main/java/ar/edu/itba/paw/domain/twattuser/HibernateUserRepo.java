@@ -1,8 +1,13 @@
 package ar.edu.itba.paw.domain.twattuser;
 
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 
@@ -15,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 
 import ar.edu.itba.paw.utils.ConfigManager;
+import ar.edu.itba.paw.utils.OrderedLinkedList;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
 @Repository
@@ -110,22 +116,22 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser> implemen
 		return !find("from TwattUser where username=?", username).isEmpty();
 	}
 	
-	public List<TwattUser> getRecomendationsByUser(TwattUser user) throws NumberFormatException, ConfigurationException{
+	public List<TwattUser> getRecomendations(TwattUser user){
 		int deep = 3;
-		List<TwattUser> users = getRecomendations(user, deep);
-		Collections.shuffle(users);
-		return users.subList(0, 2);
+		OrderedLinkedList list = new OrderedLinkedList();
+		for(TwattUser following: user.getFollowings()){
+			for(TwattUser candidate: following.getFollowings()){
+				list.add(user);
+			}
+		}
+		LinkedList<TwattUser> candidates = list.getMoreThan(deep);
+		if(candidates.size() >=3){
+			Collections.shuffle(candidates);
+			return candidates.subList(0, 2);
+		}
+		candidates = list.getOrderedByCount();
+		return candidates.subList(0, 2);	
 	}
 	
-	private List<TwattUser> getRecomendations(TwattUser user, Integer deep){
-		if(deep == 0){
-			return user.getFollowings();
-		}
-		List<TwattUser> followers = new LinkedList<TwattUser>(); 
-		for(TwattUser follower: user.getFollowings()){
-			followers.addAll(getRecomendations(follower,deep-1));
-		}
-		return followers;
-	}
 
 }
