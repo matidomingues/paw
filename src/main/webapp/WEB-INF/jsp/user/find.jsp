@@ -36,7 +36,7 @@
 	<div class="sidebar panel panel-info">
 		<div class="panel-heading">Busqueda</div>
 			<div class="formsidebar">
-				<form method="post" action="/bin/find">
+				<form method="post" action="${pageContext.request.contextPath}/bin/find">
 					<div class="filter-form">
 						<label class="sidebar-label">Usuario</label>
 						<input type="text" name="username">

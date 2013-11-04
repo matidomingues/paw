@@ -69,7 +69,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 	}
 
 	public List<TwattUser> getAll() {
-		return super.find("from TwattUser");
+		return super.find("from TwattUser order by name, surname");
 	}
 
 	public List<TwattUser> find(String username) {
@@ -77,7 +77,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 			throw new IllegalArgumentException("Invalid username");
 		}
 		return super.find("from TwattUser where username LIKE '%" + username
-				+ "%'");
+				+ "%' order by name, surname");
 
 	}
 
@@ -133,12 +133,13 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 			return candidates.subList(0, 3);
 		}
 		List<TwattUser> orderedCandidates = getMostFollowedUsers(user);
+		orderedCandidates.removeAll(candidates);
 		if (orderedCandidates.size() < 3
 				&& orderedCandidates.size() >= candidates.size()) {
-			candidates.addAll(getMostFollowedUsers(user).subList(0,
+			candidates.addAll(orderedCandidates.subList(0,
 					(orderedCandidates.size() - candidates.size())));
 		} else {
-			candidates.addAll(getMostFollowedUsers(user).subList(0,
+			candidates.addAll(orderedCandidates.subList(0,
 					(3 - candidates.size())));
 		}
 		return candidates;

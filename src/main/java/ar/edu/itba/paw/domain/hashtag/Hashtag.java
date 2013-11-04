@@ -34,7 +34,6 @@ public class Hashtag extends PersistentEntity {
         this.firstTwatt = firstTweet;
 		this.tagName = tagName;
 		twatts = new LinkedList<Twatt>();
-        this.addTwatt(this.firstTwatt);
 	}
 
 	public Twatt getFirstTwatt() {

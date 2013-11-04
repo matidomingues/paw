@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.domain.twatt;
 
-
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
 import ar.edu.itba.paw.domain.notification.MentionNotification;
@@ -84,7 +83,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
         Notification notification = new RetwattNotification(retwatt.getOriginalTwatt().getCreator(), retwatt);
         this.notificationRepo.save(notification);
         notification = this.notificationRepo.find(notification);
-        retwatt.getCreator().notify(notification);
+        retwatt.getOriginalTwatt().getCreator().notify(notification);
     }
 
     public List<Twatt> getTwattsByUsername(String username) {
@@ -152,17 +151,18 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 		Session session = getSession();
 		String sql;
 		if (days.compareTo("day") == 0) {
-			sql = "select count(*),day(timestamp), month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by day(timestamp), month(timestamp),year(timestamp)";
+			sql = "select count(*),day(timestamp), month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? and creator = ? group by day(timestamp), month(timestamp),year(timestamp)";
 		} else if (days.compareTo("month") == 0) {
-			sql = "select count(*),month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by month(timestamp),year(timestamp)";
+			sql = "select count(*),month(timestamp), year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? and creator = ? group by month(timestamp),year(timestamp)";
 		} else if (days.compareTo("year") == 0) {
-			sql = "select count(*),year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? group by year(timestamp)";
+			sql = "select count(*),year(timestamp) from Twatt where timestamp >= ? and timestamp<= ? and creator = ? group by year(timestamp)";
 		} else {
 			throw new RuntimeException("Day not correct");
 		}
 		Query query = session.createQuery(sql);
 		query.setParameter(0, startDate);
 		query.setParameter(1, endDate);
+		query.setParameter(2, user);
 		List<Object[]> list = query.list();
 		List<Report> report = new LinkedList<Report>();
 		for (Object[] elem : list) {

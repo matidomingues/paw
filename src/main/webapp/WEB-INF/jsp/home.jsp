@@ -79,7 +79,7 @@
 							<tr>
 								<th><c:out value='${candidate.username}'/></th>
 								<td><a
-									href="/bin/follow/<c:out value='${candidate.username}'/>">Follow!</a>
+									href="${pageContext.request.contextPath}/bin/follow/<c:out value='${candidate.username}'/>">Follow!</a>
 								</td>
 							</tr>
 						</c:forEach>

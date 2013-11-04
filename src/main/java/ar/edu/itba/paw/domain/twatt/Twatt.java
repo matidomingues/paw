@@ -53,7 +53,6 @@ public class Twatt extends PersistentEntity {
 	public void setMessage(String message) {
         Assert.hasLength(message);
         Assert.hasText(message);
-
 		this.message = message;
 	}
 
@@ -63,8 +62,8 @@ public class Twatt extends PersistentEntity {
 
 	public void addHashtag(Hashtag hashtag) {
         Assert.notNull(hashtag);
-
 		hashtags.add(hashtag);
+        hashtag.addTwatt(this);
 	}
 
 	public DateTime getTimestamp() {

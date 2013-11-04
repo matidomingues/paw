@@ -1,5 +1,5 @@
     <%@ taglib prefix="twatt" uri="/WEB-INF/jsp/tld/TwattTagsDescriptor.tld"%>
-    <c:if test="${not twatt.deleted and (not empty local_user and not twatt.creator.privacy)}" >
+    <c:if test="${not twatt.deleted}" >
     <tr>
         <td>
             <div>
