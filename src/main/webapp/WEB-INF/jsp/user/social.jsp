@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-info">
-				<div class="panel-heading">Followings</div>
+				<div class="panel-heading">Seguido</div>
 				<c:choose>
 					<c:when test="${empty localUser.followings}">
 						<div class="panel-body">
@@ -34,7 +34,7 @@
 		</div>
 		<div class="col-md-6">
 			<div class="panel panel-info">
-				<div class="panel-heading">Followings</div>
+				<div class="panel-heading">Seguidores</div>
 				<c:choose>
 					<c:when test="${empty localUser.followers}">
 						<div class="panel-body">
@@ -53,7 +53,7 @@
 								<c:forEach items="${localUser.followers}" var="follower">
 									<tr>
 										<td><a
-											href="${pageContext.request.contextPath}/bin/profile/<c:out value='${folower.username}'/>"><c:out
+											href="${pageContext.request.contextPath}/bin/profile/<c:out value='${follower.username}'/>"><c:out
 													value="${follower.username}"></c:out></a></td>
 									</tr>
 								</c:forEach>

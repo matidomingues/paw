@@ -48,7 +48,8 @@ public class MessageHelperImpl implements MessageHelper {
         message = this.surround(context, message, new Replacer() {
             @Override
             public String replace(String context, String match) {
-                if (Strings.isNullOrEmpty(urlRepo.resolve(match))) {
+                String data = match.trim().split("/")[2];
+                if (Strings.isNullOrEmpty(urlRepo.resolve(data))) {
                     return match;
                 }
                 return "<a target=\"_blank\" href="

@@ -1,14 +1,13 @@
-﻿DROP TABLE mentionnotification;
-DROP TABLE retwattnotification;
-DROP TABLE followingnotification;
-DROP TABLE hashtag_twatt;
-DROP TABLE hashtag;
-DROP TABLE twatt_twattuser;
-DROP TABLE twattuser_twatt;
-DROP TABLE twattuser_twattuser;
-DROP TABLE twatt;
-DROP TABLE twattuser;
-DROP TABLE url;
+﻿DROP TABLE IF EXISTS mentionnotification;
+DROP TABLE IF EXISTS retwattnotification;
+DROP TABLE IF EXISTS followingnotification;
+DROP TABLE IF EXISTS hashtag_twatt;
+DROP TABLE IF EXISTS hashtag2;
+DROP TABLE IF EXISTS twattuser_twatt;
+DROP TABLE IF EXISTS twattuser_twattuser;
+DROP TABLE IF EXISTS twatt;
+DROP TABLE IF EXISTS twattuser;
+DROP TABLE IF EXISTS url;
 
 CREATE TABLE url
 (
@@ -32,7 +31,7 @@ CREATE TABLE twattuser
   enabled boolean NOT NULL,
   name character varying(255),
   password character varying(255),
-  photo oid,
+  photo bytea,
   privacy boolean NOT NULL,
   secretanswer character varying(255),
   secretquestion character varying(255),
@@ -109,12 +108,12 @@ WITH (
 ALTER TABLE twattuser_twatt
   OWNER TO paw;
 
-CREATE TABLE hashtag
+CREATE TABLE hashtag2
 (
   id serial NOT NULL,
   tagname character varying(255) NOT NULL,
   firsttwatt_id integer,
-  CONSTRAINT hashtag_pkey PRIMARY KEY (id ),
+  CONSTRAINT hashtag2_pkey PRIMARY KEY (id ),
   CONSTRAINT fk8ccc53ac8b65ac7 FOREIGN KEY (firsttwatt_id)
       REFERENCES twatt (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -123,7 +122,7 @@ CREATE TABLE hashtag
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE hashtag
+ALTER TABLE hashtag2
   OWNER TO paw;
 
 CREATE TABLE hashtag_twatt
@@ -134,7 +133,7 @@ CREATE TABLE hashtag_twatt
       REFERENCES twatt (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk9aa58ecbb2deeb2a FOREIGN KEY (hashtags_id)
-      REFERENCES hashtag (id) MATCH SIMPLE
+      REFERENCES hashtag2 (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT hashtag_twatt_twatts_id_key UNIQUE (twatts_id )
 )
@@ -189,3 +188,21 @@ WITH (
 );
 ALTER TABLE followingnotification
   OWNER TO paw;
+
+INSERT INTO url (base, resol) VALUES ((SELECT base FROM short_url),(SELECT resol FROM short_url));
+INSERT INTO twattuser
+SELECT id, 0, NOW(), description, enabled, name, password, photo, FALSE, secret_answer, secret_question, surname, username FROM twat_user;
+INSERT INTO twatt SELECT id, deleted, message, created_time, user_id, null, 'Twatt' FROM tweet;
+INSERT INTO hashtag2 SELECT id, tag_name, first_tweet FROM hashtag;
+INSERT INTO hashtag_twatt SELECT hashtag_id, tweet_id FROM hashtag_tweet;
+
+DROP TABLE IF EXISTS hashtag_tweet;
+DROP TABLE IF EXISTS hashtag;
+DROP TABLE IF EXISTS tweet;
+DROP TABLE IF EXISTS twat_user;
+DROP TABLE IF EXISTS short_url;
+
+ALTER TABLE hashtag_twatt DROP CONSTRAINT fk9aa58ecbb2deeb2a;
+ALTER TABLE hashtag2 RENAME TO hashtag;
+ALTER TABLE hashtag_twatt ADD CONSTRAINT fk_ht_t FOREIGN KEY(hashtags_id) REFERENCES hashtag(id);
+

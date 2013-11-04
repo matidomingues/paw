@@ -3,6 +3,7 @@ package ar.edu.itba.paw.domain.hashtag;
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import com.google.common.base.Strings;
+import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +28,10 @@ public class Hashtag extends PersistentEntity {
 	}
 
 	public Hashtag(Twatt firstTweet, String tagName) {
-		this.firstTwatt = firstTweet;
+        Assert.notNull(firstTweet);
+        Assert.hasText(tagName);
+
+        this.firstTwatt = firstTweet;
 		this.tagName = tagName;
 		twatts = new LinkedList<Twatt>();
 	}
@@ -45,6 +49,7 @@ public class Hashtag extends PersistentEntity {
 	}
 
 	public void addTwatt(Twatt twatt) {
+        Assert.notNull(twatt);
 		twatts.add(twatt);
 	}
 

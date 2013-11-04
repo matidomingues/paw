@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.domain.url;
 
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import org.springframework.util.Assert;
 
 import javax.persistence.Entity;
 
@@ -14,7 +15,9 @@ public class Url extends PersistentEntity {
 	}
 	
 	public Url(String base, String resol){
-		this.base = base;
+        Assert.hasText(base);
+        Assert.hasText(resol);
+        this.base = base;
 		this.resol = resol;
 	}
 

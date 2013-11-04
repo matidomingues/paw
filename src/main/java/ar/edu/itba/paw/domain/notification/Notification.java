@@ -4,10 +4,7 @@ import ar.edu.itba.paw.domain.entity.PersistentEntity;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

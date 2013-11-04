@@ -357,10 +357,8 @@ public class UserController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView report(HttpSession seq) throws JSONException {
-		TwattUser localUser = userRepo.getUserByUsername((String) seq
-				.getAttribute(SESSION_USERNAME));
-		ModelAndView mav = new ModelAndView();
-		mav.addObject(LOCAL_USER_REFERENCER, localUser);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject(LOCAL_USER_REFERENCER, userRepo.getUserByUsername((String)seq.getAttribute(SESSION_USERNAME)));
 		return mav;
 	}
 

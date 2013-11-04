@@ -39,7 +39,7 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> impleme
 				this.create(hashtag);
 				hashtag = this.getHashtag(hashtag.getTagName());
 			}
-			this.relate(hashtag, twatt);
+			twatt.addHashtag(hashtag);
 		}
 	}
 

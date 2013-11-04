@@ -31,6 +31,9 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 	}
 
 	public boolean registerUser(TwattUser user) throws DuplicatedUserException {
+        if (user == null) {
+            throw  new IllegalArgumentException("Null user");
+        }
 		if (!user.isValidUser()) {
 			throw new IllegalArgumentException("Invalid user");
 		} else if (existsUsername(user.getUsername())) {
@@ -55,6 +58,9 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 	}
 
 	public boolean updateUser(TwattUser user) {
+        if (user == null) {
+            throw new IllegalArgumentException("Null User");
+        }
 		if (!user.isValidUser()) {
 			throw new IllegalArgumentException("Invalid user");
 		}
@@ -81,7 +87,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 				|| Strings.isNullOrEmpty(secretAnswer)
 				|| Strings.isNullOrEmpty(newPassword)) {
 			throw new IllegalArgumentException(
-					"Invalid username, secrec answer or password detected");
+					"Invalid username, secret answer or password detected");
 		}
 		TwattUser user = getUserByUsername(username);
 		if (user != null && user.getSecretAnswer().compareTo(secretAnswer) == 0) {
@@ -100,11 +106,17 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		return get(TwattUser.class, id);
 	}
 
-	private boolean existsUsername(String username) {
+	private boolean existsUsername(String username){
+        if (Strings.isNullOrEmpty(username)) {
+            throw new IllegalArgumentException("Null or empty username");
+        }
 		return !find("from TwattUser where username=?", username).isEmpty();
 	}
-
+	
 	public List<TwattUser> getRecomendations(TwattUser user) {
+        if (user == null) {
+            throw new IllegalArgumentException("Null user");
+        }
 		int deep = 3;
 		OrderedLinkedList list = new OrderedLinkedList();
 		for (TwattUser following : user.getFollowings()) {

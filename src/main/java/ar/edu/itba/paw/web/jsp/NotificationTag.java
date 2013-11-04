@@ -109,7 +109,7 @@ public class NotificationTag extends TagSupport {
     private String printTwatt(Twatt twatt) {
         return "        <tr><td>\n" +
                 "            <div>\n" +
-                "            <img src=\"" + ((HttpServletRequest)pageContext.getRequest()).getContextPath() + "/bin/image/<c:out value='" + twatt.getCreator().getUsername() + "'/>\">\n" +
+                "            <img src=\"" + ((HttpServletRequest)pageContext.getRequest()).getContextPath() + "/bin/image/" + twatt.getCreator().getUsername() + "\"/>\n" +
                 "            </div>\n" +
                 "        </td>\n" +
                 "        <td>\n" +

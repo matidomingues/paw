@@ -60,7 +60,7 @@ public class TwattController {
 
         twatt.setDeleted();
         
-        ModelAndView mav = new ModelAndView("redirect:/bin/profile/"+localUser.getUsername());
+        ModelAndView mav = new ModelAndView("redirect:/bin/user/favourites");
         mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
         mav.addObject("success", "Has elminiado un twatt!");
 
@@ -78,7 +78,7 @@ public class TwattController {
 
         localUser.addFavourite(twatt);
 
-        ModelAndView mav = new ModelAndView("redirect:/bin/profile/" + localUser.getUsername());
+        ModelAndView mav = new ModelAndView("redirect:/bin/user/favourites");
         mav.addObject(UserController.LOCAL_USER_REFERENCER, localUser);
         mav.addObject("success", "Has agregado un twatt como favorito!");
 

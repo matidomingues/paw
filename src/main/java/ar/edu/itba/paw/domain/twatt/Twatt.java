@@ -5,6 +5,7 @@ import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -34,7 +35,10 @@ public class Twatt extends PersistentEntity {
 	}
 
 	public Twatt(String message, TwattUser user) {
-		this.message = message;
+        Assert.notNull(user);
+        Assert.hasText(message);
+
+        this.message = message;
 		this.creator = user;
 		this.timestamp = new DateTime();
 		this.deleted = false;
@@ -47,6 +51,8 @@ public class Twatt extends PersistentEntity {
 	}
 
 	public void setMessage(String message) {
+        Assert.hasLength(message);
+        Assert.hasText(message);
 		this.message = message;
 	}
 
@@ -55,7 +61,9 @@ public class Twatt extends PersistentEntity {
 	}
 
 	public void addHashtag(Hashtag hashtag) {
+        Assert.notNull(hashtag);
 		hashtags.add(hashtag);
+        hashtag.addTwatt(this);
 	}
 
 	public DateTime getTimestamp() {
@@ -66,16 +74,12 @@ public class Twatt extends PersistentEntity {
 		return deleted;
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
+    public void setDeleted() {
+        this.deleted = true;
+    }
 
 	public TwattUser getCreator() {
 		return creator;
-	}
-
-	public void setCreator(TwattUser creator) {
-		this.creator = creator;
 	}
 
 	/* Necesario para los jsp */
@@ -83,9 +87,9 @@ public class Twatt extends PersistentEntity {
 		return deleted;
 	}
 
-	public void setDeleted() {
-		this.deleted = true;
-	}
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
 	@Override
 	public boolean equals(Object o) {
