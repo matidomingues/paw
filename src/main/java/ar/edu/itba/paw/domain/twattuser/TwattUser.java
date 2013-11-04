@@ -36,7 +36,7 @@ public class TwattUser extends PersistentEntity {
     @Column(nullable = false)
 	private boolean enabled;
 	
-	@Lob
+	@Type(type = "org.hibernate.type.BinaryType")
 	private byte[] photo;
 
 	@OneToMany(mappedBy="creator", cascade=CascadeType.ALL)
@@ -119,7 +119,6 @@ public class TwattUser extends PersistentEntity {
 	}
 	
 	public List<TwattUser> getFollowings(){
-		System.out.println(this.followings.size());
 		return followings;
 	}
 	
@@ -130,8 +129,10 @@ public class TwattUser extends PersistentEntity {
 	
 	public void addFollowing(TwattUser user){
         Assert.notNull(user);
-		user.addFollower(this);
-		this.followings.add(user);
+		if(!followings.contains(user)){
+			user.addFollower(this);
+			this.followings.add(user);
+		}
 	}
 	
 	private void removeFollower(TwattUser user){
