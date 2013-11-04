@@ -81,7 +81,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
             throw new IllegalArgumentException("Null twatt");
         }
         this.create((Twatt) retwatt);
-        Notification notification = new RetwattNotification(retwatt.getCreator(), retwatt);
+        Notification notification = new RetwattNotification(retwatt.getOriginalTwatt().getCreator(), retwatt);
         this.notificationRepo.save(notification);
         notification = this.notificationRepo.find(notification);
         retwatt.getCreator().notify(notification);
