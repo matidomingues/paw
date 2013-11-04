@@ -19,7 +19,7 @@ loadChart = function(dateType){
 	var eDate = new Date( $("#endDate").datepicker("getDate")).getTime();
 	var context = "";
 	if(window.location.pathname.split("/")[1] != "bin"){
-		context = window.location.pathname.split("/")[1];
+		context = window.location.pathname.split("/")[1] + "/";
 	}
 	$.getJSON("/"+ context + "bin/user/getreport?time="+ dateType+"&startDate="+sDate + "&endDate="+eDate, function(data){
 		console.log(data.datagrams);
