@@ -17,15 +17,19 @@ window.onload = function() {
 loadChart = function(dateType){
 	var sDate = new Date( $("#startDate").datepicker("getDate") ).getTime();;
 	var eDate = new Date( $("#endDate").datepicker("getDate")).getTime();
-	console.log(sDate);
-	$.getJSON("/bin/user/getreport?time="+ dateType+"&startDate="+sDate + "&endDate="+eDate, function(data){
+	var context = "";
+	if(window.location.pathname.split("/")[1] != "bin"){
+		context = window.location.pathname.split("/")[1];
+	}
+	$.getJSON("/"+ context + "bin/user/getreport?time="+ dateType+"&startDate="+sDate + "&endDate="+eDate, function(data){
 		console.log(data.datagrams);
 		var chart = new CanvasJS.Chart("chartContainer", {
 			title : {
 				text : "Tweets por fecha",
 			},
 			axisY : {
-				title : "Cantidad"
+				title : "Cantidad",
+				minimum: 0
 			},
 			axisX : {
 				title : "Fecha"
