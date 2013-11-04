@@ -51,11 +51,11 @@
 				</tr>
 				<tr>
 					<th># de Followers</th>
-					<td><a href="/bin/social/<c:out value='${searchuser.username}'/>"><c:out value="${fn:length(searchuser.followers)}"></c:out></a></td>
+					<td><a href="${pageContext.request.contextPath}/bin/social/<c:out value='${searchuser.username}'/>"><c:out value="${fn:length(searchuser.followers)}"></c:out></a></td>
 				</tr>
 				<tr>
 					<th># de Followings</th>
-					<td><a href="/bin/social/<c:out value='${searchuser.username}'/>"><c:out value="${fn:length(searchuser.followings)}"></c:out></a></td>
+					<td><a href="${pageContext.request.contextPath}/bin/social/<c:out value='${searchuser.username}'/>"><c:out value="${fn:length(searchuser.followings)}"></c:out></a></td>
 
 				</tr>
 				<tr>
@@ -69,7 +69,7 @@
 								<tr>
 									<th>Seguir</th>
 									<td><a class="btn"
-										href="/bin/follow/<c:out value='${searchuser.username}'/>">Follow!</a>
+										href="${pageContext.request.contextPath}/bin/follow/<c:out value='${searchuser.username}'/>">Follow!</a>
 									</td>
 								</tr>
 							</c:when>
@@ -77,7 +77,7 @@
 								<tr>
 									<th>Dejar de Seguir</th>
 									<td><a class="btn"
-										href="/bin/unfollow/<c:out value='${searchuser.username}'/>">UnFollow!</a>
+										href="${pageContext.request.contextPath}/bin/unfollow/<c:out value='${searchuser.username}'/>">UnFollow!</a>
 									</td>
 								</tr>
 							</c:otherwise>

@@ -2,10 +2,11 @@ package ar.edu.itba.paw.domain.hashtag;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 import ar.edu.itba.paw.domain.twatt.Twatt;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.sun.istack.internal.Nullable;
+
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
@@ -84,7 +85,7 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> impleme
 		//TODO: filtrar por fecha
         return Iterables.size(Iterables.filter(hashtag.getTwatts(), new Predicate<Twatt>() {
             @Override
-            public boolean apply(@Nullable Twatt input) {
+            public boolean apply(Twatt input) {
                 return !input.isDeleted() && input.getTimestamp().isAfter(filterDate.toInstant());
             }
         }));

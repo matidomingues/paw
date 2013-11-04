@@ -3,9 +3,11 @@ package ar.edu.itba.paw.web.jsp;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
+
 import java.io.IOException;
 
 public class TwattActionsPrinterTag extends TagSupport {
@@ -33,7 +35,7 @@ public class TwattActionsPrinterTag extends TagSupport {
     private String deleteAction(Twatt twatt, TwattUser user) {
         StringBuilder sb = new StringBuilder("");
         if (twatt.getCreator().equals(user)) {
-            sb.append("<form method=\"POST\" action=\"/bin/twatt/delete\">\n<input type=\"hidden\" name=\"twattId\" value=\"");
+            sb.append("<form method=\"POST\" action=\"" + ((HttpServletRequest)pageContext.getRequest()).getContextPath() + "/bin/twatt/delete\">\n<input type=\"hidden\" name=\"twattId\" value=\"");
             sb.append(twatt.getId());
             sb.append("\"/>\n<button title=\"Eliminar\" type=\"submit\" class=\"pull-right btn btn-primary\" value=\"Eliminar\"><span class=\"glyphicon glyphicon-remove\"></span></button>\n</form>");
         }
@@ -41,18 +43,18 @@ public class TwattActionsPrinterTag extends TagSupport {
     }
 
     private String retweetAction(Twatt twatt, TwattUser user) {
-        return "<form method=\"POST\" action=\"/bin/twatt/retwatt\">\n<input type=\"hidden\" name=\"twattId\" value=\"" +
+        return "<form method=\"POST\" action=\"" + ((HttpServletRequest)pageContext.getRequest()).getContextPath() + "/bin/twatt/retwatt\">\n<input type=\"hidden\" name=\"twattId\" value=\"" +
                 twatt.getId() + "\"/>\n<button title=\"Retwatt\" type=\"submit\" class=\"pull-right btn btn-primary\" value=\"Retwatt\"><span class=\"glyphicon glyphicon-share\"></span></button>\n</form>";
     }
 
     private String favouriteAction(Twatt twatt, TwattUser user) {
         StringBuilder sb = new StringBuilder("");
         if (user.isFavourite(twatt)) {
-            sb.append("<form method=\"POST\" action=\"/bin/twatt/unfavourite\">\n<input type=\"hidden\" name=\"twattId\" value=\"");
+            sb.append("<form method=\"POST\" action=\"" + ((HttpServletRequest)pageContext.getRequest()).getContextPath() + "/bin/twatt/unfavourite\">\n<input type=\"hidden\" name=\"twattId\" value=\"");
             sb.append(twatt.getId());
             sb.append("\"/>\n<button title=\"Eliminar de Favoritos\" type=\"submit\" class=\"pull-right btn btn-primary\" value=\"Desfavoritear\"><span class=\"glyphicon glyphicon-heart\"></span></button>\n</form>");
         } else {
-            sb.append("<form method=\"POST\" action=\"/bin/twatt/favourite\">\n<input type=\"hidden\" name=\"twattId\" value=\"");
+            sb.append("<form method=\"POST\" action=\"" + ((HttpServletRequest)pageContext.getRequest()).getContextPath() + "/bin/twatt/favourite\">\n<input type=\"hidden\" name=\"twattId\" value=\"");
             sb.append(twatt.getId());
             sb.append("\"/>\n<button title=\"Agregar a Favoritos\" type=\"submit\" class=\"pull-right btn btn-primary\" value=\"Favoritear\"><span class=\"glyphicon glyphicon-heart-empty\"></span></button>\n</form>");
         }

@@ -16,7 +16,6 @@ import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
 
-import org.apache.tools.ant.taskdefs.condition.Http;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;

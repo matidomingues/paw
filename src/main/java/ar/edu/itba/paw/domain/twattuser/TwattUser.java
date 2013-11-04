@@ -108,7 +108,6 @@ public class TwattUser extends PersistentEntity {
 	}
 	
 	public List<TwattUser> getFollowings(){
-		System.out.println(this.followings.size());
 		return followings;
 	}
 	

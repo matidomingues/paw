@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.domain.twatt;
 
-
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
 import ar.edu.itba.paw.domain.notification.MentionNotification;
