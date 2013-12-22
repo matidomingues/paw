@@ -226,7 +226,7 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView restore(@RequestParam("username") String username) {
-		return new ModelAndView("redirect:restore/" + username);
+		return new ModelAndView("redirect:/bin/restore/" + username);
 	}
 
 	@RequestMapping(value = "restore/{username}", method = RequestMethod.GET)

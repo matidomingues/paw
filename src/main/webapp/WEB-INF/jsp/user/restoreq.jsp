@@ -30,7 +30,7 @@
 				</div>
 				<div class="row input-padding">
 					<div class="col-md-2">
-						<label class="input-label">Nueva Contraseña</label>
+						<label class="input-label">Nueva Contrase&ntilde;a</label>
 					</div>
 					<div class="col-md-10">
 						<input type="password" class="input-long" name="password" required>
@@ -38,7 +38,7 @@
 				</div>
 				<div class="row input-padding">
 					<div class="col-md-2">
-						<label class="input-label">Confirmacion Contraseña</label>
+						<label class="input-label">Confirmacion Contrase&ntilde;a</label>
 					</div>
 					<div class="col-md-10">
 						<input type="password" class="input-long" name="confirmpassword" required>
