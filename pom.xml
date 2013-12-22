@@ -157,11 +157,11 @@
             <artifactId>spring-test</artifactId>
             <version>3.0.0.RELEASE</version>
         </dependency>
-		<!--dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
 			<version>3.2.6.ga</version>
-		</dependency-->
+		</dependency>
     </dependencies>
 
 	<build>

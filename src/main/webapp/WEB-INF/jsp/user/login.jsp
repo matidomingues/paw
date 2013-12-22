@@ -1,7 +1,7 @@
 <%@ include file="../header.jsp" %>
 <div class="container">
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
+	<div class="row text-center">
+		<div class="col-md-offset-3 col-md-6 text-center">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h3 class="panel-title">Login</h3>

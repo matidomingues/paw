@@ -41,8 +41,8 @@
 		</div>
 	</div>
 
-<script type="text/javascript" src="/js/report.js"></script>
-<script type="text/javascript" src="/js/canvasjs.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/report.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/canvasjs.min.js"></script>
 <script
 	src="///cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
