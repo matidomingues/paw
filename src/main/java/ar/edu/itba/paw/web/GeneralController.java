@@ -2,6 +2,7 @@ package ar.edu.itba.paw.web;
 
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
+import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
@@ -66,10 +67,11 @@ public class GeneralController {
 		mav.addObject("hashtags", hashtagBundles);
 
 		mav.addObject("candidates", userRepo.getRecomendations(localUser));
-		if(localUser.getFollowings().size() != 0){
-			mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(localUser));
-		}
-		
+		if(localUser.getFollowings().size() > 0){
+            mav.addObject("followingsTwatts", twattRepo.getTwattsByFollowings(localUser));
+        }
+        mav.addObject("userTwatts", twattRepo.getTwattsByUsername(localUser.getUsername()));
+
 		return mav;
 	}
 	

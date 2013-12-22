@@ -33,6 +33,26 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
+            <c:if test="${!empty userTwatts}">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Mis Twatts</div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>User</th>
+                            <th>Tweet</th>
+                            <th>Fecha</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${userTwatts}" var="twatt">
+                            <%@include file="twatt.jsp"%>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
 			<c:choose>
 				<c:when test="${!empty followingsTwatts}">
 					<div class="panel panel-info">
