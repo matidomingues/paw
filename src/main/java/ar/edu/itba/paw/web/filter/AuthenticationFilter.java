@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.web.filter;
 
+import ar.edu.itba.paw.utils.SiteMap;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,20 +14,22 @@ public class AuthenticationFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-		boolean logued = req.getSession().getAttribute("user_id") != null;
-		boolean login = req.getRequestURL().toString().contains("login");
-		boolean profile = req.getRequestURL().toString().contains("profile");
-		boolean find = req.getRequestURL().toString().contains("find");
-		boolean register = req.getRequestURL().toString().contains("register");
-		boolean restore = req.getRequestURL().toString().contains("restore");
+		boolean logged = req.getSession().getAttribute("user_id") != null;
 
-		if (!logued && !login && !register && !restore && !profile && !find) {
-			resp.sendRedirect(req.getContextPath() +"/bin/user/login");
-		} else if (logued && (login || register || restore)) {
-			resp.sendRedirect(req.getContextPath() +"/bin/home");
-		} else {
-			chain.doFilter(request, response);
-		}
+        if (logged) {
+            if (SiteMap.needsAuthentication(req.getRequestURI())) {
+                chain.doFilter(request, response);
+            } else {
+                resp.sendRedirect(req.getContextPath() + SiteMap.HOME.getAddress());
+            }
+        } else {
+            if (SiteMap.needsAnonimity(req.getRequestURI())) {
+                chain.doFilter(request, response);
+            } else {
+                resp.sendRedirect(req.getContextPath() + SiteMap.LOGIN.getAddress());
+            }
+        }
+
 	}
 
 	public void destroy() {
