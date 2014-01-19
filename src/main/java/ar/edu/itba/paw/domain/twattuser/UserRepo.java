@@ -13,8 +13,6 @@ public interface UserRepo {
 
 	public TwattUser getUserByUsername(String username);
 
-	public boolean updateUser(TwattUser user);
-
 	public List<TwattUser> getAll();
 
 	public List<TwattUser> find(String username);

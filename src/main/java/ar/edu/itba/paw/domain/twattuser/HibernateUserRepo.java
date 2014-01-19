@@ -57,17 +57,6 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		return user.get(0);
 	}
 
-	public boolean updateUser(TwattUser user) {
-        if (user == null) {
-            throw new IllegalArgumentException("Null User");
-        }
-		if (!user.isValidUser()) {
-			throw new IllegalArgumentException("Invalid user");
-		}
-		// save(user);
-		return true;
-	}
-
 	public List<TwattUser> getAll() {
 		return super.find("from TwattUser order by name, surname");
 	}

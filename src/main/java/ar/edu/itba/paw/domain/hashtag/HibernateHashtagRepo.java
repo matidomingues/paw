@@ -54,27 +54,11 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> impleme
         return hashtags.get(0);
 	}
 
-	public List<Hashtag> getHashtags(Twatt twatt) {
-		if (twatt == null) {
-			throw new IllegalArgumentException("Invalid twatt");
-		}
-		return twatt.getHashtags();
-	}
-
 	public List<Hashtag> getTrendingsHashtagsAfter(DateTime dateTime) {
 		if (dateTime == null || dateTime.isAfterNow()) {
 			throw new IllegalArgumentException("Invalid Date");
 		}
 		return find("from Hashtag where firstTwatt.timestamp > ?", dateTime);
-	}
-
-	public void relate(Hashtag hashtag, Twatt twatt) {
-		if (!hashtag.isValid() || twatt == null) {
-			throw new IllegalArgumentException(
-					"Invalid Hashtag or Twatt received");
-		}
-		twatt.addHashtag(hashtag);
-		hashtag.addTwatt(twatt);
 	}
 
 	public int getMentions(final Hashtag hashtag, final DateTime filterDate) {
