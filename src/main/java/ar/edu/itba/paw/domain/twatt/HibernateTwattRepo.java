@@ -3,8 +3,6 @@ package ar.edu.itba.paw.domain.twatt;
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
 import ar.edu.itba.paw.domain.notification.MentionNotification;
-import ar.edu.itba.paw.domain.notification.Notification;
-import ar.edu.itba.paw.domain.notification.NotificationRepo;
 import ar.edu.itba.paw.domain.notification.RetwattNotification;
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -38,9 +36,6 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
     private UrlRepo urlRepo;
 
     @Autowired
-    private NotificationRepo notificationRepo;
-
-    @Autowired
     private MessageHelper messageHelper;
 	
 	private String shortenUrls(String message) {
@@ -66,9 +61,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
             hastagRepo.resolveHashtags(twatt);
             List<TwattUser> mentions = this.messageHelper.getMentions(twatt.getMessage());
             for(TwattUser mentioned : mentions) {
-                Notification notification = new MentionNotification(mentioned, twatt);
-                this.notificationRepo.save(notification);
-                mentioned.notify(this.notificationRepo.find(notification));
+                mentioned.notify(new MentionNotification(mentioned, twatt));
             }
         } else {
             throw new IllegalArgumentException("Invalid retwatt");
@@ -80,10 +73,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
             throw new IllegalArgumentException("Null twatt");
         }
         this.create((Twatt) retwatt);
-        Notification notification = new RetwattNotification(retwatt.getOriginalTwatt().getCreator(), retwatt);
-        this.notificationRepo.save(notification);
-        notification = this.notificationRepo.find(notification);
-        retwatt.getOriginalTwatt().getCreator().notify(notification);
+        retwatt.getOriginalTwatt().getCreator().notify(new RetwattNotification(retwatt.getOriginalTwatt().getCreator(), retwatt));
     }
 
     public List<Twatt> getTwattsByUsername(String username) {
@@ -121,7 +111,6 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 
 	public void delete(Twatt twatt) {
 		twatt.setDeleted();
-		save(twatt);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.domain.twattuser;
 
 import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import ar.edu.itba.paw.domain.notification.FollowingNotification;
 import ar.edu.itba.paw.domain.notification.Notification;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import com.google.common.base.Strings;
@@ -51,14 +52,12 @@ public class TwattUser extends PersistentEntity {
     @ManyToMany
     private Set<Twatt> favourites = new HashSet<Twatt>();
 
-    @OneToMany
-    @JoinColumn(name = "recipient_id")
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     private Set<Notification> notifications = new HashSet<Notification>();
-	
 	
 	private boolean privacy;
 	
-	private Long access;
+	private long access;
 
 	TwattUser() {
 	}
@@ -125,6 +124,7 @@ public class TwattUser extends PersistentEntity {
 	private void addFollower(TwattUser user){
         Assert.notNull(user);
 		this.followers.add(user);
+        this.notify(new FollowingNotification(this, user));
 	}
 	
 	public void addFollowing(TwattUser user){
@@ -279,11 +279,6 @@ public class TwattUser extends PersistentEntity {
     public void notify(Notification notification) {
         Assert.notNull(notification);
         this.notifications.add(notification);
-    }
-
-    public void hasNotification(Notification notification) {
-        Assert.notNull(notification);
-        this.notifications.contains(notification);
     }
 
     public Set<Notification> getNotifications() {

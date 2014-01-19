@@ -1,8 +1,5 @@
 package ar.edu.itba.paw.web;
 
-import ar.edu.itba.paw.domain.notification.FollowingNotification;
-import ar.edu.itba.paw.domain.notification.Notification;
-import ar.edu.itba.paw.domain.notification.NotificationRepo;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -57,9 +54,6 @@ public class UserController {
 
 	@Autowired
 	private ServletContext servletContext;
-
-	@Autowired
-	private NotificationRepo notificationRepo;
 
 	@RequestMapping(value = "/profile/{username}", method = RequestMethod.GET)
 	public ModelAndView user(@PathVariable String username, HttpSession seq) {
@@ -305,9 +299,6 @@ public class UserController {
 		ModelAndView mav = new ModelAndView("redirect:/bin/profile/"
 				+ localUser.getUsername());
 		localUser.addFollowing(user);
-		Notification notification = new FollowingNotification(user, localUser);
-		notificationRepo.save(notification);
-		user.notify(notificationRepo.find(notification));
 		mav.addObject(LOCAL_USER_REFERENCER, localUser);
 		return mav;
 	}
