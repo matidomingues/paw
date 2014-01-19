@@ -5,10 +5,7 @@ import ar.edu.itba.paw.domain.twatt.Twatt;
 import com.google.common.base.Strings;
 import org.springframework.util.Assert;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class Hashtag extends PersistentEntity {
 	@Column(nullable=false,unique=true)
 	private String tagName;
 
-	@OneToOne
+	@ManyToOne
 	private Twatt firstTwatt;
 
 	@ManyToMany
