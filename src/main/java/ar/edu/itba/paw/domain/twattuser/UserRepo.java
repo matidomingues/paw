@@ -1,11 +1,14 @@
 package ar.edu.itba.paw.domain.twattuser;
 
 
+import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 
 import java.util.List;
 
 public interface UserRepo {
+
+    public static final String MENTION_REGEX = "(?:\\s|\\A|^)[@]([A-Za-z0-9-_]+)";
 	
 	public TwattUser authenticate(String username, String password);
 
@@ -23,4 +26,6 @@ public interface UserRepo {
 	public TwattUser find(int id);
 	
 	public List<TwattUser> getRecomendations(TwattUser user);
+
+    List<TwattUser> resolveMentions(Twatt twatt);
 }
