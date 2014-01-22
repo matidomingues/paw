@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.utils.HibernateRequestCycleListener;
-import ar.edu.itba.paw.web.pages.login.LoginPage;
+import ar.edu.itba.paw.web.pages.home.HomePage;
 
 @Component
 public class TwatterApp extends WebApplication {
@@ -25,7 +25,7 @@ public class TwatterApp extends WebApplication {
 	
 	@Override
 	public Class<? extends Page> getHomePage() {
-		return LoginPage.class;
+		return HomePage.class;
 	}
 	
 	@Override

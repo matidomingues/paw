@@ -22,6 +22,13 @@ public abstract class SecuredPage extends WebPage {
 				setResponsePage(getApplication().getHomePage());
 			}
 		});
+		
+		add(new Link<Void>("home") {
+			@Override
+			public void onClick() {
+				setResponsePage(getApplication().getHomePage());
+			}
+		});
 	}
 
 	protected TwatterSession getTwatterSession() {

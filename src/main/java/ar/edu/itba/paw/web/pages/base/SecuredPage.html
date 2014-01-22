@@ -22,14 +22,14 @@
 	<body>
 		<nav class="navbar" role="navigation">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="/bin/home">Twatter</a>
+				<a class="navbar-brand" a wicket:id="home">Twatter</a>
 			</div>
 			<div class="collapse navbar-collapse navbar-ex1-collapse">	
 				<ul class="nav navbar-nav">
 					<li><a data-toggle="modal" href="#twatt-modal">Twatt!</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li> <a href="/bin/profile/<c:out value='${local_user.username}'/>">Perfil</a></li>
+					<li> <a href="/bin/profile/">Perfil</a></li>
 					<li> <a href="/bin/find"> Busqueda</a></li>
 					<li> <a href="/bin/user/report"> Reporte</a></li>
 					<li class="dropdown">
@@ -38,10 +38,10 @@
                             <li><a href="/bin/user/notifications">Notificaciones</a></li>
                             <li><a href="/bin/user/favourites">Favoritos</a></li>
 			          		<li><a href="/bin/user/settings">Configuracion</a></li>
-			          		<li><a href="/bin/user/logout">Salir</a></li>
+			          		<li><a wicket:id="logout"> Salir </a> </li>
 			        	</ul>
 			     	</li>
-			     <ul>
+			     </ul>
 			</div>
 		</nav>
 		<div class="modal fade" id="twatt-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -49,7 +49,7 @@
 		      	<div class="modal-content">
 		        	<div class="modal-body">
 		          		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<form method="post" action="${pageContext.request.contextPath}/bin/twatt/add">
+						<form method="post" action="/bin/twatt/add">
 							<input type="text" class="twat-box" name="message" placeholder="Twatt" maxlength="140" required>
 							<div class ="twat-button">
 								<input type="submit" class="btn btn-primary" value="Twatt!">
