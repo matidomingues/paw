@@ -3,9 +3,12 @@ package ar.edu.itba.paw.domain.twattuser;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
 
+import ar.edu.itba.paw.domain.twatt.Twatt;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -18,6 +21,8 @@ import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 @Repository
 public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		implements UserRepo {
+
+    private Pattern mentionPattern = Pattern.compile(MENTION_REGEX);
 
 	public TwattUser authenticate(String username, String password) {
 		if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
@@ -58,17 +63,6 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		return user.get(0);
 	}
 
-	public boolean updateUser(TwattUser user) {
-        if (user == null) {
-            throw new IllegalArgumentException("Null User");
-        }
-		if (!user.isValidUser()) {
-			throw new IllegalArgumentException("Invalid user");
-		}
-		// save(user);
-		return true;
-	}
-
 	public List<TwattUser> getAll() {
 		return super.find("from TwattUser order by name, surname");
 	}
@@ -93,7 +87,6 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		TwattUser user = getUserByUsername(username);
 		if (user != null && user.getSecretAnswer().compareTo(secretAnswer) == 0) {
 			user.setPassword(newPassword);
-			updateUser(user);
 			return;
 		} else {
 			throw new IllegalArgumentException("Incorrect Answers");
@@ -146,7 +139,21 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		return candidates;
 	}
 
-	private List<TwattUser> getMostFollowedUsers(TwattUser user) {
+    @Override
+    public List<TwattUser> resolveMentions(Twatt twatt) {
+        List<TwattUser> twattUsers = new LinkedList<TwattUser>();
+        Matcher mentionMatcher = mentionPattern.matcher(twatt.getMessage());
+        while(mentionMatcher.find()) {
+            String match = mentionMatcher.group();
+            List<TwattUser> us = this.find(match.trim().split("@")[1]);
+            if (!us.isEmpty()) {
+                twattUsers.add(us.get(0));
+            }
+        }
+        return twattUsers;
+    }
+
+    private List<TwattUser> getMostFollowedUsers(TwattUser user) {
 		Session session = super.getSession();
 		String sql;
 		if (user.getFollowings().size() != 0) {

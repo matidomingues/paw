@@ -24,6 +24,7 @@ public enum SiteMap {
     UNFOLLOW("/unfollow/"),
     IMAGE("/image/"),
     REPORT("/user/report"),
+    NOTIFICATIONS("/user/notifications"),
     ;
 
     public static final String PRE_ADDRESS = "/bin";
@@ -48,9 +49,9 @@ public enum SiteMap {
         authenticated.add(FOLLOW);
         authenticated.add(UNFOLLOW);
         authenticated.add(REPORT);
+        authenticated.add(NOTIFICATIONS);
 
         unauthenticated = new ArrayList<SiteMap>();
-        unauthenticated.add(HOME);
         unauthenticated.add(LOGIN);
         unauthenticated.add(REGISTER);
         unauthenticated.add(USER_DETAIL);

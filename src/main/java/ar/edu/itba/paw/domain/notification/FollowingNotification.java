@@ -4,12 +4,13 @@ import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import org.springframework.util.Assert;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
 public class FollowingNotification extends Notification {
 
-    @OneToOne
+    @ManyToOne
     private TwattUser follower;
 
     FollowingNotification() { /*XXX: Needed by hibernate */}

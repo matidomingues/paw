@@ -5,12 +5,13 @@ import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import org.springframework.util.Assert;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
 public class MentionNotification extends Notification {
 
-    @OneToOne
+    @ManyToOne
     private Twatt twatt;
 
     MentionNotification() { /*XXX: Needed by hibernate */}

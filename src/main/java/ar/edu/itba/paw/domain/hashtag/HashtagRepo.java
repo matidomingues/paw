@@ -14,11 +14,7 @@ public interface HashtagRepo {
 
 	Hashtag getHashtag(String hashtag);
 
-	List<Hashtag> getHashtags(Twatt twatt);
-
 	List<Hashtag> getTrendingsHashtagsAfter(DateTime dateTime);
-
-	void relate(Hashtag hashtag, Twatt twatt);
 
 	int getMentions(Hashtag hashtag, DateTime filterDate);
 

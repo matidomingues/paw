@@ -18,7 +18,9 @@ public class UserConverter implements Converter<String, TwattUser>{
 	}
 	
 	public TwattUser convert(final String source) {
-		return userRepo.getUserByUsername(source);
+        TwattUser user =  userRepo.getUserByUsername(source);
+        if (user == null) throw new IllegalArgumentException("Unknown user");
+        return user;
 	}
 
 }

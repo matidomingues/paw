@@ -21,7 +21,9 @@ public class UserFormatter implements Formatter<TwattUser>{
 
 	@Override
 	public TwattUser parse(String arg0, Locale arg1) throws ParseException {
-		return userRepo.getUserByUsername(arg0);
+        TwattUser user =  userRepo.getUserByUsername(arg0);
+        if (user == null) throw new IllegalArgumentException("Unknown user");
+        return  user;
 	}
 	
 	@Override
