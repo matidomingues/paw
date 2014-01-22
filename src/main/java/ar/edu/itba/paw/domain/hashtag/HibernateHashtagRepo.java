@@ -19,7 +19,7 @@ public class HibernateHashtagRepo extends AbstractHibernateRepo<Hashtag> impleme
 		HashtagRepo {
 	
 	private Pattern hashtagPattern = Pattern
-            .compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
+            .compile(HASHTAG_REGEX);
 
 	public void create(Hashtag hashtag) {
 		if (!hashtag.isValid()) {

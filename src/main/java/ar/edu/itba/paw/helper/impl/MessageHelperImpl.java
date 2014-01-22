@@ -34,9 +34,9 @@ public class MessageHelperImpl implements MessageHelper {
     private final Pattern mentionPattern;
 
 	public MessageHelperImpl() {
-		urlPattern = Pattern.compile("/s/[a-z0-9]{5}");
-		hashtagPattern = Pattern.compile("(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)");
-        mentionPattern = Pattern.compile("(?:\\s|\\A|^)[@]([A-Za-z0-9-_]+)");
+		urlPattern = Pattern.compile(urlRepo.SHORT_URL_REGEX);
+		hashtagPattern = Pattern.compile(hashtagRepo.HASHTAG_REGEX);
+        mentionPattern = Pattern.compile(userRepo.MENTION_REGEX);
 	}
 
 	public String prepareMessage(String context, String message) {
