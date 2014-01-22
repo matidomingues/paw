@@ -1,4 +1,5 @@
-package ar.edu.itba.paw.web;
+/*
+package ar.edu.itba.paw.web.old;
 
 import ar.edu.itba.paw.domain.notification.FollowingNotification;
 import ar.edu.itba.paw.domain.notification.Notification;
@@ -395,3 +396,4 @@ public class UserController {
 	}
 
 }
+*/

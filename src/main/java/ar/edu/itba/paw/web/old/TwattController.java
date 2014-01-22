@@ -1,4 +1,5 @@
-package ar.edu.itba.paw.web;
+/*
+package ar.edu.itba.paw.web.old;
 
 import ar.edu.itba.paw.domain.twatt.Retwatt;
 import ar.edu.itba.paw.domain.twatt.Twatt;
@@ -120,3 +121,4 @@ public class TwattController {
     }
 
 }
+*/

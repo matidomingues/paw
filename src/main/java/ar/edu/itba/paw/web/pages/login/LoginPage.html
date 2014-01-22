@@ -1,0 +1,24 @@
+<wicket:extend>
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-md-offset-3 col-md-6 text-center">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3><wicket:message key="page.subtitle"></wicket:message></h3>
+					</div>
+					<div class="panel-body">
+						<form wicket:id="loginForm">
+							<fieldset class="loginsecuence">
+								<input type="text" class="input-long input-border" placeholder="Usuario" wicket:id="username" required autofocus>
+								<input type="password" class="input-long input-border" placeholder="Contraseña" wicket:id="password" required>
+								<button type="submit" class="btn btn-primary" wicket:id="login"><span class="glyphicon glyphicon-log-in"></span> Ingresar</button>
+								<a href="register" class="btn btn-primary">Registrarse</a>
+								<a href="restore" class="btn btn-primary">Recuperar Contrase&ntilde;a</a>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

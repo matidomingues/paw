@@ -1,3 +1,4 @@
+/*
 package ar.edu.itba.paw.web.jsp;
 
 import ar.edu.itba.paw.domain.notification.FollowingNotification;
@@ -157,3 +158,4 @@ public class NotificationTag extends TagSupport {
         }
         return sb.toString();    }
 }
+*/

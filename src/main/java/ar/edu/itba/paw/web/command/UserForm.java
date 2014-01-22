@@ -1,3 +1,4 @@
+/*
 package ar.edu.itba.paw.web.command;
 
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -127,3 +128,4 @@ public class UserForm {
 		}
 	}
 }
+*/

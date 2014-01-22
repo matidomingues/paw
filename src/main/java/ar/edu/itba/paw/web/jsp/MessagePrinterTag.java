@@ -1,3 +1,4 @@
+/*
 package ar.edu.itba.paw.web.jsp;
 
 import ar.edu.itba.paw.domain.twatt.Twatt;
@@ -72,3 +73,4 @@ public class MessagePrinterTag extends TagSupport implements ApplicationContextA
         this.applicationContext = applicationContext;
     }
 }
+*/

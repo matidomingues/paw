@@ -1,4 +1,5 @@
-package ar.edu.itba.paw.web;
+/*
+package ar.edu.itba.paw.web.old;
 
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
 import ar.edu.itba.paw.domain.hashtag.HashtagRepo;
@@ -156,3 +157,4 @@ public class GeneralController {
 	}
 	
 }
+*/

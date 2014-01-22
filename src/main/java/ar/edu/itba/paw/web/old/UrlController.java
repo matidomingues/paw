@@ -1,4 +1,5 @@
-package ar.edu.itba.paw.web;
+/*
+package ar.edu.itba.paw.web.old;
 
 import ar.edu.itba.paw.domain.url.UrlRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,3 +21,4 @@ public class UrlController {
 		return "redirect:"+redirect;
 	}
 }
+*/

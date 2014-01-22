@@ -1,3 +1,4 @@
+/*
 package ar.edu.itba.paw.web.command.validator;
 
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -22,3 +23,4 @@ public class UserFormValidator implements Validator{
 	}
 
 }
+*/
