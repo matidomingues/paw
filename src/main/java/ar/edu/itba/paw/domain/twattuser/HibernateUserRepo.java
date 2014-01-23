@@ -68,7 +68,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 	}
 
 	public List<TwattUser> find(String username) {
-		if (Strings.isNullOrEmpty(username)) {
+		if (username == null) {
 			throw new IllegalArgumentException("Invalid username");
 		}
 		return super.find("from TwattUser where username LIKE '%" + username

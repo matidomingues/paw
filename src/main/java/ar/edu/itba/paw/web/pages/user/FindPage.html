@@ -1,0 +1,42 @@
+<wicket:extend>
+	<div class="container">
+		<div class="main-content-wrapper">
+			<div class="main-content">
+				<div class="panel panel-info">
+					<div wicket:id="feedback" class="formErrors"/>
+					<div class="panel-heading">Usuarios</div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Nombre de Usuario</th>
+								<th>Nombre</th>
+								<th>Apellido</th>
+								<th>Fecha de Registro</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="user">
+								<td><a wicket:id="userLink"><span wicket:id="username" /></a></td>
+								<td wicket:id="name" />
+								<td wicket:id="surname" />
+								<td wicket:id="date" />
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="sidebar panel panel-info">
+			<div class="panel-heading">Busqueda</div>
+			<div class="formsidebar">
+				<form wicket:id="findForm">
+					<div class="filter-form">
+						<label class="sidebar-label">Usuario</label>
+						<input type="text" wicket:id="username">
+					</div>
+					<input type="submit" class="btn btn-large" wicket:id="search">
+				</form>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

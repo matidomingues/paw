@@ -30,7 +30,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li> <a href="/bin/profile/">Perfil</a></li>
-					<li> <a href="/bin/find"> Busqueda</a></li>
+					<li> <a wicket:id="find"> Busqueda</a></li>
 					<li> <a href="/bin/user/report"> Reporte</a></li>
 					<li class="dropdown">
 	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Cuenta <b class="caret"></b></a>
@@ -49,7 +49,6 @@
 		      	<div class="modal-content">
 		        	<div class="modal-body">
 		          		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<div wicket:id="feedback" class="formErrors"/>
 						<form wicket:id="twattForm">
 							<input type="text" class="twat-box" placeholder="Twatt" maxlength="140" wicket:id="message" required>
 							<div class ="twat-button">
