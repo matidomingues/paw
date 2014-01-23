@@ -37,7 +37,7 @@
 		   				<ul class="dropdown-menu pull-right">
                             <li><a href="/bin/user/notifications">Notificaciones</a></li>
                             <li><a href="/bin/user/favourites">Favoritos</a></li>
-			          		<li><a href="/bin/user/settings">Configuracion</a></li>
+			          		<li><a wicket:id="settings">Configuracion</a></li>
 			          		<li><a wicket:id="logout"> Salir </a> </li>
 			        	</ul>
 			     	</li>
@@ -49,10 +49,11 @@
 		      	<div class="modal-content">
 		        	<div class="modal-body">
 		          		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<form method="post" action="/bin/twatt/add">
-							<input type="text" class="twat-box" name="message" placeholder="Twatt" maxlength="140" required>
+						<div wicket:id="feedback" class="formErrors"/>
+						<form wicket:id="twattForm">
+							<input type="text" class="twat-box" placeholder="Twatt" maxlength="140" wicket:id="message" required>
 							<div class ="twat-button">
-								<input type="submit" class="btn btn-primary" value="Twatt!">
+								<input type="submit" class="btn btn-primary" wicket:id="twatt">
 							</div>
 							<div class="clearfix"></div>
 						</form>

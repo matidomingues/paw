@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.web.panels;
+package ar.edu.itba.paw.web.user.panel;
 
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;

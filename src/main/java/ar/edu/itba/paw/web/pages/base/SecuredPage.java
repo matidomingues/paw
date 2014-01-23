@@ -1,13 +1,32 @@
 package ar.edu.itba.paw.web.pages.base;
 
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.domain.twatt.TwattRepo;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
+import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.web.TwatterSession;
 import ar.edu.itba.paw.web.pages.login.LoginPage;
+import ar.edu.itba.paw.web.pages.user.ProfilePage;
+import ar.edu.itba.paw.web.pages.user.SettingsPage;
 
 public abstract class SecuredPage extends WebPage {
 
+	@SpringBean
+	private UserRepo userRepo;
+	
+	@SpringBean
+	private TwattRepo twattRepo;
+	
+	private transient String message;
+	
 	public SecuredPage() {
 		TwatterSession session = getTwatterSession();
 		if (!session.isSignedIn()) {
@@ -29,6 +48,26 @@ public abstract class SecuredPage extends WebPage {
 				setResponsePage(getApplication().getHomePage());
 			}
 		});
+		
+		add(new Link<Void>("settings") {
+			@Override
+			public void onClick() {
+				TwattUser user = userRepo.getUserByUsername(getTwatterSession().getUsername());
+				setResponsePage(new SettingsPage(user));
+			}
+		});
+		
+		Form<SecuredPage> form = new Form<SecuredPage>("twattForm") {
+			@Override
+			protected void onSubmit() {
+				TwattUser user = userRepo.getUserByUsername(getTwatterSession().getUsername());
+				twattRepo.create(new Twatt(message, user));
+				setResponsePage(new ProfilePage(user));
+			}
+		};
+		form.add(new TextField<String>("message").setRequired(true));
+		form.add(new Button("twatt", new ResourceModel("Twatt!")));
+		add(form);
 	}
 
 	protected TwatterSession getTwatterSession() {
