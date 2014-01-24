@@ -34,26 +34,15 @@ public class ListTwattsPage extends SecuredPage {
 
 			@Override
 			protected void populateItem(Item<Twatt> item) {
-				item.add(new Link<Twatt>("creator.username", item.getModel()) {
+				item.add(new Link<Twatt>("userLink", item.getModel()) {
 					@Override
 					public void onClick() {
 						setResponsePage(new ProfilePage(getModelObject()
 								.getCreator()));
 					}
-				});
+				}.add(new Label("creator.username")));
 				item.add(new Label("timestamp"));
 				item.add(new Label("message"));
-				if (item.getModelObject().getCreator().getUsername()
-						.compareTo(getTwatterSession().getUsername()) == 0) {
-					item.add(new Link<Twatt>("delete", item.getModel()){
-						@Override
-						public void onClick() {
-							getModelObject().setDeleted();
-						}
-					});
-				}else{
-					item.add(new Label("delete")).setVisible(false);
-				}
 			}
 
 		});

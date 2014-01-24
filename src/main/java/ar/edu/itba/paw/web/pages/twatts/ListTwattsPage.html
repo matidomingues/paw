@@ -1,8 +1,7 @@
-<wicket:extend>
+<wicket:panel>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th><wicket:message key="photo">Photo</wicket:message></th>
 				<th><wicket:message key="user">User</wicket:message></th>
 				<th><wicket:message key="twatt">Twatt</wicket:message></th>
 				<th><wicket:message key="time">Time</wicket:message></th>
@@ -10,19 +9,11 @@
 		</thead>
 		<tbody>
 			<tr wicket:id="twatts">
-		        <td>
-		            <div>
-		            <img src="${pageContext.request.contextPath}/bin/image/<c:out value='${twatt.creator.username}'/>">
-		            </div>
-		        </td>
-		        <td wicket:id="creator.username" />
+		        <td><a wicket:id="userLink"><label wicket:id="creator.username"/></a></td>
 		        <td wicket:id="message" />
 		        <td wicket:id="timestamp" />
-		        <td>
-		            <twatt:actions-printer twatt="${twatt}" user="${local_user}"/>
-		        </td>
 	    	</tr>
 		</tbody>
 	</table> 
-</wicket:extend>  
+</wicket:panel>  
    

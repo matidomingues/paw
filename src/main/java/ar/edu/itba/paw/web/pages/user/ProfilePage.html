@@ -1,0 +1,72 @@
+<wicket:extend>
+	<div class="container">
+		<div class="main-content-wrapper">
+			<div class="main-content">
+				<div class="panel panel-info">
+					<div class="panel-heading">Twatts</div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Foto</th>
+								<th>User</th>
+								<th>Tweet</th>
+								<th>Fecha</th>
+							</tr>
+						</thead>
+						<tbody>
+						
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="sidebar panel panel-info">
+			<div class="panel-heading">Informacion del Usuario</div>
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Usuario</th>
+						<td wicket:id="username" />
+					</tr>
+					<tr>
+						<th>Nombre</th>
+						<td wicket:id="name" />
+					</tr>
+					<tr>
+						<th>Apellido</th>
+						<td wicket:id="surname" />
+					</tr>
+					<tr>
+						<th>Descripcion</th>
+						<td wicket:id="description" />
+					</tr>
+					<tr>
+						<th># de Followers</th>
+						<td wicket:id="followers" />
+					</tr>
+					<tr>
+						<th># de Followings</th>
+						<td wicket:id="followings" />
+	
+					</tr>
+					<tr>
+						<th>Cantidad de Accesos</th>
+						<td wicket:id="accesses" />
+					</tr>
+					<tr>
+						<th>Seguir</th>
+						<td><a class="btn"
+							href="${pageContext.request.contextPath}/bin/follow/<c:out value='${searchuser.username}'/>">Follow!</a>
+						</td>
+					</tr>
+					<tr>
+						<th>Dejar de Seguir</th>
+						<td><a class="btn"
+							href="${pageContext.request.contextPath}/bin/unfollow/<c:out value='${searchuser.username}'/>">UnFollow!</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</wicket:extend>

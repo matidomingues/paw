@@ -40,7 +40,6 @@ public class FindPage extends SecuredPage{
 		};
 		
 		ListView<TwattUser> listview = new PropertyListView<TwattUser>("user", userModel) {
-
 			@Override
 			protected void populateItem(ListItem<TwattUser> item) {
 				item.add(new Link<TwattUser>("userLink", item.getModel()) {
@@ -55,9 +54,6 @@ public class FindPage extends SecuredPage{
 			}
 			
 		};
-
-		
-		
 		add(new FeedbackPanel("feedback"));
 		add(listview);
 		add(searchForm());

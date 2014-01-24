@@ -69,6 +69,14 @@ public abstract class SecuredPage extends WebPage {
 			}
 		});
 		
+		add(new Link<Void>("profile") {
+			@Override
+			public void onClick() {
+				TwattUser user = userRepo.getUserByUsername(getTwatterSession().getUsername());
+				setResponsePage(new ProfilePage(user));
+			}
+		});
+		
 		Form<SecuredPage> form = new Form<SecuredPage>("twattForm") {
 			@Override
 			protected void onSubmit() {
