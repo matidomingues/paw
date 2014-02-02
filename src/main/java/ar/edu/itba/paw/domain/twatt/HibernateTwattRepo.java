@@ -59,7 +59,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 			twatt.setMessage(shortenUrls(twatt.getMessage()));
             save(twatt);
             hastagRepo.resolveHashtags(twatt);
-            List<TwattUser> mentions = this.messageHelper.getMentions(twatt.getMessage());
+            List<TwattUser> mentions = userRepo.resolveMentions(twatt);
             for(TwattUser mentioned : mentions) {
                 mentioned.notify(new MentionNotification(mentioned, twatt));
             }

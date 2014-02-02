@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface HashtagRepo {
 
+    public static final String HASHTAG_REGEX = "(?:\\s|\\A|^)[##]+([A-Za-z0-9-_]+)";
+
 	void create(Hashtag hashtag);
 
 	void resolveHashtags(Twatt twatt);
