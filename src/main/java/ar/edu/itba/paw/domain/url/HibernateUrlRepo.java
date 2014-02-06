@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.domain.url;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
+
 import com.google.common.base.Strings;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,15 +29,7 @@ public class HibernateUrlRepo extends AbstractHibernateRepo<Url> implements UrlR
 	}
 
 	public String resolve(String data) {
-        if (Strings.isNullOrEmpty(data)) {
-            throw new IllegalArgumentException("Data is null or empty");
-        }
-
-        List<Url> urls = find("from Url where base = ?", data);
-        if (urls.isEmpty()) {
-            return null;
-        }
-		return urls.get(0).getResol();
+        return this.find(data).getResol();
 	}
 	
 	private boolean baseExists(String base){
@@ -43,6 +37,19 @@ public class HibernateUrlRepo extends AbstractHibernateRepo<Url> implements UrlR
             throw new IllegalArgumentException("Base is null or empty");
         }
 		return !find("from Url where base = ?", base).isEmpty();
+	}
+
+	@Override
+	public Url find(String shortUrl) {
+        if (Strings.isNullOrEmpty(shortUrl)) {
+            throw new IllegalArgumentException("Data is null or empty");
+        }
+
+        List<Url> urls = find("from Url where base = ?", shortUrl);
+        if (urls.isEmpty()) {
+            return null;
+        }
+		return urls.get(0);
 	}
 
 }
