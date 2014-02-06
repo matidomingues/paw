@@ -1,4 +1,134 @@
 <wicket:extend>
+Hola!
+<!-- <div class="container"> -->
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-9"> -->
+<!-- 			<div class="panel panel-info"> -->
+<!-- 				<div class="panel-heading">Hashtags</div> -->
+<!-- 				<table class="table table-striped"> -->
+<!-- 					<thead> -->
+<!-- 						<tr> -->
+<!-- 							<th>#</th> -->
+<!-- 							<th># menciones</th> -->
+<!-- 						</tr> -->
+<!-- 					</thead> -->
+<!-- 					<tbody> -->
+<!-- 						<tr wicket:id="hashtag"> -->
+<!-- 							<td><a href="/bin/hashtag/hashtag" wicket:id="tagname">#hashtag</a></td> -->
+<!-- 							<td wicket:id="count">1</td> -->
+<!-- 						</tr> -->
+<!-- 					</tbody> -->
+<!-- 				</table> -->
+<!-- 			</div> -->
+<!--             <div class="panel panel-info"> -->
+<!--                 <div class="panel-heading">Mis Twatts</div> -->
+<!--                 <table class="table table-striped"> -->
+<!--                     <thead> -->
+<!--                     <tr> -->
+<!--                         <th>Foto</th> -->
+<!--                         <th>User</th> -->
+<!--                         <th>Tweet</th> -->
+<!--                         <th>Fecha</th> -->
+<!--                     </tr> -->
+<!--                     </thead> -->
+<!--                     <tbody wicket:id="myTwatts"> -->
+<!-- 						<tr wicket:id="myTwatt"> -->
+<!-- 					        <td> -->
+<!-- 					            <div> -->
+<!-- 					            <img src="/bin/image/sarasa" wicket:id="avatar"> -->
+<!-- 					            </div> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					            <span wicket:id="author">Autor</span> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					            <span wicket:id="message">Mensaje <a wicket:id="mention">@otroAutor</a> <a wicket:id="url">/s/url</a> <a wicket:id="hashtag">#hashtag</a></span> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					            <span wicket:id="timestamp">1 Febrero de 2013 17:00</span> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					        	<form wicket:id="actionForm"> -->
+<!-- 						        	<button title="Eliminar" type="submit" class="pull-right btn btn-primary" value="Eliminar"><span class="glyphicon glyphicon-remove" wicket:id="remove"></span></button> -->
+<!-- 						        	<button title="Retwatt" type="submit" class="pull-right btn btn-primary" value="Retwatt"><span class="glyphicon glyphicon-share" wicket:id="retwatt"></span></button> -->
+<!-- 						        	<button title="Eliminar de Favoritos" type="submit" class="pull-right btn btn-primary" value="Desfavoritear" wicket:id="unfavourite"><span class="glyphicon glyphicon-heart"></span></button> -->
+<!-- 						        	<button title="Agregar a Favoritos" type="submit" class="pull-right btn btn-primary" value="Favoritear" wicket:id="favourite"><span class="glyphicon glyphicon-heart-empty"></span></button> -->
+<!-- 					        	</form> -->
+<!-- 					        </td> -->
+<!-- 					    </tr> -->
+<!--                     </tbody> -->
+<!--                 </table> -->
+<!--             </div> -->
+<!-- 			<div class="panel panel-info"> -->
+<!-- 				<div class="panel-heading">Twatts de los que sigo</div> -->
+<!-- 				<table class="table table-striped"> -->
+<!-- 					<thead> -->
+<!-- 						<tr> -->
+<!-- 							<th>Foto</th> -->
+<!-- 							<th>User</th> -->
+<!-- 							<th>Tweet</th> -->
+<!-- 							<th>Fecha</th> -->
+<!-- 						</tr> -->
+<!-- 					</thead> -->
+<!-- 					<tbody wicket:id="followingTwatts"> -->
+<!-- 						<tr wicket:id="followingTwatt"> -->
+<!-- 					        <td> -->
+<!-- 					            <div> -->
+<!-- 					            <img src="/bin/image/sarasa" wicket:id="avatar"> -->
+<!-- 					            </div> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					            <span wicket:id="author">Autor</span> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					            <span wicket:id="message">Mensaje <a wicket:id="mention">@otroAutor</a> <a wicket:id="url">/s/url</a> <a wicket:id="hashtag">#hashtag</a></span> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					            <span wicket:id="timestamp">1 Febrero de 2013 17:00</span> -->
+<!-- 					        </td> -->
+<!-- 					        <td> -->
+<!-- 					        	<form wicket:id="actionForm"> -->
+<!-- 						        	<button title="Eliminar" type="submit" class="pull-right btn btn-primary" value="Eliminar"><span class="glyphicon glyphicon-remove" wicket:id="remove"></span></button> -->
+<!-- 						        	<button title="Retwatt" type="submit" class="pull-right btn btn-primary" value="Retwatt"><span class="glyphicon glyphicon-share" wicket:id="retwatt"></span></button> -->
+<!-- 						        	<button title="Eliminar de Favoritos" type="submit" class="pull-right btn btn-primary" value="Desfavoritear" wicket:id="unfavourite"><span class="glyphicon glyphicon-heart"></span></button> -->
+<!-- 						        	<button title="Agregar a Favoritos" type="submit" class="pull-right btn btn-primary" value="Favoritear" wicket:id="favourite"><span class="glyphicon glyphicon-heart-empty"></span></button> -->
+<!-- 					        	</form> -->
+<!-- 					        </td> -->
+<!-- 					    </tr> -->
+<!-- 					</tbody> -->
+<!-- 				</table> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<div class="col-md-3"> -->
+<!-- 			<div class="panel panel-info"> -->
+<!-- 				<div class="panel-heading">Busqueda</div> -->
+<!-- 				<div class="formsidebar"> -->
+<!-- 					<form wicket:id="hashtagRangeForm"> -->
+<!-- 						<wicket:container wicket:id="rangeGroup"> -->
+<!-- 							<label><input wicket:id="day" type="radio" name="dayfilter"/> D&iacute;a</label><br> -->
+<!-- 							<label><input wicket:id="week" type="radio" name="dayfilter"/> Semana</label><br> -->
+<!-- 							<label><input wicket:id="month" type="radio" name="dayfilter"/> Mes</label><br> -->
+<!-- 						</wicket:container> -->
+<!-- 						<div class="twat-button"> -->
+<!-- 							<input type="submit" class="btn btn-large" value="Buscar" wicket:id="rangeSubmit"/> -->
+<!-- 						</div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</form> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="panel panel-info"> -->
+<!-- 				<div class="panel-heading">Recomendaciones</div> -->
+<!-- 				<table class="table"> -->
+<!-- 					<tbody wicket:id="candidates">> -->
+<!-- 						<tr> -->
+<!-- 							<th><span wicket:id="candidateName">Candidate 1</span></th> -->
+<!-- 							<td><a wicket:id="candidateFollow">Follow!</a></td> -->
+<!-- 						</tr> -->
+<!-- 					</tbody> -->
+<!-- 				</table> -->
+<!-- 			</div> -->
 
-hello!
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </div> -->
 </wicket:extend>

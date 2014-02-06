@@ -16,7 +16,7 @@ import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
 import ar.edu.itba.paw.web.TwatterSession;
 import ar.edu.itba.paw.web.pages.base.BasePage;
-import ar.edu.itba.paw.web.user.panel.UserPanel;
+import ar.edu.itba.paw.web.panels.user.UserPanel;
 
 public class RegisterPage extends BasePage {
 

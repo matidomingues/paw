@@ -13,8 +13,9 @@
 								<th>Fecha</th>
 							</tr>
 						</thead>
-						<tbody>
-						
+                    <tbody wicket:id="twatts">
+						<tr wicket:id="twatt">
+					    </tr>
 						</tbody>
 					</table>
 				</div>
@@ -55,14 +56,12 @@
 					</tr>
 					<tr>
 						<th>Seguir</th>
-						<td><a class="btn"
-							href="${pageContext.request.contextPath}/bin/follow/<c:out value='${searchuser.username}'/>">Follow!</a>
+						<td><a class="btn" wicket:id="follow">Follow!</a>
 						</td>
 					</tr>
 					<tr>
 						<th>Dejar de Seguir</th>
-						<td><a class="btn"
-							href="${pageContext.request.contextPath}/bin/unfollow/<c:out value='${searchuser.username}'/>">UnFollow!</a>
+						<td><a class="btn" wicket:id="unfollow">UnFollow!</a>
 						</td>
 					</tr>
 				</tbody>
