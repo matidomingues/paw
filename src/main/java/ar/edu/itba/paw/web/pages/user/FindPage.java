@@ -6,7 +6,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.list.PropertyListView;
@@ -15,6 +15,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -30,6 +31,7 @@ public class FindPage extends SecuredPage {
 
 	private transient String username;
 
+	@SuppressWarnings("serial")
 	public FindPage(final String query) {
 
 		final IModel<List<TwattUser>> userModel = new LoadableDetachableModel<List<TwattUser>>() {
@@ -47,17 +49,15 @@ public class FindPage extends SecuredPage {
 		this.loadList(userModel);
 	}
 
+	@SuppressWarnings("serial")
 	private void loadList(IModel<List<TwattUser>> userModel) {
 		ListView<TwattUser> listview = new PropertyListView<TwattUser>("user",
 				userModel) {
 			@Override
 			protected void populateItem(ListItem<TwattUser> item) {
-				item.add(new Link<TwattUser>("userLink", item.getModel()) {
-					@Override
-					public void onClick() {
-						setResponsePage(new ProfilePage(getModel()));
-					}
-				}.add(new Label("username")));
+				item.add(new BookmarkablePageLink<TwattUser>("userLink", ProfilePage.class, 
+						new PageParameters().add("user", item.getModelObject().getUsername()))
+						.add(new Label("username", item.getModelObject().getUsername())));
 				item.add(new Label("name"));
 				item.add(new Label("surname"));
 				item.add(new Label("date"));
