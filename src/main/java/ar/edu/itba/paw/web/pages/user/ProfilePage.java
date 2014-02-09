@@ -54,7 +54,10 @@ public class ProfilePage extends SecuredPage{
 		Link<Void> follow = new Link<Void>("follow") {
 			@Override
 			public void onClick() {
-				userModel.getObject().addFollowing(viewerModel.getObject());
+				TwattUser user = userRepo.getUserByUsername(userModel.getObject().getUsername());
+				
+				TwattUser followedUser = userRepo.getUserByUsername(viewerModel.getObject().getUsername());
+				user.addFollowing(followedUser);
 			}
 		};
 		Link<Void> unfollow = new Link<Void>("unfollow"){
