@@ -6,7 +6,7 @@
 	<artifactId>TwitterApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	
+
 
 	<name>TwitterApp</name>
 	<url>http://maven.apache.org</url>
@@ -172,6 +172,19 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-extensions</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-datetime</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+
 	</dependencies>
 
 

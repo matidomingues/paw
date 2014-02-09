@@ -13,6 +13,7 @@ import ar.edu.itba.paw.web.TwatterSession;
 import ar.edu.itba.paw.web.pages.login.LoginPage;
 import ar.edu.itba.paw.web.pages.user.FindPage;
 import ar.edu.itba.paw.web.pages.user.ProfilePage;
+import ar.edu.itba.paw.web.pages.user.ReportPage;
 import ar.edu.itba.paw.web.pages.user.SettingsPage;
 
 public abstract class SecuredPage extends WebPage {
@@ -68,6 +69,13 @@ public abstract class SecuredPage extends WebPage {
 			@Override
 			public void onClick() {
 				setResponsePage(new ProfilePage(getViewer()));
+			}
+		});
+		
+		add(new Link<Void>("report") {
+			@Override
+			public void onClick() {
+				setResponsePage(new ReportPage());
 			}
 		});
 		

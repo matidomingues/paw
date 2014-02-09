@@ -1,28 +1,13 @@
 window.onload = function() {
-	loadChart("day");
-	$( "#startDate" ).datepicker();
-	$( "#endDate" ).datepicker();
-	
-	$("#day").click(function(){
-		loadChart("day");
-	});
-	$("#month").click(function(){
-		loadChart("month");
-	});
-	$("#year").click(function(){
-		loadChart("year");
-	});
+	$( ".startDate" ).datepicker();
+	$( ".endDate" ).datepicker();
+	loadChart();
+
 }
 
-loadChart = function(dateType){
-	var sDate = new Date( $("#startDate").datepicker("getDate") ).getTime();;
-	var eDate = new Date( $("#endDate").datepicker("getDate")).getTime();
-	var context = "";
-	if(window.location.pathname.split("/")[1] != "bin"){
-		context = window.location.pathname.split("/")[1] + "/";
-	}
-	$.getJSON("/"+ context + "bin/user/getreport?time="+ dateType+"&startDate="+sDate + "&endDate="+eDate, function(data){
-		console.log(data.datagrams);
+loadChart = function(){
+		console.log(ajaxString);
+		ajaxString = JSON.parse(ajaxString);
 		var chart = new CanvasJS.Chart("chartContainer", {
 			title : {
 				text : "Tweets por fecha",
@@ -42,10 +27,9 @@ loadChart = function(dateType){
 			data : [
 
 			{
-				dataPoints : data.datagrams,
+				dataPoints : ajaxString.datagrams,
 			} ]
 		});
 
 		chart.render();
-	});
 }
