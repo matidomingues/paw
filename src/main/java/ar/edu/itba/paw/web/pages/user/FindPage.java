@@ -21,26 +21,35 @@ import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.web.pages.base.SecuredPage;
 
-public class FindPage extends SecuredPage{
+public class FindPage extends SecuredPage {
 
 	private static final long serialVersionUID = 6865285172571616077L;
 
 	@SpringBean
 	private UserRepo userRepo;
-	
+
 	private transient String username;
-	
-	@SuppressWarnings("serial")
-	public FindPage(final String query){
-		
+
+	public FindPage(final String query) {
+
 		final IModel<List<TwattUser>> userModel = new LoadableDetachableModel<List<TwattUser>>() {
 			@Override
 			protected List<TwattUser> load() {
 				return userRepo.find(query);
 			}
 		};
-		
-		ListView<TwattUser> listview = new PropertyListView<TwattUser>("user", userModel) {
+
+		this.loadList(userModel);
+
+	}
+	
+	public FindPage(IModel<List<TwattUser>> userModel){
+		this.loadList(userModel);
+	}
+
+	private void loadList(IModel<List<TwattUser>> userModel) {
+		ListView<TwattUser> listview = new PropertyListView<TwattUser>("user",
+				userModel) {
 			@Override
 			protected void populateItem(ListItem<TwattUser> item) {
 				item.add(new Link<TwattUser>("userLink", item.getModel()) {
@@ -53,11 +62,12 @@ public class FindPage extends SecuredPage{
 				item.add(new Label("surname"));
 				item.add(new Label("date"));
 			}
-			
+
 		};
 		add(new FeedbackPanel("feedback"));
 		add(listview);
-		Form<FindPage> form = new Form<FindPage>("findForm", new CompoundPropertyModel<FindPage>(this)) {
+		Form<FindPage> form = new Form<FindPage>("findForm",
+				new CompoundPropertyModel<FindPage>(this)) {
 			@Override
 			protected void onSubmit() {
 				setResponsePage(new FindPage(username));
@@ -66,6 +76,7 @@ public class FindPage extends SecuredPage{
 		form.add(new TextField<String>("username").setRequired(true));
 		form.add(new Button("search", new ResourceModel("search")));
 		add(form);
+
 	}
 
 }

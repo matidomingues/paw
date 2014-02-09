@@ -3,6 +3,7 @@ package ar.edu.itba.paw.web.pages.user;
 
 import java.util.List;
 
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -76,6 +77,32 @@ public class ProfilePage extends SecuredPage{
 				unfollow.setVisible(false);
 			}
 		}
+		MarkupContainer followers = new Link<Void>("followers-link"){
+			@Override
+			public void onClick() {
+				final IModel<List<TwattUser>> userFollowers = new LoadableDetachableModel<List<TwattUser>>() {
+					@Override
+					protected List<TwattUser> load() {
+						return userModel.getObject().getFollowings();
+					}
+				};
+				setResponsePage(new FindPage(userFollowers));
+			}
+		}.add(new Label("followers", Integer.toString(userModel.getObject().getFollowers().size())));
+		
+		MarkupContainer followings = new Link<Void>("followings-link"){
+			@Override
+			public void onClick() {
+				final IModel<List<TwattUser>> userFollowings = new LoadableDetachableModel<List<TwattUser>>() {
+					@Override
+					protected List<TwattUser> load() {
+						return userModel.getObject().getFollowings();
+					}
+				};
+				setResponsePage(new FindPage(userFollowings));
+			}
+		}.add(new Label("followings", Integer.toString(userModel.getObject().getFollowings().size())));
+		
 		add(follow);
 		add(unfollow);
 		add(new Label("username", userModel.getObject().getUsername()));
@@ -83,8 +110,8 @@ public class ProfilePage extends SecuredPage{
 		add(new Label("name", userModel.getObject().getName()));
 		add(new Label("surname", userModel.getObject().getSurname()));
 		add(new Label("accesses", Long.toString(userModel.getObject().getAccess())));
-		add(new Label("followers", Integer.toString(userModel.getObject().getFollowers().size())));
-		add(new Label("followings", Integer.toString(userModel.getObject().getFollowings().size())));
+		add(followers);
+		add(followings);
 		
 	}
 }
