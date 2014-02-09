@@ -12,7 +12,7 @@ import ar.edu.itba.paw.domain.entity.EntityModel;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.web.pages.base.SecuredPage;
-import ar.edu.itba.paw.web.user.panel.UserPanel;
+import ar.edu.itba.paw.web.panels.user.UserPanel;
 
 public class SettingsPage extends SecuredPage{
 

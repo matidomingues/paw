@@ -7,4 +7,6 @@ public interface UrlRepo {
 	public String shorten(String url);
 
 	public String resolve(String data);
+
+	public Url find(String shortUrl);
 }

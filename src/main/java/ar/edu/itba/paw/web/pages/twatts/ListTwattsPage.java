@@ -13,12 +13,16 @@ import org.apache.wicket.model.IModel;
 
 import ar.edu.itba.paw.domain.entity.EntityModel;
 import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.web.TwatterSession;
 import ar.edu.itba.paw.web.pages.base.SecuredPage;
 import ar.edu.itba.paw.web.pages.user.ProfilePage;
 
 public class ListTwattsPage extends SecuredPage {
 
+	private static final long serialVersionUID = -1502441042572317055L;
+
+	@SuppressWarnings("serial")
 	public ListTwattsPage(final List<Twatt> twatts) {
 		add(new FeedbackPanel("feedback"));
 		add(new RefreshingView<Twatt>("twatts") {
@@ -37,14 +41,13 @@ public class ListTwattsPage extends SecuredPage {
 				item.add(new Link<Twatt>("userLink", item.getModel()) {
 					@Override
 					public void onClick() {
-						setResponsePage(new ProfilePage(getModelObject()
-								.getCreator()));
+						setResponsePage(new ProfilePage(
+								new EntityModel<TwattUser>(TwattUser.class, getModelObject().getCreator())));
 					}
 				}.add(new Label("creator.username")));
 				item.add(new Label("timestamp"));
 				item.add(new Label("message"));
 			}
-
 		});
 	}
 

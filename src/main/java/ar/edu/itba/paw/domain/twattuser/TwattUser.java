@@ -1,19 +1,32 @@
 package ar.edu.itba.paw.domain.twattuser;
 
-import ar.edu.itba.paw.domain.entity.PersistentEntity;
-import ar.edu.itba.paw.domain.notification.FollowingNotification;
-import ar.edu.itba.paw.domain.notification.Notification;
-import ar.edu.itba.paw.domain.twatt.Twatt;
-import com.google.common.base.Strings;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 
-import javax.persistence.*;
-import java.util.*;
+import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import ar.edu.itba.paw.domain.notification.FollowingNotification;
+import ar.edu.itba.paw.domain.notification.Notification;
+import ar.edu.itba.paw.domain.twatt.Twatt;
+
+import com.google.common.base.Strings;
 
 @Entity
 public class TwattUser extends PersistentEntity {
+
 
 	@Column(nullable=false,unique=true)
 	private String username;
@@ -286,7 +299,7 @@ public class TwattUser extends PersistentEntity {
     }
 
     public Set<Notification> getUnreadNotifications() {
-        Set<Notification> unreads = Collections.EMPTY_SET;
+        Set<Notification> unreads = Collections.emptySet();
         for(Notification notification : this.getNotifications()) {
             if (!notification.isRead()) {
                 unreads.add(notification);

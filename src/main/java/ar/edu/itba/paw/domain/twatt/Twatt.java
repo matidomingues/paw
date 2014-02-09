@@ -1,21 +1,29 @@
 package ar.edu.itba.paw.domain.twatt;
 
-import ar.edu.itba.paw.domain.entity.PersistentEntity;
-import ar.edu.itba.paw.domain.hashtag.Hashtag;
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 
-import javax.persistence.*;
-import java.util.LinkedList;
-import java.util.List;
+import ar.edu.itba.paw.domain.entity.PersistentEntity;
+import ar.edu.itba.paw.domain.hashtag.Hashtag;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Twatt extends PersistentEntity {
 
-    @Column(nullable = false)
+	@Column(nullable = false)
 	private String message;
 
     @Column(nullable = false)
