@@ -24,11 +24,12 @@ import ar.edu.itba.paw.web.panels.twatt.TwattPanel;
 public class ProfilePage extends SecuredPage{
 
 	private static final long serialVersionUID = -2553312957172341808L;
+	public static final String USER_PARAMETER = "user";
 	@SpringBean private static UserRepo userRepo;
 	
 	public ProfilePage(PageParameters parameters) {
 		this(new EntityModel<TwattUser>(TwattUser.class, 
-				userRepo.getUserByUsername(parameters.get("user").toString(""))));
+				userRepo.getUserByUsername(parameters.get(USER_PARAMETER).toString(""))));
 	}
 	
 	@SuppressWarnings("serial")
@@ -54,10 +55,7 @@ public class ProfilePage extends SecuredPage{
 		Link<Void> follow = new Link<Void>("follow") {
 			@Override
 			public void onClick() {
-				TwattUser user = userRepo.getUserByUsername(userModel.getObject().getUsername());
-				
-				TwattUser followedUser = userRepo.getUserByUsername(viewerModel.getObject().getUsername());
-				user.addFollowing(followedUser);
+				userModel.getObject().addFollowing(viewerModel.getObject());
 			}
 		};
 		Link<Void> unfollow = new Link<Void>("unfollow"){
