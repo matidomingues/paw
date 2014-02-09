@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface MessageHelper {
 
-    public String prepareMessage(String message);
+    public List<String> prepareMessage(String message);
 
     public List<Hashtag> getHashtags(String message);
 
     public List<TwattUser> getMentions(String message);
-    
+        
     public List<Url> getUrls(String message);
 
 }

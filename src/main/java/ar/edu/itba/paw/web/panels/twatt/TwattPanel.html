@@ -9,8 +9,10 @@
             <span wicket:id="author">Autor</span>
         </td>
         <td>
-            <span wicket:id="message"></span>
-            <!-- Mensaje <a wicket:id="mention">@otroAutor</a> <a wicket:id="url">/s/url</a> <a wicket:id="hashtag">#hashtag</a> -->
+        	<div wicket:id="message">
+<!--             <span wicket:id="message"></span> -->
+            	<span wicket:id="messageFragment"><span wicket:id="plain">plain</span><a wicket:id="mention"><span wicket:id="mentionBody">@otroAutor</span></a><a wicket:id="url">/s/url</a><a wicket:id="hashtag"><span wicket:id="hashtagBody">#hashtag</span></a></span>
+            </div> 
         </td>
         <td>
             <span wicket:id="timestamp">1 Febrero de 2013 17:00</span>

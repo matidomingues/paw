@@ -10,8 +10,10 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.edu.itba.paw.domain.entity.EntityModel;
 import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
@@ -21,18 +23,23 @@ import ar.edu.itba.paw.web.panels.twatt.TwattPanel;
 public class ProfilePage extends SecuredPage{
 
 	private static final long serialVersionUID = -2553312957172341808L;
-	@SpringBean private UserRepo userRepo;
+	@SpringBean private static UserRepo userRepo;
+	
+	public ProfilePage(PageParameters parameters) {
+		this(new EntityModel<TwattUser>(TwattUser.class, 
+				userRepo.getUserByUsername(parameters.get("user").toString(""))));
+	}
 	
 	@SuppressWarnings("serial")
-	public ProfilePage(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel){
-
+	public ProfilePage(final IModel<TwattUser> userModel){
+		final IModel<TwattUser> viewerModel = getViewer();
 		if(!userModel.getObject().equals(viewerModel.getObject())){
 			userModel.getObject().addAccess();
 		}
 		final IModel<List<Twatt>> myTwattsModel = new LoadableDetachableModel<List<Twatt>>() {
 			@Override
 			protected List<Twatt> load() {
-				return viewerModel.getObject().getTwatts();
+				return userModel.getObject().getTwatts();
 			}			
 		};
 		ListView<Twatt> twattListView = new PropertyListView<Twatt>("twatts", myTwattsModel) {
@@ -55,12 +62,19 @@ public class ProfilePage extends SecuredPage{
 				userModel.getObject().removeFollowing(viewerModel.getObject());				
 			}
 		};
-		if (userModel.getObject().isFollowedBy(viewerModel.getObject())) {
+		if (userModel.getObject().equals(viewerModel.getObject())) {
+			unfollow.setEnabled(false);
+			unfollow.setVisible(false);
 			follow.setEnabled(false);
 			follow.setVisible(false);
 		} else {
-			unfollow.setEnabled(false);
-			unfollow.setVisible(false);
+			if (userModel.getObject().isFollowedBy(viewerModel.getObject())) {
+				follow.setEnabled(false);
+				follow.setVisible(false);
+			} else {
+				unfollow.setEnabled(false);
+				unfollow.setVisible(false);
+			}
 		}
 		add(follow);
 		add(unfollow);

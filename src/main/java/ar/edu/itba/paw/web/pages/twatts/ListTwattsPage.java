@@ -20,6 +20,9 @@ import ar.edu.itba.paw.web.pages.user.ProfilePage;
 
 public class ListTwattsPage extends SecuredPage {
 
+	private static final long serialVersionUID = -1502441042572317055L;
+
+	@SuppressWarnings("serial")
 	public ListTwattsPage(final List<Twatt> twatts) {
 		add(new FeedbackPanel("feedback"));
 		add(new RefreshingView<Twatt>("twatts") {
@@ -39,8 +42,7 @@ public class ListTwattsPage extends SecuredPage {
 					@Override
 					public void onClick() {
 						setResponsePage(new ProfilePage(
-								new EntityModel<TwattUser>(TwattUser.class, getModelObject().getCreator()), 
-								getViewer()));
+								new EntityModel<TwattUser>(TwattUser.class, getModelObject().getCreator())));
 					}
 				}.add(new Label("creator.username")));
 				item.add(new Label("timestamp"));

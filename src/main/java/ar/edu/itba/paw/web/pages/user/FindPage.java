@@ -31,8 +31,7 @@ public class FindPage extends SecuredPage{
 	private transient String username;
 	
 	@SuppressWarnings("serial")
-	public FindPage(final String query, final IModel<TwattUser> viewerModel){
-		
+	public FindPage(final String query){
 		
 		final IModel<List<TwattUser>> userModel = new LoadableDetachableModel<List<TwattUser>>() {
 			@Override
@@ -47,7 +46,7 @@ public class FindPage extends SecuredPage{
 				item.add(new Link<TwattUser>("userLink", item.getModel()) {
 					@Override
 					public void onClick() {
-						setResponsePage(new ProfilePage(getModel(), viewerModel));
+						setResponsePage(new ProfilePage(getModel()));
 					}
 				}.add(new Label("username")));
 				item.add(new Label("name"));
@@ -61,7 +60,7 @@ public class FindPage extends SecuredPage{
 		Form<FindPage> form = new Form<FindPage>("findForm", new CompoundPropertyModel<FindPage>(this)) {
 			@Override
 			protected void onSubmit() {
-				setResponsePage(new FindPage(username, viewerModel));
+				setResponsePage(new FindPage(username));
 			}
 		};
 		form.add(new TextField<String>("username").setRequired(true));

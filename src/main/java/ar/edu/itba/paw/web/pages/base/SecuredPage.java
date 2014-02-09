@@ -1,19 +1,11 @@
 package ar.edu.itba.paw.web.pages.base;
 
-import java.util.List;
-
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.edu.itba.paw.domain.entity.EntityModel;
-import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
@@ -30,14 +22,9 @@ public abstract class SecuredPage extends WebPage {
 	 */
 	private static final long serialVersionUID = 3219118939054572439L;
 
-	@SpringBean
-	private UserRepo userRepo;
+	@SpringBean UserRepo userRepo;
 	
-	@SpringBean
-	private TwattRepo twattRepo;
-	
-	private transient String message;
-	
+	@SpringBean TwattRepo twattRepo;
 	
 	@SuppressWarnings("serial")
 	public SecuredPage() {
@@ -73,14 +60,14 @@ public abstract class SecuredPage extends WebPage {
 		add(new Link<Void>("find") {
 			@Override
 			public void onClick() {
-				setResponsePage(new FindPage("", getViewer()));
+				setResponsePage(new FindPage(""));
 			}
 		});
 		
 		add(new Link<Void>("profile") {
 			@Override
 			public void onClick() {
-				setResponsePage(new ProfilePage(getViewer(), getViewer()));
+				setResponsePage(new ProfilePage(getViewer()));
 			}
 		});
 		
@@ -97,7 +84,7 @@ public abstract class SecuredPage extends WebPage {
 //		form.add(messageField);
 //		form.add(new Button("twatt", new ResourceModel("Twatt!")));
 //		add(form);
-		add(new TwattForm("twattForm"));
+		add(new TwattForm("twattForm", getViewer()));
 	}
 
 	protected TwatterSession getTwatterSession() {
@@ -106,28 +93,5 @@ public abstract class SecuredPage extends WebPage {
 	
 	protected IModel<TwattUser> getViewer() {
 		return new EntityModel<TwattUser>(TwattUser.class, userRepo.getUserByUsername(getTwatterSession().getUsername()));
-	}
-	
-	@SuppressWarnings("serial")
-	private class TwattForm extends Form<Void> {
-		
-		private String message;
-		private TextField<String> messageField;
-
-		public TwattForm(String id) {
-			super(id);
-			messageField = new TextField<String>("message", new PropertyModel<String>(this, "message"));
-			messageField.setRequired(true);
-			add(messageField);
-			add(new Button("twatt", new ResourceModel("Twatt!")));
-		}
-		
-		@Override
-		protected void onSubmit() {
-			TwattUser user = userRepo.getUserByUsername(getTwatterSession().getUsername());
-			twattRepo.create(new Twatt(message, user));
-			setResponsePage(new ProfilePage(SecuredPage.this.getViewer(), SecuredPage.this.getViewer()));
-		}
-		
 	}
 }

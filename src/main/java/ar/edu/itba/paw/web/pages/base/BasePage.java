@@ -9,6 +9,9 @@ import ar.edu.itba.paw.web.pages.login.RegisterPage;
 
 public class BasePage extends WebPage {
 
+	private static final long serialVersionUID = -2784821001225116101L;
+
+	@SuppressWarnings("serial")
 	public BasePage() {
 		add(new Link<Void>("login") {
 			@Override
