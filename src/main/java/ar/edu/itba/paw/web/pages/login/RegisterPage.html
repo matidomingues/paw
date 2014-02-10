@@ -42,6 +42,23 @@
 								required />
 						</div>
 					</div>
+					<div class="row input-padding">
+						<div class="col-md-2">
+							<label class="input-label"><wicket:message key="captcha">Captcha</wicket:message>:</label>
+						</div>
+						<div class="col-md-10">
+							  <img wicket:id="captchaImage" />
+						</div>
+					</div>
+					<div class="row input-padding">
+						<div class="col-md-2">
+							<label class="input-label"><wicket:message key="captchaPassword">Captcha</wicket:message>:</label>
+						</div>
+						<div class="col-md-10">
+							 <input wicket:id="captchaPassword" class="input-long" required/>
+						</div>
+					</div>
+					
 					<input type="submit" class="pull-right btn btn-lg btn-primary"
 						wicket:id="register">
 					<div class="clearfix"></div>
