@@ -31,6 +31,7 @@ public abstract class SecuredPage extends WebPage {
 	
 	@SpringBean TwattRepo twattRepo;
 	
+	
 	@SuppressWarnings("serial")
 	public SecuredPage() {
 		TwatterSession session = getTwatterSession();

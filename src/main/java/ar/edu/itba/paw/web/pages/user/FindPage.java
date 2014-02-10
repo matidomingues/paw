@@ -67,9 +67,9 @@ public class FindPage extends SecuredPage {
 				item.add(new BookmarkablePageLink<TwattUser>("userLink", ProfilePage.class, 
 						new PageParameters().add("user", item.getModelObject().getUsername()))
 						.add(new Label("username", item.getModelObject().getUsername())));
-				item.add(new Label("name"));
-				item.add(new Label("surname"));
-				item.add(new Label("date"));				
+				item.add(new Label("name", item.getModelObject().getName()));
+				item.add(new Label("surname", item.getModelObject().getSurname()));
+				item.add(new Label("date", item.getModelObject().getDate().toString()));				
 			}
 		});
 		Form<FindPage> form = new Form<FindPage>("findForm",

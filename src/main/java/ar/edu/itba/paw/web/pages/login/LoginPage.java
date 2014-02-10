@@ -52,9 +52,10 @@ public class LoginPage extends BasePage {
 		form.add(new Link<Void>("recoverPassword") {
 			@Override
 			public void onClick() {
-				setResponsePage(RegisterPage.class);
+				setResponsePage(PasswordRetrival.class);
 			}
 		});
+		
 		add(form);
 	}
 }
