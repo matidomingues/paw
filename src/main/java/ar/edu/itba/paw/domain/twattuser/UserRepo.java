@@ -28,4 +28,6 @@ public interface UserRepo {
 	public List<TwattUser> getRecomendations(TwattUser user);
 
     List<TwattUser> resolveMentions(Twatt twatt);
+    
+    public List<String> findUsernames(String username);
 }

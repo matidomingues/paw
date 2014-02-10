@@ -7,8 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
-
 import ar.edu.itba.paw.domain.twatt.Twatt;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -172,6 +172,16 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 			followed.add(getUserByUsername((String) data[1]), (Integer) data[0]);
 		}
 		return followed.getOrderedByCount();
+	}
+
+	@Override
+	public List<String> findUsernames(String username) {
+		Session session = super.getSession();
+		String sql = "select username from TwattUser where username  LIKE '%" + username
+				+ "%' order by name, surname";
+		Query query = session.createQuery(sql);
+		query.setMaxResults(10);
+		return query.list();
 	}
 
 }

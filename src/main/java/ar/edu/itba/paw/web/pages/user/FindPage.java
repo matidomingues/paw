@@ -4,17 +4,23 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.handler.BookmarkablePageRequestHandler;
+import org.apache.wicket.request.handler.PageProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -32,19 +38,18 @@ public class FindPage extends SecuredPage {
 
 	private transient String username;
 
-
-	public FindPage(final String query) {
+	public FindPage(String query) {
 		List<IModel<TwattUser>> userModels = new LinkedList<IModel<TwattUser>>();
-		for(TwattUser user : userRepo.find(query)) {
+		for (TwattUser user : userRepo.find(query)) {
 			userModels.add(new EntityModel<TwattUser>(TwattUser.class, user));
 		}
 		this.loadList(userModels);
 	}
-	
+
 	public FindPage(List<IModel<TwattUser>> userModels) {
 		this.loadList(userModels);
 	}
-	
+
 	public FindPage(IModel<List<TwattUser>> usersModel) {
 		List<IModel<TwattUser>> userModels = new LinkedList<IModel<TwattUser>>();
 		for (TwattUser user : usersModel.getObject()) {
@@ -64,25 +69,43 @@ public class FindPage extends SecuredPage {
 
 			@Override
 			protected void populateItem(Item<TwattUser> item) {
-				item.add(new BookmarkablePageLink<TwattUser>("userLink", ProfilePage.class, 
-						new PageParameters().add("user", item.getModelObject().getUsername()))
-						.add(new Label("username", item.getModelObject().getUsername())));
+				item.add(new BookmarkablePageLink<TwattUser>("userLink",
+						ProfilePage.class, new PageParameters().add("user",
+								item.getModelObject().getUsername()))
+						.add(new Label("username", item.getModelObject()
+								.getUsername())));
 				item.add(new Label("name", item.getModelObject().getName()));
-				item.add(new Label("surname", item.getModelObject().getSurname()));
-				item.add(new Label("date", item.getModelObject().getDate().toString()));				
+				item.add(new Label("surname", item.getModelObject()
+						.getSurname()));
+				item.add(new Label("date", item.getModelObject().getDate()
+						.toString()));
 			}
 		});
-		Form<FindPage> form = new Form<FindPage>("findForm",
-				new CompoundPropertyModel<FindPage>(this)) {
+		Form<Void> form = new Form<Void>("findForm");
+		final AutoCompleteTextField<String> field = new AutoCompleteTextField<String>(
+				"username", new Model<String>("")) {
 			@Override
-			protected void onSubmit() {
-				setResponsePage(new FindPage(username));
+			protected Iterator<String> getChoices(String username) {
+				return userRepo.findUsernames(username).iterator();
 			}
 		};
-		form.add(new TextField<String>("username").setRequired(true));
-		form.add(new Button("search", new ResourceModel("search")));
+		form.add(field.setRequired(true));
 		add(form);
+		field.add(new AjaxFormSubmitBehavior(form, "onchange")
+        {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target)
+            {
+            	System.out.println(field.getDefaultModel().getObject());
+            	System.out.println(username);
+                setResponsePage(new FindPage((String)field.getDefaultModel().getObject()));
+            }
+
+            @Override
+            protected void onError(AjaxRequestTarget target)
+            {
+            }
+        });
 
 	}
-
 }
