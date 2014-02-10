@@ -65,7 +65,11 @@ public class TwattPanel extends Panel {
 				e.printStackTrace();
 			}
 		}
-		add(new Label("author", twattModel.getObject().getCreator().getName()));
+		add(new Label("author", 
+				(twattModel.getObject() instanceof Retwatt ? 
+						twattModel.getObject().getCreator().getUsername() + " : " 
+						+ ((Retwatt)twattModel.getObject()).getOriginalTwatt().getCreator().getUsername() :
+							twattModel.getObject().getCreator().getUsername())));
 		add(new Label("timestamp", twattModel.getObject().getTimestamp().toString("yyyy-MM-dd", Locale.getDefault())));
 		WebMarkupContainer message = new WebMarkupContainer("message");
 		RepeatingView messageFragmentRepeater = new RepeatingView("messageFragment");
@@ -143,7 +147,7 @@ public class TwattPanel extends Panel {
 		actionForm.add(unfavouriteButton);
 		add(actionForm);
 
-		if (twattModel.getObject().getCreator().equals(viewerModel.getObject())) {
+		if (!twattModel.getObject().getCreator().equals(viewerModel.getObject())) {
 			deleteButton.setEnabled(false);
 			deleteButton.setVisible(false);
 		}

@@ -1,14 +1,15 @@
 package ar.edu.itba.paw.web.pages.user;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -35,23 +36,28 @@ public class ProfilePage extends SecuredPage{
 	@SuppressWarnings("serial")
 	public ProfilePage(final IModel<TwattUser> userModel){
 		final IModel<TwattUser> viewerModel = getViewer();
+		if (viewerModel.getObject() == null && userModel.getObject().getPrivacy() == false) {
+			
+		}
 		if(!userModel.getObject().equals(viewerModel.getObject())){
 			userModel.getObject().addAccess();
 		}
-		final IModel<List<Twatt>> myTwattsModel = new LoadableDetachableModel<List<Twatt>>() {
+	
+		add(new RefreshingView<Twatt>("twatts") {
 			@Override
-			protected List<Twatt> load() {
-				return userModel.getObject().getTwatts();
-			}			
-		};
-		ListView<Twatt> twattListView = new PropertyListView<Twatt>("twatts", myTwattsModel) {
+			protected Iterator<IModel<Twatt>> getItemModels() {
+				List<IModel<Twatt>> twattModels = new ArrayList<IModel<Twatt>>();
+				for(Twatt twatt : userModel.getObject().getTwatts()) {
+					twattModels.add(new EntityModel<Twatt>(Twatt.class, twatt));
+				}
+				return twattModels.iterator();
+			}
+
 			@Override
-			protected void populateItem(ListItem<Twatt> item) {
+			protected void populateItem(Item<Twatt> item) {
 				item.add(new TwattPanel("twatt", item.getModel(), viewerModel));				
 			}
-		};
-		
-		add(twattListView);
+		});
 		Link<Void> follow = new Link<Void>("follow") {
 			@Override
 			public void onClick() {
