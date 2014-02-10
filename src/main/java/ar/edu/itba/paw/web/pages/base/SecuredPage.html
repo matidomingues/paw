@@ -22,23 +22,23 @@
 	<body>
 		<nav class="navbar" role="navigation">
 			<div class="navbar-header">
-				<a class="navbar-brand" a wicket:id="home">Twatter</a>
+				<a class="navbar-brand" a wicket:id="home"><wicket:message key="twatter">Twatter</wicket:message></a>
 			</div>
 			<div class="collapse navbar-collapse navbar-ex1-collapse">	
 				<ul class="nav navbar-nav">
-					<li><a data-toggle="modal" href="#twatt-modal">Twatt!</a></li>
+					<li><a data-toggle="modal" href="#twatt-modal"><wicket:message key="twatt">Twatt!</wicket:message></a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li> <a wicket:id="profile">Perfil</a></li>
-					<li> <a wicket:id="find"> Busqueda</a></li>
-					<li> <a href="/bin/user/report"> Reporte</a></li>
+					<li> <a wicket:id="profile"><wicket:message key="profile">Perfil</wicket:message></a></li>
+					<li> <a wicket:id="find"> <wicket:message key="find">Busqueda</wicket:message></a></li>
+					<li> <a href="/bin/user/report"> <wicket:message key="reports">Reporte</wicket:message></a></li>
 					<li class="dropdown">
-	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Cuenta <b class="caret"></b></a>
+	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><wicket:message key="menu">Cuenta</wicket:message> <b class="caret"></b></a>
 		   				<ul class="dropdown-menu pull-right">
-                            <li><a href="/bin/user/notifications">Notificaciones</a></li>
-                            <li><a href="/bin/user/favourites">Favoritos</a></li>
-			          		<li><a wicket:id="settings">Configuracion</a></li>
-			          		<li><a wicket:id="logout"> Salir </a> </li>
+                            <li><a wicket:id="notifications"><wicket:message key="notifications">Notificaciones</wicket:message></a></li>
+                            <li><a wicket:id="favourites"><wicket:message key="favourites">Favoritos</wicket:message></a></li>
+			          		<li><a wicket:id="settings"><wicket:message key="settings">Configuracion</wicket:message></a></li>
+			          		<li><a wicket:id="logout"><wicket:message key="exit">Salir</wicket:message></a></li>
 			        	</ul>
 			     	</li>
 			     </ul>

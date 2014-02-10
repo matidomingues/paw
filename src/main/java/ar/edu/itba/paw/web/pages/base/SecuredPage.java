@@ -5,13 +5,17 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import com.google.common.base.Strings;
+
 import ar.edu.itba.paw.domain.entity.EntityModel;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.web.TwatterSession;
 import ar.edu.itba.paw.web.pages.login.LoginPage;
+import ar.edu.itba.paw.web.pages.user.FavouritePage;
 import ar.edu.itba.paw.web.pages.user.FindPage;
+import ar.edu.itba.paw.web.pages.user.NotificationPage;
 import ar.edu.itba.paw.web.pages.user.ProfilePage;
 import ar.edu.itba.paw.web.pages.user.SettingsPage;
 
@@ -64,6 +68,20 @@ public abstract class SecuredPage extends WebPage {
 			}
 		});
 		
+		add(new Link<Void>("notifications") {
+			@Override
+			public void onClick() {
+				setResponsePage(new NotificationPage(getViewer()));				
+			}
+		});
+		
+		add(new Link<Void>("favourites") {
+			@Override
+			public void onClick() {
+				setResponsePage(new FavouritePage(getViewer()));				
+			}
+		});
+		
 		add(new Link<Void>("profile") {
 			@Override
 			public void onClick() {
@@ -71,19 +89,6 @@ public abstract class SecuredPage extends WebPage {
 			}
 		});
 		
-//		Form<SecuredPage> form = new Form<SecuredPage>("twattForm") {
-//			@Override
-//			protected void onSubmit() {
-//				TwattUser user = userRepo.getUserByUsername(getTwatterSession().getUsername());
-//				twattRepo.create(new Twatt(message, user));
-//				setResponsePage(new ProfilePage(user));
-//			}
-//		};
-//		TextField<String> messageField = new TextField<String>("message");
-//		messageField.setRequired(true);
-//		form.add(messageField);
-//		form.add(new Button("twatt", new ResourceModel("Twatt!")));
-//		add(form);
 		add(new TwattForm("twattForm", getViewer()));
 	}
 
@@ -92,6 +97,8 @@ public abstract class SecuredPage extends WebPage {
 	}
 	
 	protected IModel<TwattUser> getViewer() {
-		return new EntityModel<TwattUser>(TwattUser.class, userRepo.getUserByUsername(getTwatterSession().getUsername()));
+		TwattUser viewer = null;
+		if (!Strings.isNullOrEmpty(getTwatterSession().getUsername())) { viewer = userRepo.getUserByUsername(getTwatterSession().getUsername()); }
+		return new EntityModel<TwattUser>(TwattUser.class, viewer);
 	}
 }

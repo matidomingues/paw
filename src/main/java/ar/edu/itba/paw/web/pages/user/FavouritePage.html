@@ -1,0 +1,24 @@
+<wicket:extend>
+<div class="container">
+    <div class="main-content-wrapper">
+        <div class="main-content">
+            <div class="panel panel-info">
+                <div class="panel-heading"><wicket:message key="favouritesTitle">Twatts Favoritos</wicket:message></div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><wicket:message key="photoTitle">Foto</wicket:message></th>
+                        <th><wicket:message key="userTitle">User</wicket:message></th>
+                        <th><wicket:message key="messageTitle">Tweet</wicket:message></th>
+                        <th><wicket:message key="dateTitle">Fecha</wicket:message></th>
+                    </tr>
+                    </thead>
+                    <tbody wicket:id="favouritesList">
+                    	<tr wicket:id="favourite"></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</wicket:extend>

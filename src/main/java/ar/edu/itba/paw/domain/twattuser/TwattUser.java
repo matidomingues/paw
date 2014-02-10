@@ -2,7 +2,6 @@ package ar.edu.itba.paw.domain.twattuser;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -63,10 +62,10 @@ public class TwattUser extends PersistentEntity {
 	private List<TwattUser> followings = new ArrayList<TwattUser>();
 
     @ManyToMany
-    private Set<Twatt> favourites = new HashSet<Twatt>();
+    private List<Twatt> favourites = new ArrayList<Twatt>();
 
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
-    private Set<Notification> notifications = new HashSet<Notification>();
+    private List<Notification> notifications = new ArrayList<Notification>();
 	
 	private boolean privacy;
 	
@@ -294,7 +293,7 @@ public class TwattUser extends PersistentEntity {
         this.notifications.add(notification);
     }
 
-    public Set<Notification> getNotifications() {
+    public List<Notification> getNotifications() {
         return this.notifications;
     }
 
@@ -353,7 +352,7 @@ public class TwattUser extends PersistentEntity {
 		return result;
 	}
 
-    public Set<Twatt> getFavourites() {
+    public List<Twatt> getFavourites() {
         return favourites;
     }
 }
