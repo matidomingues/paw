@@ -90,7 +90,7 @@ public class ProfilePage extends SecuredPage{
 				final IModel<List<TwattUser>> userFollowers = new LoadableDetachableModel<List<TwattUser>>() {
 					@Override
 					protected List<TwattUser> load() {
-						return userModel.getObject().getFollowings();
+						return userModel.getObject().getFollowers();
 					}
 				};
 				setResponsePage(new FindPage(userFollowers));

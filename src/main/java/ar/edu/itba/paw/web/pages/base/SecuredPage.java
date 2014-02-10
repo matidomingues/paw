@@ -17,6 +17,7 @@ import ar.edu.itba.paw.web.pages.user.FavouritePage;
 import ar.edu.itba.paw.web.pages.user.FindPage;
 import ar.edu.itba.paw.web.pages.user.NotificationPage;
 import ar.edu.itba.paw.web.pages.user.ProfilePage;
+import ar.edu.itba.paw.web.pages.user.ReportPage;
 import ar.edu.itba.paw.web.pages.user.SettingsPage;
 
 public abstract class SecuredPage extends WebPage {
@@ -89,6 +90,13 @@ public abstract class SecuredPage extends WebPage {
 			}
 		});
 		
+		add(new Link<Void>("report") {
+			@Override
+			public void onClick() {
+				setResponsePage(new ReportPage());
+			}
+		});
+
 		add(new TwattForm("twattForm", getViewer()));
 	}
 
