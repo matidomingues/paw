@@ -53,8 +53,7 @@ public abstract class SecuredPage extends WebPage {
 		add(new Link<Void>("settings") {
 			@Override
 			public void onClick() {
-				TwattUser user = userRepo.getUserByUsername(getTwatterSession().getUsername());
-				setResponsePage(new SettingsPage(user));
+				setResponsePage(new SettingsPage());
 			}
 		});
 		

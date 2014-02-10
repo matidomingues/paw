@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -19,16 +20,20 @@ public class SettingsPage extends SecuredPage{
 	@SpringBean
 	private UserRepo userRepo;
 
-	private transient String extrapassword;
+	private transient String name;
+	private transient String surname;
+	private transient String password;
+	private transient String description;
+//	private transient FileUploadField photo;
 	
-	public SettingsPage(TwattUser user){
+	public SettingsPage(){
 		add(new FeedbackPanel("feedback"));
-		Form<TwattUser> form = new Form<TwattUser>("settingsForm", new CompoundPropertyModel<TwattUser>(new EntityModel<TwattUser>(TwattUser.class, user)));
+		Form<TwattUser> form = new Form<TwattUser>("settingsForm", new CompoundPropertyModel<TwattUser>(getViewer()));
 		form.add(new UserPanel("userPanel"));
 		form.add(new Button("save", new ResourceModel("save")) {
 			@Override
 			public void onSubmit() {
-				setResponsePage(SettingsPage.class);
+				setResponsePage(new ProfilePage(getViewer()));
 			}
 		});
 		add(form);

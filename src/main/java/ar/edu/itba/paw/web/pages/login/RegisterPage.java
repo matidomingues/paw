@@ -63,10 +63,11 @@ public class RegisterPage extends BasePage {
 		};
 		form.setMultiPart(true);
 		form.setMaxSize(Bytes.kilobytes(10));
-		
+		form.add(new TextField<String>("username").setRequired(true));
 		form.add(new UserPanel("userPanel"));
 		form.add(new TextField<String>("secretquestion").setRequired(true));
 		form.add(new TextField<String>("secretanswer").setRequired(true));
+		form.add(new PasswordTextField("extrapassword").setRequired(true));
 		
 		form.add(new Button("register", new ResourceModel("register")));
 		add(form);

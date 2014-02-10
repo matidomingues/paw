@@ -10,12 +10,12 @@ public class UserPanel extends Panel{
 	public UserPanel(String id){
 		super(id);
 		
-		add(new TextField<String>("username").setRequired(true));
+		
 		add(new TextField<String>("name").setRequired(true));
 		add(new TextField<String>("surname").setRequired(true));
 		add(new PasswordTextField("password").setRequired(true));
-		add(new PasswordTextField("extrapassword").setRequired(true));
 		add(new TextField<String>("description").setRequired(true));
-		add(new FileUploadField("photo"));
+//		add(new FileUploadField("photo"));
 	}
+	
 }

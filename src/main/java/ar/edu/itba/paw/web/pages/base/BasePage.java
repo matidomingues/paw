@@ -13,6 +13,12 @@ public class BasePage extends WebPage {
 
 	@SuppressWarnings("serial")
 	public BasePage() {
+		add(new Link<Void>("home") {
+			@Override
+			public void onClick() {
+				setResponsePage(getApplication().getHomePage());
+			}
+		});
 		add(new Link<Void>("login") {
 			@Override
 			public void onClick() {
