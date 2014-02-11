@@ -17,6 +17,7 @@ import ar.edu.itba.paw.web.pages.user.NotificationPage;
 import ar.edu.itba.paw.web.pages.user.ProfilePage;
 import ar.edu.itba.paw.web.pages.user.ReportPage;
 import ar.edu.itba.paw.web.pages.user.SettingsPage;
+import ar.edu.itba.paw.web.pages.userlist.AddFollowList;
 import ar.edu.itba.paw.web.pages.userlist.FollowList;
 
 import com.google.common.base.Strings;
@@ -102,6 +103,13 @@ public abstract class SecuredPage extends WebPage {
 			@Override
 			public void onClick() {
 				setResponsePage(new FollowList());
+			}
+		});
+		
+		add(new Link<Void>("addFollowList") {
+			@Override
+			public void onClick() {
+				setResponsePage(new AddFollowList());
 			}
 		});
 

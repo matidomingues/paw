@@ -32,7 +32,14 @@
 					<li> <a wicket:id="profile"><wicket:message key="profile">Perfil</wicket:message></a></li>
 					<li> <a wicket:id="find"> <wicket:message key="find">Busqueda</wicket:message></a></li>
 					<li> <a wicket:id="report"> <wicket:message key="reports">Reporte</wicket:message></a></li>
-					<li> <a wicket:id="followList"> <wicket:message key="followList">Reporte</wicket:message></a></li>
+					<li class="dropdown">
+	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><wicket:message key="followList">Cuenta</wicket:message> <b class="caret"></b></a>
+		   				<ul class="dropdown-menu pull-right">
+                            <li><a wicket:id="followList"><wicket:message key="viewList">Notificaciones</wicket:message></a></li>
+                            <li><a wicket:id="addFollowList"><wicket:message key="addViewList">Favoritos</wicket:message></a></li>
+			        	</ul>
+			     	</li>
+					
 					<li class="dropdown">
 	    				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><wicket:message key="menu">Cuenta</wicket:message> <b class="caret"></b></a>
 		   				<ul class="dropdown-menu pull-right">
