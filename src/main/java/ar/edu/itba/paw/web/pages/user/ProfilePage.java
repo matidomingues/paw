@@ -6,12 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -58,30 +60,13 @@ public class ProfilePage extends SecuredPage{
 				item.add(new TwattPanel("twatt", item.getModel(), viewerModel));				
 			}
 		});
-		Link<Void> follow = new Link<Void>("follow") {
-			@Override
-			public void onClick() {
-				userModel.getObject().addFollowing(viewerModel.getObject());
-			}
-		};
-		Link<Void> unfollow = new Link<Void>("unfollow"){
-			@Override
-			public void onClick() {
-				userModel.getObject().removeFollowing(viewerModel.getObject());				
-			}
-		};
 		if (userModel.getObject().equals(viewerModel.getObject())) {
-			unfollow.setEnabled(false);
-			unfollow.setVisible(false);
-			follow.setEnabled(false);
-			follow.setVisible(false);
+			noFollowAction(userModel, viewerModel);
 		} else {
 			if (userModel.getObject().isFollowedBy(viewerModel.getObject())) {
-				follow.setEnabled(false);
-				follow.setVisible(false);
+				unfollowAction(userModel, viewerModel);				
 			} else {
-				unfollow.setEnabled(false);
-				unfollow.setVisible(false);
+				followAction(userModel, viewerModel);
 			}
 		}
 		MarkupContainer followers = new Link<Void>("followers-link"){
@@ -110,8 +95,8 @@ public class ProfilePage extends SecuredPage{
 			}
 		}.add(new Label("followings", Integer.toString(userModel.getObject().getFollowings().size())));
 		
-		add(follow);
-		add(unfollow);
+//		add(follow);
+//		add(unfollow);
 		add(new Label("username", userModel.getObject().getUsername()));
 		add(new Label("description", userModel.getObject().getDescription()));
 		add(new Label("name", userModel.getObject().getName()));
@@ -121,4 +106,47 @@ public class ProfilePage extends SecuredPage{
 		add(followings);
 		
 	}
+
+	private void followAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
+		WebMarkupContainer followOption = new WebMarkupContainer("followOption");
+		StringResourceModel followOptionHeader = new StringResourceModel("followOptionHeader", this, null);
+		StringResourceModel followActionLabel = new StringResourceModel("followActionLabel", this, null);
+		Link<Void> followAction = new Link<Void>("followAction") {
+			@Override
+			public void onClick() {
+				userModel.getObject().addFollowing(viewerModel.getObject());
+				ProfilePage.this.remove("followOption");
+				unfollowAction(userModel, viewerModel);
+			}
+		};
+		followOption.add(new Label("followOptionHeader", followOptionHeader));
+		followOption.add(followAction.add(new Label("followActionLabel",followActionLabel)));
+		add(followOption);		
+	}
+
+	private void unfollowAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
+		WebMarkupContainer followOption = new WebMarkupContainer("followOption");
+		StringResourceModel followOptionHeader = new StringResourceModel("unfollowOptionHeader", this, null);
+		StringResourceModel followActionLabel = new StringResourceModel("unfollowActionLabel", this, null);
+		Link<Void> followAction = new Link<Void>("followAction") {
+			@Override
+			public void onClick() {
+				userModel.getObject().removeFollowing(viewerModel.getObject());
+				ProfilePage.this.remove("followOption");
+				followAction(userModel, viewerModel);
+			}
+		};
+		followOption.add(new Label("followOptionHeader", followOptionHeader));
+		followOption.add(followAction.add(new Label("followActionLabel",followActionLabel)));
+		add(followOption);
+	}
+
+	private void noFollowAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
+		WebMarkupContainer followOption = new WebMarkupContainer("followOption");
+		followOption.setVisible(false);
+		followOption.setEnabled(false);
+		add(followOption);		
+	}
+	
+	
 }

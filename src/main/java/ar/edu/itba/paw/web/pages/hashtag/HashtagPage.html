@@ -1,0 +1,33 @@
+<wicket:extend>
+<div class="container">
+    <div class="main-content-wrapper">
+        <div class="main-content">
+	        <div class="panel panel-info">
+	            <div class="panel-heading"><wicket:message key="firstTwattTitle">Primer Twatt</wicket:message></div>
+	            <div wicket:id="firstTwatt">
+		            <div class="panel-body" wicket:id="deletedFirstTwatt">
+		                <p><wicket:message key="deletedFirstTwatt">El Twatt original ha sido borrado!</wicket:message> </p>
+		            </div>
+	            </div>
+	        </div>
+	        <div class="panel-heading"><wicket:message key="twattListTitle">Twatts</wicket:message></div>
+	        <div wicket:id="twattList">
+		        <div class="panel-body" wicket:id="noTwatts">
+		            <p><wicket:message key="noTwatts">No hay Twatts para mostrar</wicket:message></p>
+		        </div>
+	        </div>
+        </div>
+    </div>
+</div>
+<div class="sidebar panel panel-info">
+    <div class="panel-heading"><wicket:message key="hashtagInfoTitle">Informacion del Hashtag</wicket:message></div>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th><wicket:message key="hashtagInfoTagHeader">Hashtag</wicket:message></th>
+            <td><span wicket:id="tagname">Hashtag</span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</wicket:extend>

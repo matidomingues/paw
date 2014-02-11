@@ -92,19 +92,19 @@ public class TwattPanel extends Panel {
 				url.setEnabled(false).setVisible(false);
 				plain.setEnabled(false).setVisible(false);
 			} else if (trimmed.startsWith("@")) {
+				//Mention
 				mention.getPageParameters().add("user", trimmed.substring(1));
 				mention.add(new Label("mentionBody", string));
 				hashtag.setEnabled(false).setVisible(false);
 				url.setEnabled(false).setVisible(false);
 				plain.setEnabled(false).setVisible(false);
-				//Mention
 			} else if (trimmed.startsWith("/s/")) {
+				//external
 				url.remove();
 				item.add(new ExternalLink("url", urlRepo.resolve(trimmed), string));
 				hashtag.setEnabled(false).setVisible(false);
 				mention.setEnabled(false).setVisible(false);
 				plain.setEnabled(false).setVisible(false);
-				//external
 			} else {
 				plain.remove();
 				item.add(new Label("plain", string));

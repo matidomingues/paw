@@ -17,6 +17,8 @@ import ar.edu.itba.paw.web.pages.base.BasePage;
 
 public class LoginPage extends BasePage {
 	
+	private static final long serialVersionUID = 5423510581714946914L;
+
 	@SpringBean
 	private UserRepo userRepo;
 	
@@ -26,6 +28,7 @@ public class LoginPage extends BasePage {
 	public LoginPage() {
 		add(new FeedbackPanel("feedback"));
 		
+		@SuppressWarnings("serial")
 		Form<LoginPage> form = new Form<LoginPage>("loginForm", new CompoundPropertyModel<LoginPage>(this)) {
 			@Override
 			protected void onSubmit() {
