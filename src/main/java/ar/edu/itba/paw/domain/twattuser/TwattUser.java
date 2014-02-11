@@ -20,6 +20,7 @@ import ar.edu.itba.paw.domain.entity.PersistentEntity;
 import ar.edu.itba.paw.domain.notification.FollowingNotification;
 import ar.edu.itba.paw.domain.notification.Notification;
 import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.domain.userlist.UserList;
 
 import com.google.common.base.Strings;
 
@@ -66,6 +67,12 @@ public class TwattUser extends PersistentEntity {
 
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     private List<Notification> notifications = new ArrayList<Notification>();
+    
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    private List<UserList> myLists = new ArrayList<UserList>();
+    
+    @ManyToMany(mappedBy="followed", cascade=CascadeType.ALL)
+    private List<UserList> followingList = new ArrayList<UserList>();
 	
 	private boolean privacy;
 	
@@ -257,6 +264,19 @@ public class TwattUser extends PersistentEntity {
 		return getPassword().equals(pass);
 	}
 	
+	public List<UserList> getFollowingList(){
+		return this.followingList;
+	}
+	
+	public void addFollowingList(UserList list){
+		this.followingList.add(list);
+	}
+	
+	public void removeFollowingList(UserList list){
+		this.followingList.remove(list);
+	}
+	
+	
 	public boolean isValidUser() {
 		return !Strings.isNullOrEmpty(this.getUsername())
 				&& !Strings.isNullOrEmpty(this.getPassword())
@@ -295,6 +315,18 @@ public class TwattUser extends PersistentEntity {
 
     public List<Notification> getNotifications() {
         return this.notifications;
+    }
+    
+    public List<UserList> getLists(){
+    	return this.myLists;
+    }
+    
+    public void addList(UserList userList){
+    	this.myLists.add(userList);
+    }
+    
+    public void removeList(UserList userList){
+    	this.myLists.remove(userList);
     }
 
     public Set<Notification> getUnreadNotifications() {

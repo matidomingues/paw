@@ -9,13 +9,16 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
-
-import com.google.common.base.Strings;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
+import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.web.pages.base.BasePage;
 
 public class PasswordRetrivalQuestion extends BasePage{
+	
+	@SpringBean
+	UserRepo userRepo;
 	
 	private transient String secretAnswer;
 	private transient String password;
@@ -32,7 +35,7 @@ public class PasswordRetrivalQuestion extends BasePage{
 					error(getString("incorrectAnswer"));
 				}else{
 					userModel.getObject().setPassword(password);
-					System.out.println(userModel.getObject().getPassword());
+					userRepo.forceUpdate(userModel.getObject());
 					setResponsePage(new LoginPage());
 				}
 				

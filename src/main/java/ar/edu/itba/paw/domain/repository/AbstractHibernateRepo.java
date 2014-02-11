@@ -38,5 +38,13 @@ public abstract class AbstractHibernateRepo<T extends PersistentEntity> {
 	public Serializable save(T o) {
 		return getSession().save(o);
 	}
+	
+	public void delete(T o){
+		getSession().delete(o);
+	}
+	
+	public void forceUpdate(T o){
+		getSession().update(o);
+	}
 
 }

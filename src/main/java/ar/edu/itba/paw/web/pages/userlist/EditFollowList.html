@@ -1,0 +1,31 @@
+<wicket:extend>
+	<div class="container">
+		<div class="panel panel-info">
+			<div class="panel-heading">Crear Lista</div>
+			<div class="panel-body">
+				<div wicket:id="feedback" class="formErrors"/>
+				<form wicket:id="userListForm">
+					<div class="row input-padding">
+						<div class="col-md-2">
+							<label class="input-label"><wicket:message key="name">Nombre</wicket:message>:</label>
+						</div>
+						<div class="col-md-10">
+							<label wicket:id="name"/>
+						</div>
+					</div>
+					<div class="row input-padding">
+						<div class="col-md-2">
+							<label class="input-label"><wicket:message key="users">Lista de Usuarios</wicket:message>:</label>
+						</div>
+						<div class="col-md-10">
+							<select wicket:id="usersList" ></select>
+						</div>
+					</div>
+					<input type="submit" class="pull-right btn btn-lg btn-primary"
+						wicket:id="submit">
+					<div class="clearfix"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

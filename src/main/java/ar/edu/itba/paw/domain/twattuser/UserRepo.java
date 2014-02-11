@@ -30,4 +30,6 @@ public interface UserRepo {
     List<TwattUser> resolveMentions(Twatt twatt);
     
     public List<String> findUsernames(String username);
+    
+    public void forceUpdate(TwattUser user);
 }

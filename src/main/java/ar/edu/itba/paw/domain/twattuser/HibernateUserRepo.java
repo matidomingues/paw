@@ -183,5 +183,9 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		query.setMaxResults(10);
 		return query.list();
 	}
+	
+	 public void forceUpdate(TwattUser user){
+		 super.forceUpdate(user);
+	 }
 
 }

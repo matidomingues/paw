@@ -5,8 +5,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import com.google.common.base.Strings;
-
 import ar.edu.itba.paw.domain.entity.EntityModel;
 import ar.edu.itba.paw.domain.twatt.TwattRepo;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
@@ -19,6 +17,9 @@ import ar.edu.itba.paw.web.pages.user.NotificationPage;
 import ar.edu.itba.paw.web.pages.user.ProfilePage;
 import ar.edu.itba.paw.web.pages.user.ReportPage;
 import ar.edu.itba.paw.web.pages.user.SettingsPage;
+import ar.edu.itba.paw.web.pages.userlist.FollowList;
+
+import com.google.common.base.Strings;
 
 public abstract class SecuredPage extends WebPage {
 
@@ -94,6 +95,13 @@ public abstract class SecuredPage extends WebPage {
 			@Override
 			public void onClick() {
 				setResponsePage(new ReportPage());
+			}
+		});
+		
+		add(new Link<Void>("followList") {
+			@Override
+			public void onClick() {
+				setResponsePage(new FollowList());
 			}
 		});
 
