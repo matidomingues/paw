@@ -86,3 +86,24 @@
 .input-padding{
     padding: 10px;
 }
+
+.twattImagesContainer {
+	max-width: 	150px;
+	max-height: 150px;
+    position: relative;
+}
+
+.avatarContainer {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+
+}
+
+.badgeContainer {
+	width: 24px;
+	height: 24px;
+	float: right;
+    z-index: 10;
+}

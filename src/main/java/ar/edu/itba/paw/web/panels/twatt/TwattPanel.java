@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.web.panels.twatt;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -43,19 +44,22 @@ public class TwattPanel extends Panel {
 	@SuppressWarnings("serial")
 	public TwattPanel(String id, final IModel<Twatt> twattModel, final IModel<TwattUser> viewerModel) {
 		super(id);
+		Component avatar = null;
 		if (twattModel.getObject().getCreator().getPhoto() == null || twattModel.getObject().getCreator().getPhoto().length == 0) {
-			add(new ContextImage("avatar", "img/default_user_icon.png"));
+			avatar = new ContextImage("avatar", "img/default_user_icon.png");
 		}
 		else {
-			add(new NonCachingImage("avatar", new DynamicImageResource() {				
+			avatar = new NonCachingImage("avatar", new DynamicImageResource() {				
 				@Override
 				protected byte[] getImageData(Attributes attributes) {
 					return twattModel.getObject().getCreator().getPhoto();
 				}
-			}));
+			});
 		}
+		add(avatar.add(new AttributeAppender("class", "avatarContainer")));
 		add(new WebMarkupContainer("badgeContainer")
 			.add(new ContextImage("badge", "img/badge.png"))
+			.add(new AttributeAppender("class", "badgeContainer"))
 			.setVisible(twattModel.getObject().getCreator().getFollowers().size() >= 
 				ConfigManager.getInstance().getPopularityThreshold()));
 		add(new Label("author", 
@@ -126,13 +130,17 @@ public class TwattPanel extends Panel {
 		Button favouriteButton = new Button("favourite") {
 			@Override
 			public void onSubmit() {
-				viewerModel.getObject().addFavourite(twattModel.getObject());
+				userRepo.getUserByUsername(viewerModel.getObject().getUsername())
+					.addFavourite(twattRepo.getTwatt(twattModel.getObject().getId()));
+				//viewerModel.getObject().addFavourite(twattModel.getObject());
 			};
 		};
 		Button unfavouriteButton = new Button("unfavourite") {
 			@Override
 			public void onSubmit() {
-				viewerModel.getObject().removeFavourite(twattModel.getObject());
+				userRepo.getUserByUsername(viewerModel.getObject().getUsername())
+					.removeFavourite(twattRepo.getTwatt(twattModel.getObject().getId()));
+				//viewerModel.getObject().removeFavourite(twattModel.getObject());
 			};
 		};
 		actionForm.add(deleteButton);

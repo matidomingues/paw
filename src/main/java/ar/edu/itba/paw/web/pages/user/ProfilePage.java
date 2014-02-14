@@ -118,9 +118,9 @@ public class ProfilePage extends SecuredPage{
 		Link<Void> followAction = new Link<Void>("followAction") {
 			@Override
 			public void onClick() {
-				userModel.detach();
-				viewerModel.detach();
-				viewerModel.getObject().addFollowing(userModel.getObject());
+				//viewerModel.getObject().addFollowing(userModel.getObject());
+				userRepo.getUserByUsername(viewerModel.getObject().getUsername())
+					.addFollowing(userRepo.getUserByUsername(userModel.getObject().getUsername()));
 			}
 		};
 		followOption.add(new Label("followOptionHeader", followOptionHeader));
@@ -136,7 +136,9 @@ public class ProfilePage extends SecuredPage{
 		Link<Void> followAction = new Link<Void>("unfollowAction") {
 			@Override
 			public void onClick() {
-				viewerModel.getObject().removeFollowing(userModel.getObject());
+				userRepo.getUserByUsername(viewerModel.getObject().getUsername())
+					.removeFollowing(userRepo.getUserByUsername(userModel.getObject().getUsername()));
+				//viewerModel.getObject().removeFollowing(userModel.getObject());
 			}
 		};
 		unfollowOption.add(new Label("unfollowOptionHeader", followOptionHeader));

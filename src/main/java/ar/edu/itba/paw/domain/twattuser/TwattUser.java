@@ -295,7 +295,9 @@ public class TwattUser extends PersistentEntity {
 
     public void addFavourite(Twatt favorite) {
         Assert.notNull(favorite);
-        this.favourites.add(favorite);
+        if (!favourites.contains(favorite)) {
+        	this.favourites.add(favorite);
+        }
     }
 
     public void removeFavourite(Twatt favourite) {
