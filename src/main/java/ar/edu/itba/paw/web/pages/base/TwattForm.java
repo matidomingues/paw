@@ -16,9 +16,6 @@ import ar.edu.itba.paw.web.pages.user.ProfilePage;
 @SuppressWarnings("serial") 
 public class TwattForm extends Form<Void> {
 	
-	/**
-	 * 
-	 */
 	@SpringBean private TwattRepo twattRepo;
 	private IModel<TwattUser> commiterModel;
 	private String message;
@@ -36,6 +33,7 @@ public class TwattForm extends Form<Void> {
 	@Override
 	protected void onSubmit() {
 		twattRepo.create(new Twatt(message, commiterModel.getObject()));
+		commiterModel.detach();
 		setResponsePage(new ProfilePage(commiterModel));
 	}
 	

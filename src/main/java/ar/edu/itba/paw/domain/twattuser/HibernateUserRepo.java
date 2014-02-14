@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
-import ar.edu.itba.paw.domain.twatt.Twatt;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.google.common.base.Strings;
-
+import ar.edu.itba.paw.domain.repository.AbstractHibernateRepo;
+import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.utils.ConfigManager;
 import ar.edu.itba.paw.utils.OrderedLinkedList;
 import ar.edu.itba.paw.utils.exceptions.DuplicatedUserException;
+
+import com.google.common.base.Strings;
 
 @Repository
 public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
@@ -111,7 +111,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
         if (user == null) {
             throw new IllegalArgumentException("Null user");
         }
-		int deep = 3;
+		int deep = ConfigManager.getInstance().getDepth();
 		OrderedLinkedList list = new OrderedLinkedList();
 		for (TwattUser following : user.getFollowings()) {
 			for (TwattUser candidate : following.getFollowings()) {
@@ -122,19 +122,19 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 			}
 		}
 		LinkedList<TwattUser> candidates = list.getMoreThan(deep);
-		if (candidates.size() >= 3) {
+		if (candidates.size() >= deep) {
 			Collections.shuffle(candidates);
-			return candidates.subList(0, 3);
+			return candidates.subList(0, deep);
 		}
 		List<TwattUser> orderedCandidates = getMostFollowedUsers(user);
 		orderedCandidates.removeAll(candidates);
-		if (orderedCandidates.size() < 3
+		if (orderedCandidates.size() < deep
 				&& orderedCandidates.size() >= candidates.size()) {
 			candidates.addAll(orderedCandidates.subList(0,
 					(orderedCandidates.size() - candidates.size())));
 		} else {
 			candidates.addAll(orderedCandidates.subList(0,
-					(3 - candidates.size())));
+					(deep - candidates.size())));
 		}
 		return candidates;
 	}
@@ -166,6 +166,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		if (user.getFollowings().size() != 0) {
 			query.setParameterList("ids", user.getFollowings());
 		}
+		@SuppressWarnings("unchecked")
 		List<Object[]> list = query.list();
 		OrderedLinkedList followed = new OrderedLinkedList();
 		for (Object[] data : list) {
@@ -174,6 +175,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo<TwattUser>
 		return followed.getOrderedByCount();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> findUsernames(String username) {
 		Session session = super.getSession();

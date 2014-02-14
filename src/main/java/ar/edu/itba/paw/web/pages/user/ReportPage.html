@@ -11,7 +11,7 @@
 	<div class="container well">
 		<div class="row input-padding">
 			<div class="col-md-2">
-				<label class="input-label">Fecha de Inicio</label>
+				<label class="input-label"><message:wicket key="formStartDate">Fecha de Inicio</message:wicket></label>
 			</div>
 			<div class="col-md-10">
 				<input type="text" class="input-long startDate" wicket:id="formStartDate">
@@ -19,7 +19,7 @@
 		</div>
 		<div class="row input-padding">
 			<div class="col-md-2">
-				<label class="input-label">Fecha de Finalizacion</label>
+				<label class="input-label"><message:wicket key="formEndDate">Fecha de Finalizacion</message:wicket></label>
 			</div>
 			<div class="col-md-10">
 				<input type="text" class="input-long endDate" wicket:id="formEndDate">
@@ -27,16 +27,16 @@
 		</div>
 		<div class="row input-padding">
 			<div class="col-md-2">
-				<label class="input-label">Filtrar por:</label>
+				<label class="input-label"><wicket:message key="formDaysType">Filtrar por:</wicket:message></label>
 			</div>
 			
 			<select wicket:id="formDaysType">
-				<option wicket:id="day" >Dias</option>
-				<option wicket:id="month" >Meses</option>
-				<option wicket:id="year" >Años</option>
+				<option wicket:id="day" ><wicket:message key="formDaysType.day">Dias</wicket:message></option>
+				<option wicket:id="month"><wicket:message key="formDaysType.month">Meses</wicket:message></option>
+				<option wicket:id="year"><wicket:message key="formDaysType.year">Años</wicket:message></option>
 			</select>
 		</div>
-		<button type="submit" class="btn btn-primary" wicket:id="results"><span class="glyphicon glyphicon-log-in"></span> Resultado</button>
+		<button type="submit" class="btn btn-primary" wicket:id="results"><span class="glyphicon glyphicon-log-in"></span> <wicket:message key="result">Resultado</wicket:message></button>
 	</div>
 </form>
 	<script type="text/javascript" wicket:id="ajaxString"></script>

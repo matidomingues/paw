@@ -1,23 +1,16 @@
 <wicket:extend>
 	<div class="container">
+		<div class="row" wicket:id="privateProfileMessageContainer">
+			<div class="col-md-4 col-md-offset-4">
+				<p><span wicket:id="privateProfileMessage">Tiene que iniciar sesion para ver el perfil</span></p>
+			</div>
+		</div>
+		<div wicket:id="profileContainer">
 		<div class="main-content-wrapper">
 			<div class="main-content">
 				<div class="panel panel-info">
 					<div class="panel-heading"><wicket:message key="twatts">Twatts</wicket:message></div>
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th><wicket:message key="photoTitle">Foto</wicket:message></th>
-								<th><wicket:message key="userTitle">User</wicket:message></th>
-								<th><wicket:message key="messageTitle">Tweet</wicket:message></th>
-								<th><wicket:message key="dateTitle">Fecha</wicket:message></th>
-							</tr>
-						</thead>
-                    <tbody wicket:id="twatts">
-						<tr wicket:id="twatt">
-					    </tr>
-						</tbody>
-					</table>
+					<div wicket:id="twatts"></div>
 				</div>
 			</div>
 		</div>
@@ -58,13 +51,14 @@
 						<th><span wicket:id="followOptionHeader">Seguir</span></th>
 						<td><a class="btn" wicket:id="followAction"><span wicket:id="followActionLabel">Follow!</span></a></td>
 					</tr>
-<!-- 					<tr> -->
-<!-- 						<th>Dejar de Seguir</th> -->
-<!-- 						<td><a class="btn" wicket:id="unfollow">UnFollow!</a> -->
-<!-- 						</td> -->
-<!-- 					</tr> -->
+					<tr wicket:id="unfollowOption">
+						<th><span wicket:id="unfollowOptionHeader">Dejar de Seguir</span></th>
+						<td><a class="btn" wicket:id="unfollowAction"><span wicket:id="unfollowActionLabel">Follow!</span></a>
+						</td>
+					</tr>
 				</tbody>
 			</table>
+		</div>
 		</div>
 	</div>
 </wicket:extend>

@@ -8,7 +8,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 
 import ar.edu.itba.paw.domain.entity.EntityModel;
@@ -48,8 +47,8 @@ public class NotificationPage extends SecuredPage {
 							new EntityModel<Twatt>(Twatt.class, ((MentionNotification)item.getModelObject()).getTwatt()), userModel));
 				} else if (item.getModelObject() instanceof FollowingNotification) {
 					item.add(new Label("notification", 
-							new StringResourceModel("followingNotificationMessage", 
-									Model.of(((FollowingNotification)item.getModelObject()).getFollower().getUsername()))));
+							new StringResourceModel("followingNotificationMessage", this,
+									new EntityModel<TwattUser>(TwattUser.class, (((FollowingNotification)item.getModelObject()).getFollower())))));
 				} else {
 					throw new TwattApplicationException("Unexpected notification type");
 				}				

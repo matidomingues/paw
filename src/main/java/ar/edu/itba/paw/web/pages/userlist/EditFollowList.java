@@ -7,7 +7,6 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.ListMultipleChoice;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -23,6 +22,8 @@ import ar.edu.itba.paw.web.pages.base.SecuredPage;
 
 public class EditFollowList extends SecuredPage{
 
+	private static final long serialVersionUID = 5848514157160922120L;
+
 	@SpringBean
 	UserRepo userRepo;
 	
@@ -31,9 +32,9 @@ public class EditFollowList extends SecuredPage{
 	
 	private transient List<TwattUser> usersList;
 	
+	@SuppressWarnings("serial")
 	public EditFollowList(final IModel<UserList> userList){
 		add(new FeedbackPanel("feedback"));
-		final IModel<TwattUser> viewerModel = getViewer();
 		Form<EditFollowList> form = new Form<EditFollowList>("userListForm", new CompoundPropertyModel<EditFollowList>(this)) {
 			@Override
 			protected void onSubmit() {

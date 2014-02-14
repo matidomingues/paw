@@ -7,16 +7,20 @@
 						<h3><wicket:message key="page.subtitle"></wicket:message></h3>
 					</div>
 					<div class="panel-body">
+					<!-- 
 						<div wicket:id="feedback" class="formErrors"/>
 						<form wicket:id="loginForm">
 							<fieldset class="loginsecuence">
 								<input type="text" class="input-long input-border" placeholder="Usuario" wicket:id="username" required autofocus>
 								<input type="password" class="input-long input-border" placeholder="Contraseña" wicket:id="password" required>
-								<button type="submit" class="btn btn-primary" wicket:id="login"><span class="glyphicon glyphicon-log-in"></span> Ingresar</button>
-								<a wicket:id="register" class="btn btn-primary">Registrarse</a>
-								<a wicket:id="recoverPassword" class="btn btn-primary">Recuperar Contrase&ntilde;a</a>
+								<input type="checkbox" wicket:id="rememberMe"><wicket:message key="rememberMe">Recordarme en este equipo</wicket:message></input>
+								<button type="submit" class="btn btn-primary" wicket:id="login"><span class="glyphicon glyphicon-log-in"></span> <wicket:message key="login">Ingresar</wicket:message></button>
 							</fieldset>
 						</form>
+						-->
+						<div wicket:id="signIn"></div>
+						<a wicket:id="register2" class="btn btn-primary"><wicket:message key="register">Registrarse</wicket:message></a>
+						<a wicket:id="recoverPassword" class="btn btn-primary"><wicket:message key="recoverPassword">Recuperar Contrase&ntilde;a</wicket:message></a>
 					</div>
 				</div>
 			</div>

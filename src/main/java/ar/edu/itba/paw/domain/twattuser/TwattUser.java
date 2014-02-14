@@ -62,7 +62,7 @@ public class TwattUser extends PersistentEntity {
 	@ManyToMany(mappedBy="followers", cascade=CascadeType.ALL)
 	private List<TwattUser> followings = new ArrayList<TwattUser>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Twatt> favourites = new ArrayList<Twatt>();
 
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
@@ -82,7 +82,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public TwattUser(String username, String name, String surname, String password,
-			String description, String secretquestion, String secretanswer,
+			String description, String secretquestion, String secretanswer, 
 			byte[] photo) {
         Assert.hasText(username);
         Assert.hasText(name);
@@ -177,7 +177,7 @@ public class TwattUser extends PersistentEntity {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
+	
 	public void addTwatt(Twatt twatt) {
         Assert.notNull(twatt);
 		twatts.add(twatt);
@@ -255,7 +255,7 @@ public class TwattUser extends PersistentEntity {
 	}
 
 	public void setPhoto(byte[] photo) {
-        Assert.notNull(photo);
+        if (photo == null) return;
 		this.photo = photo;
 	}
 

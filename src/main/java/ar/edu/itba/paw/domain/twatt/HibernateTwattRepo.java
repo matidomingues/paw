@@ -10,7 +10,9 @@ import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.domain.url.UrlRepo;
 import ar.edu.itba.paw.helper.MessageHelper;
 import ar.edu.itba.paw.utils.Report;
+
 import com.google.common.base.Strings;
+
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.joda.time.DateTime;
@@ -122,6 +124,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 		String hql = "from Twatt where creator IN (:ids)";
 		Query query = session.createQuery(hql);
 		query.setParameterList("ids", user.getFollowings());
+		@SuppressWarnings("unchecked")
 		List<Twatt> list = query.list();
 		return list;
 	}
@@ -152,6 +155,7 @@ public class HibernateTwattRepo extends AbstractHibernateRepo<Twatt> implements
 		query.setParameter(0, startDate);
 		query.setParameter(1, endDate);
 		query.setParameter(2, user);
+		@SuppressWarnings("unchecked")
 		List<Object[]> list = query.list();
 		List<Report> report = new LinkedList<Report>();
 		for (Object[] elem : list) {

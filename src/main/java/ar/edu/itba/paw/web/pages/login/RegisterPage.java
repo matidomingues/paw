@@ -4,12 +4,12 @@ import org.apache.wicket.extensions.markup.html.captcha.CaptchaImageResource;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
@@ -23,23 +23,26 @@ import ar.edu.itba.paw.web.panels.user.UserPanel;
 
 public class RegisterPage extends BasePage {
 
+	private static final long serialVersionUID = -2908940886199046934L;
+
 	@SpringBean
 	private UserRepo userRepo;
 
-	private transient String username;
-	private transient String name;
-	private transient String surname;
-	private transient String password;
-	private transient String extrapassword;
-	private transient String description;
-	private transient String secretquestion;
-	private transient String secretanswer;
-	private transient FileUploadField photo;
-	private transient String captchaPassword;
+	private  String username;
+	private  String name;
+	private  String surname;
+	private  String password;
+	private  String extrapassword;
+	private  String description;
+	private  String secretquestion;
+	private  String secretanswer;
+	private  FileUploadField photo;
+	private  String captchaPassword;
 
 	private final CaptchaImageResource captchaImageResource;
 	private final String imagePass = randomString(6, 8);
 
+	@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 	public RegisterPage() {
 		add(new FeedbackPanel("feedback"));
 
@@ -54,8 +57,8 @@ public class RegisterPage extends BasePage {
 					error(getString("captchaNotEqual"));
 				} else {
 					TwatterSession session = TwatterSession.get();
-					byte[] img = (photo == null) ? new byte[0] : photo
-							.getFileUpload().getBytes();
+					byte[] img = (photo == null ? new byte[0] : 
+						(photo.getFileUpload() == null ? new byte[0] : photo.getFileUpload().getBytes()));
 					TwattUser user = new TwattUser(username, name, surname,
 							password, description, secretquestion,
 							secretanswer, img);
@@ -69,7 +72,6 @@ public class RegisterPage extends BasePage {
 					} catch (DuplicatedUserException e) {
 						error(getString("duplicatedUser"));
 					}
-					
 				}
 				captchaImageResource.invalidate();
 			}
@@ -82,6 +84,7 @@ public class RegisterPage extends BasePage {
 		form.add(new TextField<String>("secretanswer").setRequired(true));
 		form.add(new PasswordTextField("extrapassword").setRequired(true));
 		form.add(new Image("captchaImage", captchaImageResource));
+		form.add(photo = new FileUploadField("photo", new Model()));
 		form.add(new TextField<String>("captchaPassword").setRequired(true));
 		form.add(new Button("register", new ResourceModel("register")));
 		add(form);

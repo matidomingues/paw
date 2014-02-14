@@ -4,7 +4,8 @@
         <div class="main-content">
 	        <div class="panel panel-info">
 	            <div class="panel-heading"><wicket:message key="firstTwattTitle">Primer Twatt</wicket:message></div>
-	            <div wicket:id="firstTwatt">
+	            <div wicket:id="firstTwattContainer">
+	            	<div wicket:id="firstTwatt"></div>
 		            <div class="panel-body" wicket:id="deletedFirstTwatt">
 		                <p><wicket:message key="deletedFirstTwatt">El Twatt original ha sido borrado!</wicket:message> </p>
 		            </div>
@@ -12,6 +13,7 @@
 	        </div>
 	        <div class="panel-heading"><wicket:message key="twattListTitle">Twatts</wicket:message></div>
 	        <div wicket:id="twattList">
+	        	<div wicket:id="twatt"></div>
 		        <div class="panel-body" wicket:id="noTwatts">
 		            <p><wicket:message key="noTwatts">No hay Twatts para mostrar</wicket:message></p>
 		        </div>

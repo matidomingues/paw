@@ -1,15 +1,34 @@
 <wicket:extend>
 	<div class="container">
 		<div class="panel panel-info">
-			<div class="panel-heading">Configuración</div>
+			<div class="panel-heading"><wicket:message key="configurations">Configuración</wicket:message></div>
 			<div class="panel-body">
 			<div wicket:id="feedback" class="formErrors"/>
-				<form wicket:id="settingsForm">
-					<div wicket:id="userPanel" />
-				
-					<input type="submit" class="pull-right btn btn-lg btn-primary"
-						wicket:id="save">
+			<form wicket:id="settingsForm">
+				<div wicket:id="userPanel" />
+				<div class="row input-padding">
+					<div class="col-md-2">
+						<label class="input-label"><wicket:message key="photo">Photo</wicket:message>:</label>
+					</div>
+					<div class="col-md-6">
+						<input type="file" wicket:id="photo"/>
+					</div>
+					<div class="col-md-4">
+					<div>
+						<img wicket:id="preview" />
+					</div>
+				</div>
+				<div class="row input-padding">
+					<div class="col-md-2">
+						<label class="input-label"><wicket:message key="privacySettingsTitle">Privacidad del Perfil</wicket:message></label>
+					</div>
+					<div class="col-md-10">
+						<input type="checkbox" wicket:id="privacy"/><wicket:message key="privacy">Privado</wicket:message>
+					</div>
+				</div>
+				<input type="submit" class="pull-right btn btn-lg btn-primary" wicket:id="save">
 				<div class="clearfix"></div>
+				</div>
 			</form>
 		</div>
 	</div>

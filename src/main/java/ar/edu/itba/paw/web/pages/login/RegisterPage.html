@@ -1,7 +1,7 @@
 <wicket:extend>
 	<div class="container">
 		<div class="panel panel-info">
-			<div class="panel-heading">Registrarse</div>
+			<div class="panel-heading"><wicket:message key="registerTitle">Registrarse</wicket:message></div>
 			<div class="panel-body">
 				<div wicket:id="feedback" class="formErrors"/>
 				<form wicket:id="registerForm">
@@ -10,8 +10,7 @@
 								<label class="input-label"><wicket:message key="username">Username</wicket:message>:</label>
 							</div>
 							<div class="col-md-10">
-								<input type="text" wicket:id="username" class="input-long"
-									required autofocus >
+								<input type="text" wicket:id="username" class="input-long" required autofocus >
 							</div>
 					</div>
 					<div wicket:id="userPanel" />
@@ -20,8 +19,7 @@
 							<label class="input-label"><wicket:message key="extrapassword">Extra Password</wicket:message>:</label>
 						</div>
 						<div class="col-md-10">
-							<input type="password" wicket:id="extrapassword"
-								class="input-long" required />
+							<input type="password" wicket:id="extrapassword" class="input-long" required />
 						</div>
 					</div>
 					<div class="row input-padding">
@@ -29,8 +27,7 @@
 							<label class="input-label"><wicket:message key="secretquestion">Secret Question</wicket:message>:</label>
 						</div>
 						<div class="col-md-10">
-							<input type="text" wicket:id="secretquestion" class="input-long"
-								required />
+							<input type="text" wicket:id="secretquestion" class="input-long" required />
 						</div>
 					</div>
 					<div class="row input-padding">
@@ -38,8 +35,15 @@
 							<label class="input-label"><wicket:message key="secretanswer">Secret Answer</wicket:message>:</label>
 						</div>
 						<div class="col-md-10">
-							<input type="text" wicket:id="secretanswer" class="input-long"
-								required />
+							<input type="text" wicket:id="secretanswer" class="input-long" required />
+						</div>
+					</div>
+					<div class="row input-padding">
+						<div class="col-md-2">
+							<label class="input-label"><wicket:message key="photo">Photo</wicket:message>:</label>
+						</div>
+						<div class="col-md-6">
+							<input type="file" wicket:id="photo"/>
 						</div>
 					</div>
 					<div class="row input-padding">

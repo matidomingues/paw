@@ -1,16 +1,13 @@
 package ar.edu.itba.paw.web.pages.user;
 
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -18,57 +15,59 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.edu.itba.paw.domain.entity.EntityModel;
-import ar.edu.itba.paw.domain.twatt.Twatt;
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.web.pages.base.SecuredPage;
-import ar.edu.itba.paw.web.panels.twatt.TwattPanel;
+import ar.edu.itba.paw.web.panels.twatt.TwattListPanel;
 
 public class ProfilePage extends SecuredPage{
 
+	private enum FollowActionOptions {
+		FOLLOW,
+		UNFOLLOW,
+		NO_FOLLOW
+	}
+	
 	private static final long serialVersionUID = -2553312957172341808L;
 	public static final String USER_PARAMETER = "user";
-	@SpringBean private static UserRepo userRepo;
+	@SpringBean private UserRepo userRepo;
 	
 	public ProfilePage(PageParameters parameters) {
-		this(new EntityModel<TwattUser>(TwattUser.class, 
+		populate(new EntityModel<TwattUser>(TwattUser.class, 
 				userRepo.getUserByUsername(parameters.get(USER_PARAMETER).toString(""))));
 	}
 	
+
+	public ProfilePage(IModel<TwattUser> userModel){
+		populate(userModel);
+	}
+
 	@SuppressWarnings("serial")
-	public ProfilePage(final IModel<TwattUser> userModel){
+	private void populate(final IModel<TwattUser> userModel) {
 		final IModel<TwattUser> viewerModel = getViewer();
-		if (viewerModel.getObject() == null && userModel.getObject().getPrivacy() == false) {
-			
-		}
+		boolean privateProfile = (userModel.getObject().getPrivacy() == false ||
+				viewerModel.getObject() != null) ? false : true;
+		FollowActionOptions followActionOptions;
 		if(!userModel.getObject().equals(viewerModel.getObject())){
 			userModel.getObject().addAccess();
 		}
-	
-		add(new RefreshingView<Twatt>("twatts") {
-			@Override
-			protected Iterator<IModel<Twatt>> getItemModels() {
-				List<IModel<Twatt>> twattModels = new ArrayList<IModel<Twatt>>();
-				for(Twatt twatt : userModel.getObject().getTwatts()) {
-					twattModels.add(new EntityModel<Twatt>(Twatt.class, twatt));
-				}
-				return twattModels.iterator();
-			}
-
-			@Override
-			protected void populateItem(Item<Twatt> item) {
-				item.add(new TwattPanel("twatt", item.getModel(), viewerModel));				
-			}
-		});
 		if (userModel.getObject().equals(viewerModel.getObject())) {
-			noFollowAction(userModel, viewerModel);
+			followActionOptions = FollowActionOptions.NO_FOLLOW;
 		} else {
 			if (userModel.getObject().isFollowedBy(viewerModel.getObject())) {
-				unfollowAction(userModel, viewerModel);				
+				followActionOptions = FollowActionOptions.UNFOLLOW;
 			} else {
-				followAction(userModel, viewerModel);
+				followActionOptions = FollowActionOptions.FOLLOW;
 			}
 		}
+		
+		add(new WebMarkupContainer("privateProfileMessageContainer")
+				.add(new Label("privateProfileMessage", getString("privateProfileMessage")))
+				.setVisible(privateProfile));
+		
+		WebMarkupContainer profileContainer = new WebMarkupContainer("profileContainer");
+		profileContainer.setVisible(!privateProfile);
+		profileContainer.add(new TwattListPanel("twatts", TwattListPanel.convertList(userModel.getObject().getTwatts()), getViewer()));
 		MarkupContainer followers = new Link<Void>("followers-link"){
 			@Override
 			public void onClick() {
@@ -94,59 +93,55 @@ public class ProfilePage extends SecuredPage{
 				setResponsePage(new FindPage(userFollowings));
 			}
 		}.add(new Label("followings", Integer.toString(userModel.getObject().getFollowings().size())));
+
+		profileContainer.add(new Label("username", userModel.getObject().getUsername()));
+		profileContainer.add(new Label("description", userModel.getObject().getDescription()));
+		profileContainer.add(new Label("name", userModel.getObject().getName()));
+		profileContainer.add(new Label("surname", userModel.getObject().getSurname()));
+		profileContainer.add(new Label("accesses", Long.toString(userModel.getObject().getAccess())));
+		profileContainer.add(followers);
+		profileContainer.add(followings);
+		profileContainer.add(followAction(userModel, viewerModel)
+				.setVisible(followActionOptions == FollowActionOptions.FOLLOW));
+		profileContainer.add(unfollowAction(userModel, viewerModel)
+				.setVisible(followActionOptions == FollowActionOptions.UNFOLLOW));
 		
-//		add(follow);
-//		add(unfollow);
-		add(new Label("username", userModel.getObject().getUsername()));
-		add(new Label("description", userModel.getObject().getDescription()));
-		add(new Label("name", userModel.getObject().getName()));
-		add(new Label("surname", userModel.getObject().getSurname()));
-		add(new Label("accesses", Long.toString(userModel.getObject().getAccess())));
-		add(followers);
-		add(followings);
+		add(profileContainer);
 		
 	}
 
-	private void followAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
+	@SuppressWarnings("serial")
+	private Component followAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
 		WebMarkupContainer followOption = new WebMarkupContainer("followOption");
 		StringResourceModel followOptionHeader = new StringResourceModel("followOptionHeader", this, null);
 		StringResourceModel followActionLabel = new StringResourceModel("followActionLabel", this, null);
 		Link<Void> followAction = new Link<Void>("followAction") {
 			@Override
 			public void onClick() {
-				userModel.getObject().addFollowing(viewerModel.getObject());
-				ProfilePage.this.remove("followOption");
-				unfollowAction(userModel, viewerModel);
+				userModel.detach();
+				viewerModel.detach();
+				viewerModel.getObject().addFollowing(userModel.getObject());
 			}
 		};
 		followOption.add(new Label("followOptionHeader", followOptionHeader));
 		followOption.add(followAction.add(new Label("followActionLabel",followActionLabel)));
-		add(followOption);		
+		return followOption;		
 	}
 
-	private void unfollowAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
-		WebMarkupContainer followOption = new WebMarkupContainer("followOption");
+	@SuppressWarnings("serial")
+	private Component unfollowAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
+		WebMarkupContainer unfollowOption = new WebMarkupContainer("unfollowOption");
 		StringResourceModel followOptionHeader = new StringResourceModel("unfollowOptionHeader", this, null);
 		StringResourceModel followActionLabel = new StringResourceModel("unfollowActionLabel", this, null);
-		Link<Void> followAction = new Link<Void>("followAction") {
+		Link<Void> followAction = new Link<Void>("unfollowAction") {
 			@Override
 			public void onClick() {
-				userModel.getObject().removeFollowing(viewerModel.getObject());
-				ProfilePage.this.remove("followOption");
-				followAction(userModel, viewerModel);
+				viewerModel.getObject().removeFollowing(userModel.getObject());
 			}
 		};
-		followOption.add(new Label("followOptionHeader", followOptionHeader));
-		followOption.add(followAction.add(new Label("followActionLabel",followActionLabel)));
-		add(followOption);
+		unfollowOption.add(new Label("unfollowOptionHeader", followOptionHeader));
+		unfollowOption.add(followAction.add(new Label("unfollowActionLabel",followActionLabel)));
+		return unfollowOption;
 	}
-
-	private void noFollowAction(final IModel<TwattUser> userModel, final IModel<TwattUser> viewerModel) {
-		WebMarkupContainer followOption = new WebMarkupContainer("followOption");
-		followOption.setVisible(false);
-		followOption.setEnabled(false);
-		add(followOption);		
-	}
-	
 	
 }

@@ -3,12 +3,12 @@
 	<div class="row">
 		<div class="col-md-9">
 			<div class="panel panel-info">
-				<div class="panel-heading">Hashtags</div>
+				<div class="panel-heading"><wicket:message key="hashtags">Hashtags</wicket:message></div>
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>#</th>
-							<th># menciones</th>
+							<th><wicket:message key="tagname">#</wicket:message></th>
+							<th><wicket:message key="count"># menciones</wicket:message></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -20,49 +20,23 @@
 				</table>
 			</div>
             <div class="panel panel-info">
-                <div class="panel-heading">Mis Twatts</div>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Foto</th>
-                        <th>User</th>
-                        <th>Tweet</th>
-                        <th>Fecha</th>
-                    </tr>
-                    </thead>
-                    <tbody wicket:id="myTwatts">
-						<tr wicket:id="myTwatt">
-					    </tr>
-                    </tbody>
-                </table>
+                <div class="panel-heading"><wicket:message key="myTwatts">Mis Twatts</wicket:message></div>
+                <div wicket:id="myTwatts"></div>
             </div>
 			<div class="panel panel-info">
-				<div class="panel-heading">Twatts de los que sigo</div>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Foto</th>
-							<th>User</th>
-							<th>Tweet</th>
-							<th>Fecha</th>
-						</tr>
-					</thead>
-					<tbody wicket:id="followingTwatts">
-						<tr wicket:id="followingTwatt">
-					    </tr>
-					</tbody>
-				</table>
+				<div class="panel-heading"><wicket:message key="followingsTwatts">Twatts de los que sigo</wicket:message></div>
+				<div wicket:id="followingTwatts"></div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="panel panel-info">
-				<div class="panel-heading">Busqueda</div>
+				<div class="panel-heading"><wicket:message key="search">Busqueda</wicket:message></div>
 				<div class="formsidebar">
 					<form wicket:id="hashtagRangeForm">
 						<wicket:container wicket:id="rangeGroup">
-							<label><input wicket:id="day" type="radio" name="dayfilter"/> D&iacute;a</label><br>
-							<label><input wicket:id="week" type="radio" name="dayfilter"/> Semana</label><br>
-							<label><input wicket:id="month" type="radio" name="dayfilter"/> Mes</label><br>
+							<label><input wicket:id="day" type="radio" name="dayfilter"/><wicket:message key="aDayOption">D&iacute;a</wicket:message></label><br>
+							<label><input wicket:id="week" type="radio" name="dayfilter"/><wicket:message key="aWeekOption">Semana</wicket:message></label><br>
+							<label><input wicket:id="month" type="radio" name="dayfilter"/><wicket:message key="aMonthOption">Mes</wicket:message></label><br>
 						</wicket:container>
 						<div class="twat-button">
 							<input type="submit" class="btn btn-large" value="Buscar" wicket:id="rangeSubmit"/>
@@ -72,7 +46,7 @@
 				</div>
 			</div>
 			<div class="panel panel-info">
-				<div class="panel-heading">Recomendaciones</div>
+				<div class="panel-heading"><wicket:message key="sugestions">Recomendaciones</wicket:message></div>
 				<table class="table">
 					<tbody wicket:id="candidates">>
 						<tr>

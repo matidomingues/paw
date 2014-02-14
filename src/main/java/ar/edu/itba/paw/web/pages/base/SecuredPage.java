@@ -45,7 +45,7 @@ public abstract class SecuredPage extends WebPage {
 		add(new Link<Void>("logout") {
 			@Override
 			public void onClick() {
-				getTwatterSession().signOut();
+				getTwatterSession().invalidate();
 				setResponsePage(getApplication().getHomePage());
 			}
 		});

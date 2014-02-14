@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.utils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public enum SiteMap {

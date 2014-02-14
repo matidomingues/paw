@@ -1,17 +1,11 @@
 package ar.edu.itba.paw.web.panels.twatt;
 
-import java.util.Locale;
-
-import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicException;
-import net.sf.jmimemagic.MagicMatchNotFoundException;
-import net.sf.jmimemagic.MagicParseException;
-
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -19,7 +13,7 @@ import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.request.resource.ByteArrayResource;
+import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.edu.itba.paw.domain.hashtag.Hashtag;
@@ -31,9 +25,11 @@ import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 import ar.edu.itba.paw.domain.url.UrlRepo;
 import ar.edu.itba.paw.helper.MessageHelper;
-import ar.edu.itba.paw.web.TwatterApp;
+import ar.edu.itba.paw.utils.ConfigManager;
 import ar.edu.itba.paw.web.pages.hashtag.HashtagPage;
 import ar.edu.itba.paw.web.pages.user.ProfilePage;
+
+import com.ocpsoft.pretty.time.PrettyTime;
 
 public class TwattPanel extends Panel {
 	
@@ -48,29 +44,27 @@ public class TwattPanel extends Panel {
 	public TwattPanel(String id, final IModel<Twatt> twattModel, final IModel<TwattUser> viewerModel) {
 		super(id);
 		if (twattModel.getObject().getCreator().getPhoto() == null || twattModel.getObject().getCreator().getPhoto().length == 0) {
-			add(new Image("avatar", TwatterApp.DEFAULT_IMAGE));
+			add(new ContextImage("avatar", "img/default_user_icon.png"));
 		}
 		else {
-			try {
-				add(new NonCachingImage("avatar", new ByteArrayResource(
-						Magic.getMagicMatch(twattModel.getObject().getCreator().getPhoto()).getMimeType(), twattModel.getObject().getCreator().getPhoto())));
-			} catch (MagicParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (MagicMatchNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (MagicException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			add(new NonCachingImage("avatar", new DynamicImageResource() {				
+				@Override
+				protected byte[] getImageData(Attributes attributes) {
+					return twattModel.getObject().getCreator().getPhoto();
+				}
+			}));
 		}
+		add(new WebMarkupContainer("badgeContainer")
+			.add(new ContextImage("badge", "img/badge.png"))
+			.setVisible(twattModel.getObject().getCreator().getFollowers().size() >= 
+				ConfigManager.getInstance().getPopularityThreshold()));
 		add(new Label("author", 
 				(twattModel.getObject() instanceof Retwatt ? 
 						twattModel.getObject().getCreator().getUsername() + " : " 
 						+ ((Retwatt)twattModel.getObject()).getOriginalTwatt().getCreator().getUsername() :
 							twattModel.getObject().getCreator().getUsername())));
-		add(new Label("timestamp", twattModel.getObject().getTimestamp().toString("yyyy-MM-dd", Locale.getDefault())));
+		add(new Label("timestamp", new PrettyTime().format(twattModel.getObject().getTimestamp().toDate()))
+				.add(new AttributeAppender("title", twattModel.getObject().getTimestamp().toString("yyyy-MM-dd HH:mm:ss"))));
 		WebMarkupContainer message = new WebMarkupContainer("message");
 		RepeatingView messageFragmentRepeater = new RepeatingView("messageFragment");
 		message.add(messageFragmentRepeater);
@@ -101,7 +95,7 @@ public class TwattPanel extends Panel {
 			} else if (trimmed.startsWith("/s/")) {
 				//external
 				url.remove();
-				item.add(new ExternalLink("url", urlRepo.resolve(trimmed), string));
+				item.add(new ExternalLink("url", urlRepo.resolve(trimmed.split("/s/")[1]), string));
 				hashtag.setEnabled(false).setVisible(false);
 				mention.setEnabled(false).setVisible(false);
 				plain.setEnabled(false).setVisible(false);

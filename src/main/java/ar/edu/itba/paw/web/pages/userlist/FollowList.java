@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.web.pages.userlist;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,8 +7,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.AbstractItem;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -20,13 +17,15 @@ import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.userlist.UserList;
 import ar.edu.itba.paw.domain.userlist.UserListRepo;
 import ar.edu.itba.paw.web.pages.base.SecuredPage;
-import ar.edu.itba.paw.web.panels.twatt.TwattPanel;
+import ar.edu.itba.paw.web.panels.twatt.TwattListPanel;
 
 public class FollowList extends SecuredPage {
 
+	private static final long serialVersionUID = 2547121853198174158L;
 	@SpringBean
 	UserListRepo userListRepo;
 	
+	@SuppressWarnings("serial")
 	public FollowList() {
 		final IModel<TwattUser> viewerModel = getViewer();
 		RepeatingView repeating = new RepeatingView("repeating");
@@ -53,30 +52,38 @@ public class FollowList extends SecuredPage {
 			actionForm.add(deleteButton);
 			actionForm.add(editButton);
 			item.add(actionForm);
-			item.add(getRefreshingView(userList, viewerModel));
+			List<IModel<Twatt>> twattModels = new LinkedList<IModel<Twatt>>();
+			for (TwattUser user :userList.getObject().getFollowed()) {
+				for (Twatt twatt : user.getTwatts()) {
+					twattModels.add(new EntityModel<Twatt>(Twatt.class, twatt));
+				}
+			}
+			item.add(new TwattListPanel("followedTwatts", twattModels, viewerModel));
+//			item.add(getRefreshingView(userList, viewerModel));
 		}
 	}
 	
-	private RefreshingView getRefreshingView(final IModel<UserList> userList, final IModel<TwattUser> viewerModel){
-		RefreshingView view = new RefreshingView<Twatt>("followedTwatts"){
-
-			@Override
-			protected Iterator<IModel<Twatt>> getItemModels() {
-				List<IModel<Twatt>> twattModels = new LinkedList<IModel<Twatt>>();
-				for (TwattUser user :userList.getObject().getFollowed()) {
-					for (Twatt twatt : user.getTwatts()) {
-						twattModels.add(new EntityModel<Twatt>(Twatt.class, twatt));
-					}
-				}
-				return twattModels.iterator();
-			}
-
-			@Override
-			protected void populateItem(Item<Twatt> item) {
-				item.add(new TwattPanel("followedTwatt", item.getModel(), viewerModel));				
-			}
-			
-		};
-		return view;
-	}
+//	@SuppressWarnings("serial")
+//	private RefreshingView<Twatt> getRefreshingView(final IModel<UserList> userList, final IModel<TwattUser> viewerModel){
+//		RefreshingView<Twatt> view = new RefreshingView<Twatt>("followedTwatts"){
+//
+//			@Override
+//			protected Iterator<IModel<Twatt>> getItemModels() {
+//				List<IModel<Twatt>> twattModels = new LinkedList<IModel<Twatt>>();
+//				for (TwattUser user :userList.getObject().getFollowed()) {
+//					for (Twatt twatt : user.getTwatts()) {
+//						twattModels.add(new EntityModel<Twatt>(Twatt.class, twatt));
+//					}
+//				}
+//				return twattModels.iterator();
+//			}
+//
+//			@Override
+//			protected void populateItem(Item<Twatt> item) {
+//				item.add(new TwattPanel("followedTwatt", item.getModel(), viewerModel));				
+//			}
+//			
+//		};
+//		return view;
+//	}
 }

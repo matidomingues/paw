@@ -1,12 +1,12 @@
 package ar.edu.itba.paw.domain.notification;
 
-import ar.edu.itba.paw.domain.twatt.Twatt;
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
-import org.springframework.util.Assert;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
+import org.springframework.util.Assert;
+
+import ar.edu.itba.paw.domain.twatt.Twatt;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
 @Entity
 public class MentionNotification extends Notification {

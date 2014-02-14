@@ -1,12 +1,12 @@
 package ar.edu.itba.paw.domain.notification;
 
-import ar.edu.itba.paw.domain.twatt.Retwatt;
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
-import org.springframework.util.Assert;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
+import org.springframework.util.Assert;
+
+import ar.edu.itba.paw.domain.twatt.Retwatt;
+import ar.edu.itba.paw.domain.twattuser.TwattUser;
 
 @Entity
 public class RetwattNotification extends Notification {

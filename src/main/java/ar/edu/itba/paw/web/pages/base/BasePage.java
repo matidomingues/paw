@@ -2,16 +2,9 @@ package ar.edu.itba.paw.web.pages.base;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
 
-import com.google.common.base.Strings;
-
-import ar.edu.itba.paw.domain.entity.EntityModel;
-import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.web.pages.login.LoginPage;
-import ar.edu.itba.paw.web.pages.login.PasswordRetrival;
 import ar.edu.itba.paw.web.pages.login.RegisterPage;
-
 
 public class BasePage extends WebPage {
 

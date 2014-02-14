@@ -29,7 +29,8 @@ public class HibernateUrlRepo extends AbstractHibernateRepo<Url> implements UrlR
 	}
 
 	public String resolve(String data) {
-        return this.find(data).getResol();
+		Url url = null;
+        return (url = this.find(data)) == null ? null : url.getResol();
 	}
 	
 	private boolean baseExists(String base){

@@ -22,6 +22,8 @@ import ar.edu.itba.paw.web.pages.base.SecuredPage;
 
 public class AddFollowList extends SecuredPage{
 
+	private static final long serialVersionUID = 3591635640609545363L;
+
 	@SpringBean
 	private UserRepo userRepo;
 	
@@ -32,9 +34,9 @@ public class AddFollowList extends SecuredPage{
 	private transient List<TwattUser> usersList;
 	
 	
+	@SuppressWarnings("serial")
 	public AddFollowList(){
 		add(new FeedbackPanel("feedback"));
-		final IModel<TwattUser> viewerModel = getViewer();
 		Form<AddFollowList> form = new Form<AddFollowList>("userListForm", new CompoundPropertyModel<AddFollowList>(this)) {
 			@Override
 			protected void onSubmit() {

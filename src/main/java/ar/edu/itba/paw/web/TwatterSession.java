@@ -1,14 +1,16 @@
 package ar.edu.itba.paw.web;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.protocol.http.WebSession;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
 import ar.edu.itba.paw.domain.twattuser.TwattUser;
 import ar.edu.itba.paw.domain.twattuser.UserRepo;
 
-public class TwatterSession extends WebSession {
-
+@SuppressWarnings("serial")
+public class TwatterSession extends AuthenticatedWebSession {
+	
 	private String username;
 
 	public static TwatterSession get() {
@@ -31,13 +33,24 @@ public class TwatterSession extends WebSession {
 		}
 		return false;
 	}
-
-	public boolean isSignedIn() {
-		return username != null;
+	
+	@Override
+	public boolean authenticate(String username, String password) {
+		TwattUser user = ((TwatterApp)getApplication()).getUserRepository().getUserByUsername(username);
+		if (user != null && user.checkPassword(password)) {
+			this.username = username;
+			return true;
+		}
+		return false;
 	}
 
 	public void signOut() {
-        invalidate();
         clear();
+	}
+
+	@Override
+	public Roles getRoles() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

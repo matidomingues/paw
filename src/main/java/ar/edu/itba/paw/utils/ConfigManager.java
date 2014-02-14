@@ -3,49 +3,48 @@ package ar.edu.itba.paw.utils;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.junit.runners.model.InitializationError;
 
 public class ConfigManager {
 
     private static ConfigManager instance;
-
+    private static final Object synchronizer = new Object();
+    
     private Configuration config;
-    private String driver;
-    private String connectionString;
-    private String dbUser;
-    private String dbPass;
-    private String deep;
+    private int depth;
+    private int popularityThreshold;
     
     private ConfigManager() throws ConfigurationException {
         this.config = new PropertiesConfiguration("twatt.properties");
 
-        this.deep = config.getString("recommendations.deep");
-        this.driver = config.getString("database.driver");
-        this.connectionString = config.getString("database.connection-string");
-        this.dbUser = config.getString("database.user");
-        this.dbPass = config.getString("database.pass");
-
+        this.depth = config.getInt("recommendations.deep");
+        this.popularityThreshold = config.getInt("general.popularityThreshold");
     }
 
-    public synchronized static ConfigManager getInstance() throws ConfigurationException {
+    public synchronized static ConfigManager getInstance() {
         if (instance == null) {
-            instance = new ConfigManager();
+        	synchronized (synchronizer) {
+        		if (instance == null) {
+        			try {
+						instance = new ConfigManager();
+					} catch (ConfigurationException ce) {
+						try {
+							throw new InitializationError(ce);
+						} catch (InitializationError ie) {
+							throw new Error(ie);
+						}
+					}
+        		}
+			}
         }
         return instance;
     }
 
-    public String getDatabaseDriver() {
-        return this.driver;
+    public int getDepth(){
+    	return this.depth;
     }
-    public String getDeep(){
-    	return this.deep;
-    }
-    public String getConnectionString() {
-        return this.connectionString;
-    }
-    public String getDatabaseUsername() {
-        return this.dbUser;
-    }
-    public String getDatabasePassword() {
-        return this.dbPass;
+    
+    public int getPopularityThreshold() {
+    	return this.popularityThreshold;
     }
 }

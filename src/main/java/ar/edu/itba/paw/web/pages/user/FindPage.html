@@ -4,14 +4,14 @@
 			<div class="main-content">
 				<div class="panel panel-info">
 					<div wicket:id="feedback" class="formErrors"/>
-					<div class="panel-heading">Usuarios</div>
+					<div class="panel-heading"><wicket:message key="searchTitle">Usuarios</wicket:message></div>
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th>Nombre de Usuario</th>
-								<th>Nombre</th>
-								<th>Apellido</th>
-								<th>Fecha de Registro</th>
+								<th><wicket:message key="username">Nombre de Usuario</wicket:message></th>
+								<th><wicket:message key="name">Nombre</wicket:message></th>
+								<th><wicket:message key="surname">Apellido</wicket:message></th>
+								<th><wicket:message key="date">Fecha de Registro</wicket:message></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -27,11 +27,11 @@
 			</div>
 		</div>
 		<div class="sidebar panel panel-info">
-			<div class="panel-heading">Busqueda</div>
+			<div class="panel-heading"><wicket:message key="search">Busqueda</wicket:message></div>
 			<div class="formsidebar">
 				<form wicket:id="findForm">
 					<div class="filter-form">
-						<label class="sidebar-label">Usuario</label>
+						<label class="sidebar-label"><wicket:message key="user">Usuario</wicket:message></label>
 						<input type="text" wicket:id="username">
 					</div>
 				</form>

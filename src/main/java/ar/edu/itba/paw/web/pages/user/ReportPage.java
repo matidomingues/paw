@@ -28,6 +28,8 @@ import ar.edu.itba.paw.web.pages.base.SecuredPage;
 
 public class ReportPage extends SecuredPage {
 
+	private static final long serialVersionUID = 4921613655212381386L;
+
 	@SpringBean
 	TwattRepo twattRepo;
 
@@ -85,6 +87,7 @@ public class ReportPage extends SecuredPage {
 		return object.toString();
 	}
 
+	@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
 	private Form<ReportPage> getForm() {
 		Form<ReportPage> form = new Form<ReportPage>("reportForm",
 				new CompoundPropertyModel<ReportPage>(this)) {
